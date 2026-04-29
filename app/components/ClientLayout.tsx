@@ -37,7 +37,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             className="sidebar-toggle"
             onClick={() => setCollapsed(c => !c)}
             aria-label="Toggle sidebar"
-          >
+          >  
             {collapsed ? <Menu size={18} /> : <X size={18} />}
           </button>
         </div>
@@ -63,7 +63,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         </span>
 
         <button className="burger" onClick={() => setOpen(o => !o)}>
-          {open ? <X size={22} /> : <Menu size={22} />}
+          {open ? <X size={28} /> : <Menu size={28} />}  
         </button>
       </div>
 
@@ -84,11 +84,11 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         ))}
       </div>
 
-      {/* MAIN */}
-      <div className="desktop-main">
+      {/* MAIN */} 
+      <div className={`desktop-main ${collapsed ? "collapsed" : ""}`}>
         {children}
         <Footer />
       </div>
     </>
-  );
+  ); 
 }
