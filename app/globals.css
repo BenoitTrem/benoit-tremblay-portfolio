@@ -1,10 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@700;800&display=swap");
 @import "tailwindcss";
 
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100%;
+}  
+
 body {
   color: #111827;
   font-family: "Exo 2", sans-serif;
   font-weight: 700;
+  
 }
 
 @keyframes fadein {
@@ -235,7 +247,7 @@ body {
   transition:
     color 0.25s ease,
     background 0.25s ease,
-    border-color 0.25s ease;
+    border-color 0.25s ease;  
   border-left: 3px solid transparent;
   white-space: nowrap;
 }
@@ -247,7 +259,7 @@ body {
 
 .sidebar-link.active {
   color: #fff;
-  border-left-color: #fff;
+  border-left-color: #fff;   
   background: #272727;
 }
 
