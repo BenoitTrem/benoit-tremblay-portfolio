@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Home, User, Briefcase, Mail} from "lucide-react";
+import { Home, User, Briefcase, Mail } from "lucide-react";
 import { GitBranch, Link2 } from "lucide-react";
 
 export default function Footer() {
@@ -8,7 +8,6 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer-container">
-
         <div className="footer-section">
           <h4 className="footer-title">Navigation</h4>
           <ul className="footer-list">
@@ -44,21 +43,29 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="https://github.com/" target="_blank" className="footer-link">
+              <a
+                href="https://github.com/"
+                target="_blank"
+                className="footer-link"
+              >
                 <GitBranch size={14} /> GitHub
               </a>
             </li>
             <li>
-              <a href="https://linkedin.com/" target="_blank" className="footer-link">
+              <a
+                href="https://linkedin.com/"
+                target="_blank"
+                className="footer-link"
+              >
                 <Link2 size={14} /> LinkedIn
               </a>
             </li>
-          </ul> 
+          </ul>
         </div>
-   
       </div>
       <div className="footer-bottom">
-        © {year} Benoit Tremblay. All rights reserved.  
+        <div className="divider_2" />© {year} Benoit Tremblay. All rights
+        reserved.
       </div>
     </footer>
   );

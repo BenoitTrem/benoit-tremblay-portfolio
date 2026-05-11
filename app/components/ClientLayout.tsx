@@ -3,92 +3,197 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, User, Menu, X, Briefcase, Mail } from "lucide-react";
+import { Home, User, Menu, X, Briefcase, Mail, Sun, Moon } from "lucide-react";
 import Footer from "./Footer";
+import { getT } from "../lib/translations";
+import { LocaleContext } from "../lib/LocaleContext";
+import type { Locale } from "../lib/translations";
+import ParticleMesh from "./ParticleMesh";
+import Intro from "./Intro";
 
 const navLinks = [
-  { href: "/", label: "Home", icon: Home },
-  { href: "/about", label: "About", icon: User },
-  { href: "/projects", label: "Projects", icon: Briefcase },
-  { href: "/contact", label: "Contact", icon: Mail },
+  { href: "/", labelKey: "home", icon: Home },
+  { href: "/about", labelKey: "about", icon: User },
+  { href: "/projects", labelKey: "projects", icon: Briefcase },
+  { href: "/contact", labelKey: "contact", icon: Mail },
 ];
 
-export default function ClientLayout({ children }: { children: React.ReactNode }) {
+// Read sessionStorage synchronously — runs once at module level on the client
+const getInitialIntroDone = () => {
+  if (typeof window === "undefined") return false;
+  return sessionStorage.getItem("introDone") === "true";
+};
+
+export default function ClientLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [introDone, setIntroDone] = useState(getInitialIntroDone);
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [dark, setDark] = useState(true);
+  const [locale, setLocale] = useState("en");
   const pathname = usePathname();
+  const t = getT(locale as Locale);
 
   useEffect(() => setMounted(true), []);
   useEffect(() => setOpen(false), [pathname]);
 
-  const isActive = (href: string) => mounted && pathname === href;
+  useEffect(() => {
+    document.body.style.overflow = introDone ? "" : "hidden";
+  }, [introDone]);
 
+  const handleIntroDone = () => {
+    sessionStorage.setItem("introDone", "true");
+    setIntroDone(true);
+  };
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) setDark(savedTheme === "dark");
+    const savedLocale = localStorage.getItem("locale");
+    if (savedLocale) setLocale(savedLocale);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("theme", dark ? "dark" : "light");
+    document.documentElement.setAttribute(
+      "data-theme",
+      dark ? "dark" : "light",
+    );
+  }, [dark]);
+
+  const toggleLang = () => {
+    const newLocale = locale === "en" ? "fr" : "en";
+    setLocale(newLocale);
+    localStorage.setItem("locale", newLocale);
+  };
+
+  const isActive = (href: string) => mounted && pathname === href;
+  if (!mounted) return null;
   return (
     <>
-      {/* SIDEBAR */}
-      <aside className={`sidebar ${collapsed ? "collapsed" : ""}`}>
-        <div className="sidebar-header">
-          <div className="sidebar-logo">
-            My Portfolio
-          </div>
+      {!introDone && <Intro onDone={handleIntroDone} />}
 
-          <button
-            className="sidebar-toggle"
-            onClick={() => setCollapsed(c => !c)}
-            aria-label="Toggle sidebar"
-          >  
-            {collapsed ? <Menu size={18} /> : <X size={18} />}
-          </button>
-        </div>
+      <ParticleMesh />
 
-        {navLinks.map(({ href, label, icon: Icon }) => (
-          <Link
-            key={href}
-            href={href}
-            className={`sidebar-link ${isActive(href) ? "active" : ""}`}
-          >
-            <span className="sidebar-link-icon">
-              <Icon size={16} />
-            </span>
-            <span className="nav-label">{label}</span>
-          </Link>
-        ))}
-      </aside>
-
-      {/* MOBILE TOPBAR */}
-      <div className="topbar">
-        <span className="topbar-logo">
-          My Portfolio
-        </span>
-
-        <button className="burger" onClick={() => setOpen(o => !o)}>
-          {open ? <X size={28} /> : <Menu size={28} />}  
-        </button>
-      </div>
-
-      {/* MOBILE DRAWER */}
-      <div className={`mobile-drawer ${open ? "open" : ""}`}>
-        {navLinks.map(({ href, label, icon: Icon }) => (
-          <div key={href} className="mobile-link-item">
-            <Link
-              href={href}
-              className={`mobile-link ${isActive(href) ? "active" : ""}`}
+      {introDone && (
+        <aside className={`sidebar ${collapsed ? "collapsed" : ""} revealed`}>
+          <div className="sidebar-header">
+            <div className="sidebar-logo">My Portfolio</div>
+            <button
+              className="sidebar-toggle"
+              onClick={() => setCollapsed((c) => !c)}
+              aria-label="Toggle sidebar"
             >
-              <span className="mobile-link-icon">
-                <Icon size={15} />
-              </span>
-              {label}
-            </Link>
+              {collapsed ? <Menu size={18} /> : <X size={18} />}
+            </button>
           </div>
-        ))}
-      </div>
 
-      {/* MAIN */} 
-      <div className={`desktop-main ${collapsed ? "collapsed" : ""}`}>
-        {children}
-        <Footer />
+          {navLinks.map(({ href, labelKey, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className={`sidebar-link ${isActive(href) ? "active" : ""}`}
+            >
+              <span className="sidebar-link-icon">
+                <Icon size={16} />
+              </span>
+              <span className="nav-label">
+                {t.nav[labelKey as keyof typeof t.nav]}
+              </span>
+            </Link>
+          ))}
+
+          <div className="sidebar-bottom">
+            <button className="sidebar-theme-toggle" onClick={toggleLang}>
+              <span className="sidebar-link-icon sidebar-lang-label">
+                {locale === "fr" ? "EN" : "FR"}
+              </span>
+              <span className="nav-label">
+                {locale === "fr" ? "English" : "Français"}
+              </span>
+            </button>
+
+            <button
+              className="sidebar-theme-toggle"
+              onClick={() => setDark((d) => !d)}
+              aria-label="Toggle theme"
+            >
+              <span className="sidebar-link-icon">
+                {dark ? <Sun size={16} /> : <Moon size={16} />}
+              </span>
+              <span className="nav-label">
+                {dark ? t.nav.lightMode : t.nav.darkMode}
+              </span>
+            </button>
+          </div>
+        </aside>
+      )}
+
+      {introDone && (
+        <div className="topbar revealed">
+          <Link href="/" className="topbar-logo">
+            My Portfolio
+          </Link>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <button
+              className="burger"
+              onClick={toggleLang}
+              aria-label="Toggle language"
+            >
+              <span style={{ fontSize: "14px", fontWeight: 700 }}>
+                {locale === "fr" ? "EN" : "FR"}
+              </span>
+            </button>
+            <button
+              className="burger"
+              onClick={() => setDark((d) => !d)}
+              aria-label="Toggle theme"
+            >
+              {dark ? <Sun size={22} /> : <Moon size={22} />}
+            </button>
+            <button className="burger" onClick={() => setOpen((o) => !o)}>
+              {open ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {introDone && open && (
+        <div className="mobile-backdrop" onClick={() => setOpen(false)} />
+      )}
+
+      {introDone && (
+        <div className={`mobile-drawer ${open ? "open" : ""}`}>
+          {navLinks.map(({ href, labelKey, icon: Icon }) => (
+            <div key={href} className="mobile-link-item">
+              <Link
+                href={href}
+                className={`mobile-link ${isActive(href) ? "active" : ""}`}
+              >
+                <span className="mobile-link-icon">
+                  <Icon size={15} />
+                </span>
+                {t.nav[labelKey as keyof typeof t.nav]}
+              </Link>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div
+        className={`desktop-main ${collapsed ? "collapsed" : ""}`}
+        data-revealed={introDone ? "true" : "false"}
+        style={{ visibility: introDone ? "visible" : "hidden" }}
+      >
+        <LocaleContext.Provider value={locale as Locale}>
+          {children}
+          <Footer />
+        </LocaleContext.Provider>
       </div>
     </>
-  ); 
+  );
 }

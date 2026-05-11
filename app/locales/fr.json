@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "projects": "Projets",
+    "contact": "Contact",
+    "darkMode": "Mode sombre",
+    "lightMode": "Mode clair"
+  },
+  "home": {
+    "name": "Benoit Tremblay",
+    "heading": "Deux passions. Une personne.",
+    "sub": "Ingénieur informatique & gymnaste professionnel — explorez le côté qui vous amène ici.",
+    "explore": "Explorer mon travail",
+    "slides": [
+      {
+        "label": "Informatique",
+        "headline": "Ingénierie & Dev",
+        "sub": "Développer des logiciels qui comptent."
+      },
+      {
+        "label": "Gymnastique professionnelle",
+        "headline": "Athlète & Compétiteur",
+        "sub": "Compétitionner au plus haut niveau."
+      },
+      {
+        "label": "Benoit Tremblay",
+        "headline": "Deux passions. Une personne.",
+        "sub": "Informaticien & gymnaste professionnel."
+      }
+    ],
+    "techTag": "Informatique",
+    "techTitle": "Ingénierie & Dev",
+    "techDesc": "Projets full-stack, algorithmes et artisanat logiciel.",
+    "gymTag": "Athlétisme",
+    "gymTitle": "Gymnastique professionnelle",
+    "gymDesc": "Réalisations en compétition, philosophie d'entraînement et état d'esprit de l'athlète."
+  }
+}

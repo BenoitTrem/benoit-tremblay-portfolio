@@ -1,42 +1,28 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
-const slides = [
-  {
-    label: "Computer Science",
-    headline: "Engineering & Dev",
-    sub: "Building software that matters.",
-  },
-  {
-    label: "Professional Gymnastics",
-    headline: "Athlete & Competitor",
-    sub: "Competing at the highest level.",
-  },
-  {
-    label: "Benoit Tremblay",
-    headline: "Two passions. One person.",
-    sub: "Computer scientist & professional gymnast.",
-  },
-];
+import styles from "./home.module.css";
+import { Code2, Trophy } from "lucide-react";
+import { useLocale } from "./lib/LocaleContext";
+import { getT } from "./lib/translations";
 
 export default function Home() {
-  const [mounted, setMounted] = useState(false);
+  const locale = useLocale();
+  const t = getT(locale);
+
   const [current, setCurrent] = useState(0);
   const [textVisible, setTextVisible] = useState(true);
 
-  useEffect(() => setMounted(true), []);
-
   useEffect(() => {
-    const t = setInterval(() => {
+    const timer = setInterval(() => {
       setTextVisible(false);
       setTimeout(() => {
-        setCurrent((c) => (c + 1) % slides.length);
+        setCurrent((c) => (c + 1) % t.home.slides.length);
         setTextVisible(true);
       }, 500);
     }, 5000);
-    return () => clearInterval(t);
-  }, []);
+    return () => clearInterval(timer);
+  }, [t.home.slides.length]);
 
   const goTo = (i: number) => {
     setTextVisible(false);
@@ -47,38 +33,42 @@ export default function Home() {
   };
 
   return (
-    <main className="home">
+    <main className={styles.home}>
       {/* ── Carousel ── */}
-      <section aria-label="Portfolio highlights" className="carousel">
-        <div className="carousel-image-area">
-          {slides.map((_, i) => (
+      <section aria-label="Portfolio highlights" className={styles.carousel}>
+        <div className={styles.carouselImageArea} data-reveal="carousel">
+          {t.home.slides.map((_, i) => (
             <div
               key={i}
-              className={`carousel-slide ${i === current ? "active" : ""}`}
+              className={`${styles.carouselSlide} ${i === current ? styles.active : ""}`}
             >
-              <div className="carousel-placeholder" />
+              <div className={styles.carouselPlaceholder} />
             </div>
           ))}
 
           <div
-            className={`carousel-overlay ${textVisible ? "text-visible" : ""}`}
+            className={`${styles.carouselOverlay} ${textVisible ? styles.textVisible : ""}`}
           >
-            <p className="carousel-label">{slides[current].label}</p>
-            <p className="carousel-headline">{slides[current].headline}</p>
-            <p className="carousel-sub">{slides[current].sub}</p>
+            <p className={styles.carouselLabel}>
+              {t.home.slides[current].label}
+            </p>
+            <p className={styles.carouselHeadline}>
+              {t.home.slides[current].headline}
+            </p>
+            <p className={styles.carouselSub}>{t.home.slides[current].sub}</p>
           </div>
 
           <div
-            className="carousel-dots"
+            className={styles.carouselDots}
             role="tablist"
             aria-label="Carousel navigation"
           >
-            {slides.map((_, i) => (
+            {t.home.slides.map((_, i) => (
               <button
                 key={i}
                 role="tab"
                 aria-selected={i === current}
-                className={`carousel-dot ${i === current ? "active" : ""}`}
+                className={`${styles.carouselDot} ${i === current ? styles.active : ""}`}
                 onClick={() => goTo(i)}
                 aria-label={`Go to slide ${i + 1}`}
               />
@@ -90,55 +80,58 @@ export default function Home() {
       {/* ── Intro ── */}
       <section
         aria-labelledby="intro-heading"
-        className={`home-intro ${mounted ? "visible" : ""}`}
+        className={styles.homeIntro}
+        data-reveal="intro"
       >
-        <h1 id="intro-heading" className="home-name">
-          Benoit Tremblay
+        <div className={styles.divider_1} />
+        <h1 id="intro-heading" className={styles.homeName}>
+          {t.home.name}
         </h1>
-        <h2 className="home-heading">Two passions. One person.</h2>
-        <p className="home-sub">
-          Computer science engineer &amp; professional gymnast — explore
-          whichever side brings you here.
-        </p>
+        <h2 className={styles.homeHeading}>{t.home.heading}</h2>
+        <p className={styles.homeSub}>{t.home.sub}</p>
       </section>
 
       {/* ── Two cards ── */}
       <section
         aria-labelledby="explore-heading"
-        className={`home-split ${mounted ? "visible" : ""}`}
+        className={styles.homeSplit}
+        data-reveal="split"
       >
-        <h2 id="explore-heading" className="sr-only">
-          Explore my work
+        <h2 id="explore-heading" className={styles.sectionHeading}>
+          {t.home.explore}
         </h2>
+        <div className={styles.divider_2} />
+        <div className={styles.cardDiv}>
+          <Link
+            href="/projects"
+            className={`${styles.splitCard} ${styles.splitCardTech}`}
+          >
+            <div className={styles.splitCardIcon}>
+              <Code2 size={24} strokeWidth={1.5} />
+            </div>
+            <div className={styles.splitCardBody}>
+              <p className={styles.splitCardTag}>{t.home.techTag}</p>
+              <h3 className={styles.splitCardTitle}>{t.home.techTitle}</h3>
+              <p className={styles.splitCardDesc}>{t.home.techDesc}</p>
+            </div>
+            <span className={styles.splitCardArrow}>→</span>
+          </Link>
 
-        <Link
-          href="/projects"
-          className={`split-card split-card--tech ${mounted ? "visible" : ""}`}
-        >
-          <p className="split-card__tag">Computer Science</p>
-          <h3 className="split-card__title">Engineering &amp; Dev</h3>
-          <p className="split-card__desc">
-            Full-stack projects, algorithms, and software craftsmanship.
-          </p>
-          <span className="split-card__cta" aria-hidden="true">
-            View projects →
-          </span>
-        </Link>
-
-        <Link
-          href="/about"
-          className={`split-card split-card--gym ${mounted ? "visible" : ""}`}
-        >
-          <p className="split-card__tag">Athletics</p>
-          <h3 className="split-card__title">Professional Gymnastics</h3>
-          <p className="split-card__desc">
-            Competitive achievements, training philosophy, and the athlete's
-            mindset.
-          </p>
-          <span className="split-card__cta" aria-hidden="true">
-            My journey →
-          </span>
-        </Link>
+          <Link
+            href="/about"
+            className={`${styles.splitCard} ${styles.splitCardGym}`}
+          >
+            <div className={styles.splitCardIcon}>
+              <Trophy size={24} strokeWidth={1.5} />
+            </div>
+            <div className={styles.splitCardBody}>
+              <p className={styles.splitCardTag}>{t.home.gymTag}</p>
+              <h3 className={styles.splitCardTitle}>{t.home.gymTitle}</h3>
+              <p className={styles.splitCardDesc}>{t.home.gymDesc}</p>
+            </div>
+            <span className={styles.splitCardArrow}>→</span>
+          </Link>
+        </div>
       </section>
     </main>
   );
