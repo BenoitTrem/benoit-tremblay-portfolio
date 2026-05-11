@@ -382,7 +382,9 @@
   .divider_1 {
     width: 90%;
   }
-
+  .sectionHeading {
+    font-size: 1.1rem;
+  }
   .cardDiv {
     gap: 25px;
   }

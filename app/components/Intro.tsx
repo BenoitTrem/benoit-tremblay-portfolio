@@ -2,62 +2,26 @@
 import { useEffect, useState, useRef } from "react";
 import styles from "./Intro.module.css";
 
-const getInitialLocale = (): string => {
-  if (typeof window === "undefined") return "en";
-  return localStorage.getItem("locale") ?? "en";
-};
-
-const getInitialTheme = (): "dark" | "light" => {
-  if (typeof window === "undefined") return "dark";
-  return localStorage.getItem("theme") === "light" ? "light" : "dark";
-};
-
-const welcomeText: Record<string, string> = {
-  en: "welcome to my portfolio",
-  fr: "bienvenue dans mon portfolio",
-};
-
 export default function Intro({ onDone }: { onDone: () => void }) {
   const [phase, setPhase] = useState<"loading" | "fadeout">("loading");
   const [progress, setProgress] = useState(0);
   const [nameVisible, setNameVisible] = useState(false);
-  const [locale] = useState(getInitialLocale);
-  const [theme] = useState(getInitialTheme);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
-
-  const isLight = theme === "light";
-
-  const themeVars = isLight
-    ? {
-        "--bg": "#f5f4f0",
-        "--fg": "#0c0c0e",
-        "--fg-muted": "rgba(0, 0, 0, 0.45)",
-        "--divider": "rgba(0, 0, 0, 0.15)",
-        "--bar-track": "rgba(0, 0, 0, 0.1)",
-        "--bar-fill": "#0c0c0e",
-        "--bar-glow": "rgba(0, 0, 0, 0.3)",
-      }
-    : {
-        "--bg": "#0c0c0e",
-        "--fg": "#ffffff",
-        "--fg-muted": "rgba(255, 255, 255, 0.5)",
-        "--divider": "rgba(255, 255, 255, 0.2)",
-        "--bar-track": "rgba(255, 255, 255, 0.12)",
-        "--bar-fill": "#ffffff",
-        "--bar-glow": "rgba(255, 255, 255, 0.6)",
-      };
 
   useEffect(() => {
     const canvas = canvasRef.current!;
     const ctx = canvas.getContext("2d")!;
     let W: number, H: number;
-    let particles: { x: number; y: number; vx: number; vy: number; r: number }[] = [];
+    let particles: {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      r: number;
+    }[] = [];
     let globalAlpha = 0;
-
-    const COLOR = isLight ? "0,0,0" : "255,255,255";
-    const dotAlpha = isLight ? 0.35 : 0.5;
-    const lineAlphaMax = isLight ? 0.25 : 0.18;
+    let fading = false;
 
     const getConfig = () => {
       const mobile = W <= 768;
@@ -87,8 +51,20 @@ export default function Intro({ onDone }: { onDone: () => void }) {
       buildParticles();
     };
 
+    const handleBeforeUnload = () => {
+      fading = true;
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     const draw = () => {
-      globalAlpha = Math.min(1, globalAlpha + 0.02);
+      const cfg = getConfig();
+
+      if (fading) {
+        globalAlpha = Math.max(0, globalAlpha - 0.04);
+      } else {
+        globalAlpha = Math.min(1, globalAlpha + 0.02);
+      }
+
       ctx.clearRect(0, 0, W, H);
       ctx.save();
       ctx.globalAlpha = globalAlpha;
@@ -100,20 +76,21 @@ export default function Intro({ onDone }: { onDone: () => void }) {
         if (p.y < 0 || p.y > H) p.vy *= -1;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${COLOR},${dotAlpha})`;
+        ctx.fillStyle = "rgba(255,255,255,0.5)";
         ctx.fill();
       });
 
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
-          const a = particles[i], b = particles[j];
+          const a = particles[i],
+            b = particles[j];
           const dist = Math.hypot(a.x - b.x, a.y - b.y);
-          if (dist < getConfig().maxDist) {
+          if (dist < cfg.maxDist) {
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(${COLOR},${((1 - dist / getConfig().maxDist) * lineAlphaMax).toFixed(3)})`;
-            ctx.lineWidth = isLight ? 1.2 : 0.8;
+            ctx.strokeStyle = `rgba(255,255,255,${((1 - dist / cfg.maxDist) * 0.18).toFixed(3)})`;
+            ctx.lineWidth = 0.8;
             ctx.stroke();
           }
         }
@@ -126,11 +103,13 @@ export default function Intro({ onDone }: { onDone: () => void }) {
     resize();
     window.addEventListener("resize", resize);
     draw();
+
     return () => {
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener("resize", resize);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [isLight]);
+  }, []);
 
   useEffect(() => {
     const t = setTimeout(() => setNameVisible(true), 100);
@@ -167,15 +146,14 @@ export default function Intro({ onDone }: { onDone: () => void }) {
   return (
     <div
       className={`${styles.intro} ${phase === "fadeout" ? styles.fadeout : ""}`}
-      style={themeVars as React.CSSProperties}
     >
       <canvas ref={canvasRef} className={styles.canvas} />
 
       <div className={styles.content}>
-        <div className={`${styles.namePhase} ${nameVisible ? styles.nameVisible : ""}`}>
-          <p className={styles.welcome}>
-            {welcomeText[locale] ?? welcomeText.en}
-          </p>
+        <div
+          className={`${styles.namePhase} ${nameVisible ? styles.nameVisible : ""}`}
+        >
+          <p className={styles.welcome}>Welcome&nbsp;·&nbsp;Bienvenue</p>
           <div className={styles.divider} />
           <h1 className={styles.name} aria-label="Benoit Tremblay">
             {"Benoit Tremblay".split("").map((char, i) => (
@@ -196,9 +174,7 @@ export default function Intro({ onDone }: { onDone: () => void }) {
       </div>
 
       <div className={styles.bottomBar}>
-        <p className={styles.loading}>
-          {locale === "fr" ? "Chargement" : "Loading"}
-        </p>
+        <p className={styles.loading}>Loading · Chargement</p>
         <div className={styles.barTrack}>
           <div className={styles.barFill} style={{ width: `${progress}%` }} />
         </div>

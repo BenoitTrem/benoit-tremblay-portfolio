@@ -21,9 +21,8 @@ const navLinks = [
 // Read sessionStorage synchronously — runs once at module level on the client
 const getInitialIntroDone = () => {
   if (typeof window === "undefined") return false;
-  return sessionStorage.getItem("introDone") === "true";
+  return localStorage.getItem("introDone") === "true";
 };
-
 export default function ClientLayout({
   children,
 }: {
@@ -46,7 +45,7 @@ export default function ClientLayout({
   }, [introDone]);
 
   const handleIntroDone = () => {
-    sessionStorage.setItem("introDone", "true");
+    localStorage.setItem("introDone", "true");
     setIntroDone(true);
   };
 
