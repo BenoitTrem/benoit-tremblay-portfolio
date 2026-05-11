@@ -2,11 +2,11 @@
   position: fixed;
   inset: 0;
   z-index: 999;
-  background: #0c0c0e;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: opacity 0.8s ease;
+  background: var(--bg);
 }
 
 .fadeout {
@@ -31,50 +31,53 @@
   padding: 0 24px;
 }
 
-/* ── Bar phase ── */
-.barPhase {
+.bottomBar {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(280px, 55vw, 520px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  width: clamp(280px, 55vw, 520px);
+  gap: 12px;
+  z-index: 1;
 }
 
 .loading {
-  font-size: 35px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--fg-muted);
   margin: 0;
 }
 
 .barTrack {
   width: 100%;
   height: 3px;
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--bar-track);
   border-radius: 99px;
   overflow: hidden;
 }
 
 .barFill {
   height: 100%;
-  background: #fff;
+  background: var(--bar-fill);
   border-radius: 99px;
   transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 8px var(--bar-glow);
 }
 
 .percent {
-  font-size: 20px;
-  font-weight: 700;
-  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg-muted);
   margin: 0;
   letter-spacing: 1px;
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Name phase ── */
 .namePhase {
   display: flex;
   flex-direction: column;
@@ -86,12 +89,12 @@
   opacity: 0;
   transform: translateY(10px);
   transition:
-    opacity 0.6s ease 0.7s,
-    transform 0.6s ease 0.7s;
+    opacity 0.6s ease 0.2s,
+    transform 0.6s ease 0.2s;
   font-size: 2rem;
   font-weight: 800;
-  color: #fff;
-  margin: 0 0 12px 0; /* tight gap between welcome and divider */
+  color: var(--fg);
+  margin: 0 0 12px 0;
   white-space: nowrap;
 }
 
@@ -99,18 +102,18 @@
   opacity: 0;
   transform: translateY(10px);
   transition:
-    opacity 0.6s ease 0.7s,
-    transform 0.6s ease 0.7s;
+    opacity 0.6s ease 0.2s,
+    transform 0.6s ease 0.2s;
   width: clamp(280px, 55vw, 520px);
   height: 1px;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.2) 20%,
-    rgba(255, 255, 255, 0.2) 80%,
+    var(--divider) 20%,
+    var(--divider) 80%,
     transparent
   );
-  margin-bottom: 48px; /* space between divider and name */
+  margin-bottom: 48px;
 }
 
 .nameVisible .welcome,
@@ -122,7 +125,7 @@
 .name {
   font-size: clamp(40px, 7vw, 80px);
   font-weight: 800;
-  color: #fff;
+  color: var(--fg);
   margin: 0;
   letter-spacing: -2px;
   line-height: 1;
@@ -154,6 +157,11 @@
 
   .name {
     font-size: 2.2rem;
+  }
+
+  .bottomBar {
+    bottom: 28px;
+    width: 80vw;
   }
 }
 
