@@ -485,7 +485,7 @@ body {
 
   .desktop-main {
     margin-left: 0;
-    padding-top: 60px;
+    padding-top: 0px;
   }
 
   .desktop-main.collapsed {

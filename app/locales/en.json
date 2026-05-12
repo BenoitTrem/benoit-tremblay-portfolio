@@ -9,31 +9,20 @@
   },
   "home": {
     "name": "Benoit Tremblay",
-    "heading": "Two passions. One person.",
-    "sub": "Computer science engineer & professional gymnast — explore whichever side brings you here.",
-    "explore": "Explore my work",
-    "slides": [
-      {
-        "label": "Computer Science",
-        "headline": "Engineering & Dev",
-        "sub": "Building software that matters."
-      },
-      {
-        "label": "Professional Gymnastics",
-        "headline": "Athlete & Competitor",
-        "sub": "Competing at the highest level."
-      },
-      {
-        "label": "Benoit Tremblay",
-        "headline": "Two passions. One person.",
-        "sub": "Computer scientist & professional gymnast."
-      }
-    ],
+    "eyebrow": "Full-Stack Developer",
+    "heading": "Building things that matter.",
+    "sub": "Computer science student and developer — explore my projects, stack, and what I'm working on.",
+    "ctaProjects": "View Projects",
+    "ctaContact": "Get in Touch",
+    "highlightsTitle": "Explore",
     "techTag": "Computer Science",
-    "techTitle": "Engineering & Dev",
+    "techTitle": "Projects & Dev",
     "techDesc": "Full-stack projects, algorithms, and software craftsmanship.",
-    "gymTag": "Athletics",
-    "gymTitle": "Professional Gymnastics",
-    "gymDesc": "Competitive achievements, training philosophy, and the athlete's mindset."
+    "aboutTag": "Background",
+    "aboutTitle": "Skills & Stack",
+    "aboutDesc": "The tools and technologies I work with every day.",
+    "contactTag": "Reach Out",
+    "contactTitle": "Let's Connect",
+    "contactDesc": "Open to opportunities, collabs, and questions."
   }
 }

@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import ClientLayout from "./components/ClientLayout";
 
-// ─── Viewport (separate from Metadata in Next.js 14+) ────────────────────────
+// ─── Viewport ────────────────────────────────────────────────────────────────
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
@@ -17,13 +17,14 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   // ── Core ──────────────────────────────────────────────────────────────────
   title: {
-    default: "Benoit Tremblay | Gymnastics Athlete & Computer Science Developer",
-    template: "%s | Benoit Tremblay",          
+    default:
+      "Benoit Tremblay | Full-Stack Developer & Computer Science Student",
+    template: "%s | Benoit Tremblay",
   },
   description:
-    "Benoit Tremblay is a competitive gymnastics athlete and computer science developer " +
-    "showcasing software projects, technical skills, and athletic achievements. " +
-    "Explore work in full-stack development, algorithms, and high-performance sports.",
+    "Benoit Tremblay is a computer science developer showcasing software projects " +
+    "and technical skills in full-stack development, algorithms, and modern web technologies. " +
+    "Explore work built with React, Next.js, TypeScript, Python, and more.",
 
   applicationName: "Benoit Tremblay Portfolio",
   authors: [{ name: "Benoit Tremblay", url: "https://your-domain.com" }],
@@ -34,22 +35,12 @@ export const metadata: Metadata = {
   keywords: [
     "Benoit Tremblay",
     "portfolio",
-    // — Athletics —
-    "gymnastics",
-    "gymnast",
-    "competitive gymnastics",
-    "artistic gymnastics",
-    "vault",
-    "floor exercise",
-    "rings",
-    "high bar",
-    "pommel horse",
-    "parallel bars",
-    // — Tech —
     "computer science",
     "software developer",
     "software engineer",
     "full-stack developer",
+    "frontend developer",
+    "backend developer",
     "web development",
     "react",
     "next.js",
@@ -57,10 +48,8 @@ export const metadata: Metadata = {
     "python",
     "algorithms",
     "data structures",
-    // — Personal brand —
-    "athlete developer",
-    "student athlete",
-    "coding athlete",
+    "open source",
+    "student developer",
   ],
 
   // ── Canonical & alternates ─────────────────────────────────────────────────
@@ -88,10 +77,10 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://your-domain.com",
-    title: "Name | Gymnastics Athlete & Developer Portfolio",
+    title: "Benoit Tremblay | Full-Stack Developer Portfolio",
     description:
-      "Explore Benoit Tremblay portfolio combining elite gymnastics performance with " +
-      "computer science projects and software engineering skills.",
+      "Explore Benoit Tremblay's developer portfolio — software projects, technical skills, " +
+      "and computer science work in full-stack web development.",
     siteName: "Benoit Tremblay Portfolio",
     locale: "en_US",
     images: [
@@ -99,7 +88,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Benoit Tremblay — Gymnastics Athlete & Developer Portfolio",
+        alt: "Benoit Tremblay — Full-Stack Developer Portfolio",
         type: "image/png",
       },
     ],
@@ -108,9 +97,9 @@ export const metadata: Metadata = {
   // ── Twitter / X ───────────────────────────────────────────────────────────
   twitter: {
     card: "summary_large_image",
-    title: "Benoit Tremblay | Gymnastics Athlete & Developer",
+    title: "Benoit Tremblay | Full-Stack Developer",
     description:
-      "Competitive gymnastics athlete & CS developer — projects, skills, and achievements.",
+      "CS developer & software engineer — projects, skills, and open source work.",
     images: ["/og-image.png"],
   },
 
@@ -129,19 +118,17 @@ export const metadata: Metadata = {
     ],
   },
 
-  // ── Manifest (PWA-ready, optional but recommended) ────────────────────────
+  // ── Manifest ──────────────────────────────────────────────────────────────
   manifest: "/site.webmanifest",
 
-  // ── Site verification (fill in tokens once you deploy) ────────────────────
+  // ── Site verification ─────────────────────────────────────────────────────
   verification: {
     google: "YOUR_GOOGLE_SITE_VERIFICATION_TOKEN",
-    // yandex: "YOUR_YANDEX_TOKEN",
-    // bing: "YOUR_BING_TOKEN",
   },
 
   // ── Miscellaneous ─────────────────────────────────────────────────────────
   category: "portfolio",
-  classification: "Portfolio, Technology, Sports",
+  classification: "Portfolio, Technology, Software Development",
 };
 
 // ─── Root Layout ──────────────────────────────────────────────────────────────

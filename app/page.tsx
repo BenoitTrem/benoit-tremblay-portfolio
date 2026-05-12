@@ -1,113 +1,153 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./home.module.css";
-import { Code2, Trophy } from "lucide-react";
+import { Code2, Layers, Mail, ArrowRight } from "lucide-react";
 import { useLocale } from "./lib/LocaleContext";
 import { getT } from "./lib/translations";
+
+const ROTATING_WORDS = [
+  "Full-Stack Developer",
+  "React & Next.js",
+  "TypeScript Enjoyer",
+  "Algorithm Nerd",
+  "Open Source Builder",
+  "CS Student",
+];
+
+const TICKER_ITEMS = [
+  "Next.js",
+  "TypeScript",
+  "React",
+  "Python",
+  "Node.js",
+  "PostgreSQL",
+  "Tailwind",
+  "Git",
+  "REST APIs",
+  "Algorithms",
+  "Next.js",
+  "TypeScript",
+  "React",
+  "Python",
+  "Node.js",
+  "PostgreSQL",
+  "Tailwind",
+  "Git",
+  "REST APIs",
+  "Algorithms",
+];
 
 export default function Home() {
   const locale = useLocale();
   const t = getT(locale);
 
-  const [current, setCurrent] = useState(0);
-  const [textVisible, setTextVisible] = useState(true);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [displayed, setDisplayed] = useState("");
+  const [deleting, setDeleting] = useState(false);
+  const heroRef = useRef<HTMLElement>(null);
 
+  // Typewriter
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTextVisible(false);
-      setTimeout(() => {
-        setCurrent((c) => (c + 1) % t.home.slides.length);
-        setTextVisible(true);
-      }, 500);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [t.home.slides.length]);
+    const target = ROTATING_WORDS[wordIndex];
+    let timeout: ReturnType<typeof setTimeout>;
 
-  const goTo = (i: number) => {
-    setTextVisible(false);
-    setTimeout(() => {
-      setCurrent(i);
-      setTextVisible(true);
-    }, 500);
-  };
+    if (!deleting && displayed.length < target.length) {
+      timeout = setTimeout(
+        () => setDisplayed(target.slice(0, displayed.length + 1)),
+        60,
+      );
+    } else if (!deleting && displayed.length === target.length) {
+      timeout = setTimeout(() => setDeleting(true), 1800);
+    } else if (deleting && displayed.length > 0) {
+      timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 30);
+    } else if (deleting && displayed.length === 0) {
+      setDeleting(false);
+      setWordIndex((i) => (i + 1) % ROTATING_WORDS.length);
+    }
+    return () => clearTimeout(timeout);
+  }, [displayed, deleting, wordIndex]);
+
+  // Scroll reveals
+  useEffect(() => {
+    const els = document.querySelectorAll("[data-reveal]");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add(styles.revealed);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <main className={styles.home}>
-      {/* ── Carousel ── */}
-      <section aria-label="Portfolio highlights" className={styles.carousel}>
-        <div className={styles.carouselImageArea} data-reveal="carousel">
-          {t.home.slides.map((_, i) => (
-            <div
-              key={i}
-              className={`${styles.carouselSlide} ${i === current ? styles.active : ""}`}
-            >
-              <div className={styles.carouselPlaceholder} />
-            </div>
-          ))}
+      {/* ── Hero ── */}
+      <section
+        ref={heroRef}
+        aria-labelledby="hero-heading"
+        className={styles.hero}
+      >
+        <div className={styles.heroGrid} aria-hidden="true" />
+        <div className={styles.heroNoise} aria-hidden="true" />
 
-          <div
-            className={`${styles.carouselOverlay} ${textVisible ? styles.textVisible : ""}`}
-          >
-            <p className={styles.carouselLabel}>
-              {t.home.slides[current].label}
-            </p>
-            <p className={styles.carouselHeadline}>
-              {t.home.slides[current].headline}
-            </p>
-            <p className={styles.carouselSub}>{t.home.slides[current].sub}</p>
+        <div className={styles.heroContent}>
+          <p className={styles.heroEyebrow}>{t.home.eyebrow}</p>
+
+          <h1 id="hero-heading" className={styles.heroName}>
+            {t.home.name}
+          </h1>
+
+          <div className={styles.typewriterRow} aria-live="polite">
+            <span className={styles.typewriterText}>{displayed}</span>
+            <span className={styles.typewriterCursor} aria-hidden="true">
+              |
+            </span>
           </div>
 
-          <div
-            className={styles.carouselDots}
-            role="tablist"
-            aria-label="Carousel navigation"
-          >
-            {t.home.slides.map((_, i) => (
-              <button
-                key={i}
-                role="tab"
-                aria-selected={i === current}
-                className={`${styles.carouselDot} ${i === current ? styles.active : ""}`}
-                onClick={() => goTo(i)}
-                aria-label={`Go to slide ${i + 1}`}
-              />
+          <p className={styles.heroSub}>{t.home.sub}</p>
+
+          <Link href="/projects" className={styles.ctaPrimary}>
+            {t.home.ctaProjects} <ArrowRight size={15} />
+          </Link>
+        </div>
+
+        {/* Ticker */}
+        <div className={styles.ticker} aria-hidden="true">
+          <div className={styles.tickerTrack}>
+            {TICKER_ITEMS.map((item, i) => (
+              <span key={i} className={styles.tickerItem}>
+                {item} <span className={styles.tickerDot}>·</span>
+              </span>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Intro ── */}
-      <section
-        aria-labelledby="intro-heading"
-        className={styles.homeIntro}
-        data-reveal="intro"
-      >
-        <div className={styles.divider_1} />
-        <h1 id="intro-heading" className={styles.homeName}>
-          {t.home.name}
-        </h1>
-        <h2 className={styles.homeHeading}>{t.home.heading}</h2>
-        <p className={styles.homeSub}>{t.home.sub}</p>
-      </section>
+      {/* ── Cards ── */}
+      <section aria-labelledby="explore-heading" className={styles.explore}>
+        <div data-reveal className={styles.exploreHeader}>
+          <h2 id="explore-heading" className={styles.sectionHeading}>
+            {t.home.highlightsTitle}
+          </h2>
+          <div className={styles.divider_1} />
+        </div>
 
-      {/* ── Two cards ── */}
-      <section
-        aria-labelledby="explore-heading"
-        className={styles.homeSplit}
-        data-reveal="split"
-      >
-        <h2 id="explore-heading" className={styles.sectionHeading}>
-          {t.home.explore}
-        </h2>
-        <div className={styles.divider_2} />
         <div className={styles.cardDiv}>
           <Link
             href="/projects"
             className={`${styles.splitCard} ${styles.splitCardTech}`}
+            data-reveal
+            style={{ "--delay": "0ms" } as React.CSSProperties}
           >
             <div className={styles.splitCardIcon}>
-              <Code2 size={24} strokeWidth={1.5} />
+              <Code2 size={22} strokeWidth={1.5} />
             </div>
             <div className={styles.splitCardBody}>
               <p className={styles.splitCardTag}>{t.home.techTag}</p>
@@ -119,15 +159,34 @@ export default function Home() {
 
           <Link
             href="/about"
-            className={`${styles.splitCard} ${styles.splitCardGym}`}
+            className={`${styles.splitCard} ${styles.splitCardAbout}`}
+            data-reveal
+            style={{ "--delay": "100ms" } as React.CSSProperties}
           >
             <div className={styles.splitCardIcon}>
-              <Trophy size={24} strokeWidth={1.5} />
+              <Layers size={22} strokeWidth={1.5} />
             </div>
             <div className={styles.splitCardBody}>
-              <p className={styles.splitCardTag}>{t.home.gymTag}</p>
-              <h3 className={styles.splitCardTitle}>{t.home.gymTitle}</h3>
-              <p className={styles.splitCardDesc}>{t.home.gymDesc}</p>
+              <p className={styles.splitCardTag}>{t.home.aboutTag}</p>
+              <h3 className={styles.splitCardTitle}>{t.home.aboutTitle}</h3>
+              <p className={styles.splitCardDesc}>{t.home.aboutDesc}</p>
+            </div>
+            <span className={styles.splitCardArrow}>→</span>
+          </Link>
+
+          <Link
+            href="/contact"
+            className={`${styles.splitCard} ${styles.splitCardContact}`}
+            data-reveal
+            style={{ "--delay": "200ms" } as React.CSSProperties}
+          >
+            <div className={styles.splitCardIcon}>
+              <Mail size={22} strokeWidth={1.5} />
+            </div>
+            <div className={styles.splitCardBody}>
+              <p className={styles.splitCardTag}>{t.home.contactTag}</p>
+              <h3 className={styles.splitCardTitle}>{t.home.contactTitle}</h3>
+              <p className={styles.splitCardDesc}>{t.home.contactDesc}</p>
             </div>
             <span className={styles.splitCardArrow}>→</span>
           </Link>
