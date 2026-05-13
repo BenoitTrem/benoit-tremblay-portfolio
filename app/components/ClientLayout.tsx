@@ -185,8 +185,13 @@ export default function ClientLayout({
 
       <div
         className={`desktop-main ${collapsed ? "collapsed" : ""}`}
-        data-revealed={introDone ? "true" : "false"}
-        style={{ visibility: introDone ? "visible" : "hidden" }}
+        style={{
+          opacity: introDone ? 1 : 0,
+          transform: introDone ? "translateY(0)" : "translateY(18px)",
+          transition: introDone
+            ? "opacity 0.7s ease, transform 1.5s cubic-bezier(0.22, 1, 0.36, 1)"
+            : "none",
+        }}
       >
         <LocaleContext.Provider value={locale as Locale}>
           {children}

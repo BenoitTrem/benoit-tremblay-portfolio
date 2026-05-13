@@ -6,15 +6,6 @@ import { Code2, Layers, Mail, ArrowRight } from "lucide-react";
 import { useLocale } from "./lib/LocaleContext";
 import { getT } from "./lib/translations";
 
-const ROTATING_WORDS = [
-  "Full-Stack Developer",
-  "React & Next.js",
-  "TypeScript Enjoyer",
-  "Algorithm Nerd",
-  "Open Source Builder",
-  "CS Student",
-];
-
 const TICKER_ITEMS = [
   "Next.js",
   "TypeScript",
@@ -25,7 +16,16 @@ const TICKER_ITEMS = [
   "Tailwind",
   "Git",
   "REST APIs",
-  "Algorithms",
+  "Laravel",
+  "PHP",
+  "ASP.NET Core",
+  "C#",
+  "Java",
+  "Android",
+  "SQL",
+  "MySQL",
+  "Entity Framework",
+  "MVC",
   "Next.js",
   "TypeScript",
   "React",
@@ -35,12 +35,23 @@ const TICKER_ITEMS = [
   "Tailwind",
   "Git",
   "REST APIs",
-  "Algorithms",
+  "Laravel",
+  "PHP",
+  "ASP.NET Core",
+  "C#",
+  "Java",
+  "Android",
+  "SQL",
+  "MySQL",
+  "Entity Framework",
+  "MVC",
 ];
 
 export default function Home() {
   const locale = useLocale();
   const t = getT(locale);
+
+  const ROTATING_WORDS = t.rotatingWords;
 
   const [wordIndex, setWordIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");

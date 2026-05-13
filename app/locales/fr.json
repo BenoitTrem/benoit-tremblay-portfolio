@@ -24,5 +24,20 @@
     "contactTag": "Me rejoindre",
     "contactTitle": "Connectons-nous",
     "contactDesc": "Ouvert aux opportunités, collaborations et questions."
-  }
+  },
+  "rotatingWords": [
+    "Développeur Full-Stack",
+    "Ingénieur React & Next.js",
+    "Adepte de TypeScript",
+    "Étudiant en informatique",
+    "Laravel & Patrons MVC",
+    "Conception d'API RESTful",
+    "ASP.NET Core",
+    "Programmation orientée objet",
+    "Conception de bases de données",
+    "Scripts Python",
+    "Développement Android",
+    "Projets Raspberry Pi",
+    "Contrôle de version avec Git"
+  ]
 }

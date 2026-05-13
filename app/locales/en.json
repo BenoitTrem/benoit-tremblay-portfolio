@@ -24,5 +24,20 @@
     "contactTag": "Reach Out",
     "contactTitle": "Let's Connect",
     "contactDesc": "Open to opportunities, collabs, and questions."
-  }
+  },
+  "rotatingWords": [
+    "Full-Stack Developer",
+    "React & Next.js Engineer",
+    "TypeScript Advocate",
+    "Computer Science Student",
+    "Laravel & MVC Patterns",
+    "RESTful API Design",
+    "ASP.NET Core",
+    "Object-Oriented Programming",
+    "Relational Database Design",
+    "Python Scripting",
+    "Android Development",
+    "Raspberry Pi Projects",
+    "Version Control with Git"
+  ]
 }

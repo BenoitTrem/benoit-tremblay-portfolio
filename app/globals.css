@@ -519,16 +519,30 @@ body {
 }
 
 .divider_2 {
-  width: 90%;
+  width: 100%;
   height: 1px;
   background: linear-gradient(
     90deg,
     transparent,
-    var(--border) 20%,
-    var(--border) 80%,
+    var(--border) 35%,
+    var(--border) 65%,
     transparent
   );
   margin-bottom: 25px;
+}
+@media (max-width: 768px) {
+  .divider_2 {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--border) 35%,
+      var(--border) 65%,
+      transparent
+    );
+    margin-bottom: 25px;
+  }
 }
 
 /* ─── Error pages ────────────────────────────────────────── */

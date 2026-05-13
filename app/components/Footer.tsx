@@ -64,8 +64,8 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <div className="divider_2" />© {year} Benoit Tremblay. All rights
-        reserved.
+        <div className="divider_2" />
+        <p>© {year} Benoit Tremblay. All rights reserveds.</p>
       </div>
     </footer>
   );
