@@ -10,7 +10,7 @@
   "home": {
     "name": "Benoit Tremblay",
     "eyebrow": "Portfolio · Développeur",
-    "heading": "Construire des choses qui comptent.",
+    "heading": "Bâtir des choses qui comptent.",
     "sub": "Étudiant en informatique et développeur — explorez mes projets, ma stack et ce sur quoi je travaille.",
     "ctaProjects": "Voir les projets",
     "ctaContact": "Me contacter",
@@ -21,13 +21,30 @@
     "aboutTag": "Parcours",
     "aboutTitle": "Compétences & Stack",
     "aboutDesc": "Les outils et technologies avec lesquels je travaille au quotidien.",
-    "contactTag": "Me rejoindre",
+    "contactTag": "Écrire",
     "contactTitle": "Connectons-nous",
     "contactDesc": "Ouvert aux opportunités, collaborations et questions."
   },
+  "about": {
+    "stats": {
+      "yearsCoding": "Ans de code",
+      "projectsBuilt": "Projets réalisés"
+    },
+    "statPanels": {
+      "yearsCoding": {
+        "title": "Ans de code",
+        "body": "J'ai commencé à programmer à 7 ans et j'écris du code de façon continue depuis — des petits scripts aux applications full-stack, toujours en cherchant à apprendre la prochaine chose."
+      },
+      "projectsBuilt": {
+        "title": "Projets réalisés",
+        "body": "Applications full-stack, APIs REST, projets de portfolio et outils expérimentaux — tous construits avec des technologies web modernes et de vrais utilisateurs en tête.",
+        "cta": "Voir tous les projets"
+      }
+    }
+  },
   "rotatingWords": [
     "Développeur Full-Stack",
-    "Étudiant en Informatique",
+    "Étudiant en informatique",
     "Développeur Back-End",
     "Développeur Front-End",
     "Développeur Mobile",
@@ -39,7 +56,7 @@
     "Développeur PHP",
     "Développeur C#",
     "Développeur Android",
-    "Concepteur de Bases de Données",
+    "Concepteur de bases de données",
     "Développeur Unreal Engine"
   ]
 }

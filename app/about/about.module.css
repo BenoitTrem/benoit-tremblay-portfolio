@@ -76,7 +76,7 @@
   display: inline-flex;
   align-items: center;
   gap: 14px;
-  font-size: clamp(32px, 5vw, 56px); /* big enough to be the h1 */
+  font-size: clamp(32px, 5vw, 56px);
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--text-primary);
@@ -84,17 +84,17 @@
 }
 
 .title {
-  font-size: clamp(24px, 3vw, 38px); /* smaller than eyebrow */
+  font-size: clamp(24px, 3vw, 38px);
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.02em;
-  color: var(--text-muted); /* dimmer than the h1 */
+  color: var(--text-muted);
   margin: 0 0 28px;
 }
 
 .titleAccent {
   display: block;
-  color: var(--text-secondary); /* slightly different from title */
+  color: var(--text-secondary);
 }
 
 .subtitle {
@@ -152,10 +152,12 @@
     transform 0.4s;
 }
 
-.imageCard:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 0 var(--card-border-bottom);
-  animation-play-state: paused;
+@media (hover: hover) {
+  .imageCard:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 0 var(--card-border-bottom);
+    animation-play-state: paused;
+  }
 }
 
 .imagePlaceholder {
@@ -197,29 +199,56 @@
   margin-bottom: 32px;
 }
 
+/* ─── Stats wrapper ──────────────────────────────────────── */
+.statsWrapper {
+  margin-bottom: 80px;
+  animation: fadeUp 0.7s ease 0.35s both;
+}
+
 /* ─── Stats ──────────────────────────────────────────────── */
 .stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1px;
   background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border: 2px solid var(--card-border-bottom);
+  border-radius: 8px;
   overflow: hidden;
-  margin-bottom: 80px;
   cursor: pointer;
-  animation: fadeUp 0.7s ease 0.35s both;
+}
+
+/* When the panel below is open, flatten the bottom corners so borders merge */
+.statsOpen {
+  border-radius: 8px 8px 0 0;
+  border-bottom-color: transparent;
+  transition:
+    border-radius 0s,
+    border-bottom-color 0s;
 }
 
 .stat {
   background: var(--surface);
   padding: 32px 24px;
   text-align: center;
-  transition: background 0.25s;
+  transition:
+    background 0.25s,
+    color 0.25s;
+  position: relative;
+  user-select: none;
 }
 
-.stat:hover {
-  background: var(--surface-2);
+@media (hover: hover) {
+  .stat:hover {
+    background: var(--surface-2);
+  }
+}
+
+.statActive {
+  background: var(--surface-2) !important;
+}
+
+.statActive::after {
+  transform: translateX(-50%) scaleX(1);
 }
 
 .statNumber {
@@ -230,6 +259,16 @@
   line-height: 1;
   margin-bottom: 8px;
   display: block;
+  transition: transform 0.2s ease;
+}
+@media (hover: hover) {
+  .stat:hover .statNumber {
+    transform: translateY(-4px);
+  }
+}
+
+.statActive .statNumber {
+  transform: translateY(-4px);
 }
 
 .statLabel {
@@ -238,6 +277,163 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--text-muted);
+  transition: color 0.25s;
+}
+@media (hover: hover) {
+  .stat:hover .statLabel {
+    color: var(--text-primary);
+  }
+}
+.statActive .statLabel {
+  color: var(--text-primary);
+}
+
+/* ─── Stat panel (inline expand) ────────────────────────── */
+/*
+  KEY FIX: only ONE transition declaration here.
+  The original had two `transition` rules — the second one was
+  overriding the first, so grid-template-rows never animated.
+*/
+.statPanel {
+  display: grid;
+  grid-template-rows: 0fr;
+  border: 2px solid var(--card-border-bottom);
+  border-radius: 0 0 8px 8px;
+  background: var(--surface);
+  margin-top: -2px;
+  opacity: 0;
+  pointer-events: none;
+  /* Single merged transition — both properties animate together */
+  transition:
+    grid-template-rows 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.4s ease;
+}
+
+.statPanelOpen {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Inner shell: overflow:hidden required on this child */
+.statPanelClip {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.statPanelInner {
+  padding: 28px 75px 32px;
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  /* Content fade: hidden by default, fades in when active */
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.35s ease 0.18s,
+    transform 0.35s ease 0.18s;
+}
+
+.statPanelInnerVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/*
+  Cross-fade when switching between stats:
+  briefly hide content before the new one fades in.
+  Controlled via JS by toggling this class on the inner element
+  before updating content.
+*/
+.statPanelInnerSwitching {
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.statPanelNumber {
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: -3px;
+  color: var(--text-primary);
+  line-height: 1;
+  flex-shrink: 0;
+  opacity: 0.08;
+  user-select: none;
+}
+
+.statPanelContent {
+  flex: 1;
+}
+
+.statPanelTitle {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.statPanelText {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.statPanelList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.statPanelList li {
+  font-size: 15px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.statPanelList li::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.statPanelLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 9px 18px;
+  border-radius: 8px;
+  border: 2px solid var(--card-border-bottom);
+  background: var(--surface);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+@media (hover: hover) {
+  .statPanelLink:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 0 var(--card-border-bottom);
+    background: var(--surface-2);
+  }
 }
 
 /* ─── Bio ────────────────────────────────────────────────── */
@@ -315,17 +511,17 @@
   position: relative;
   overflow: hidden;
 }
+@media (hover: hover) {
+  .card:hover {
+    background: var(--surface-2);
+    transform: translateY(-10px);
+    box-shadow: 0 10px 0 var(--card-border-bottom);
+  }
 
-.card:hover {
-  background: var(--surface-2);
-  transform: translateY(-10px);
-  box-shadow: 0 10px 0 var(--card-border-bottom);
+  .card:hover::before {
+    opacity: 1;
+  }
 }
-
-.card:hover::before {
-  opacity: 1;
-}
-
 .cardIcon {
   display: flex;
   align-items: center;
@@ -342,9 +538,11 @@
     color 0.3s;
 }
 
-.card:hover .cardIcon {
-  border-color: var(--text-primary);
-  color: var(--text-primary);
+@media (hover: hover) {
+  .card:hover .cardIcon {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+  }
 }
 
 .cardLabel {
@@ -377,109 +575,168 @@
   animation: fadeUp 0.7s ease 0.55s both;
 }
 
-.skillsGrid {
+/* ─── Skill categories (bar layout) ─────────────────────── */
+.skillCategoriesWrap {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 42px;
 }
 
-.skillCard {
-  position: relative;
-  background: var(--surface);
-  border: 1.5px solid var(--card-border-bottom);
-  box-shadow: 0 0 0 var(--card-border-bottom);
-  border-radius: 8px;
-  padding: 16px;
+.skillCatBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skillCatHeader {
   display: flex;
   align-items: center;
-  gap: 12px;
-  overflow: hidden;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.skillCatDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skillCatLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.skillCatLine {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.skillBarsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.skillBarRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   transition:
-    background 0.3s ease,
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+    border-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.35s ease;
 }
 
-@media (hover: hover) {
-  .skillCard:hover {
-    background: var(--surface-2);
-    transform: translateY(-5px);
-    box-shadow: 0 6px 0 var(--card-border-bottom);
-  }
-
-  .skillCard:hover .skillIcon {
-    border-color: var(--cat-color, var(--border-2));
-    color: var(--cat-color, var(--text-secondary));
-    transform: scale(1.08);
-  }
-
-  .skillCard:hover .skillCardGlow {
-    opacity: 1;
-  }
+/* ─── Skill bar row with icon ────────────────────────────── */
+.skillBarMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
 
-.skillCardGlow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 70% 60% at 0% 50%,
-    var(--cat-color, transparent),
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-  mix-blend-mode: screen;
+.skillBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.skillIcon {
-  width: 34px;
-  height: 34px;
+.skillBarIcon {
+  width: 22px;
+  height: 22px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 7px;
+  border-radius: 5px;
   background: var(--surface-2);
   border: 1px solid var(--border-2);
-  color: var(--text-secondary);
+  color: var(--text-muted);
   transition:
-    border-color 0.3s,
-    color 0.3s,
-    transform 0.3s;
-  position: relative;
-  z-index: 1;
+    border-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.35s ease;
 }
 
-.skillIcon svg {
-  width: 17px;
-  height: 17px;
+.skillBarIcon svg {
+  width: 13px;
+  height: 13px;
 }
 
-.skillInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-  position: relative;
-  z-index: 1;
-}
+@media (hover: hover) {
+  .skillBarRow:hover .skillBarIcon {
+    border-color: var(--bar-color, var(--border-2));
+    color: var(--bar-color, var(--text-secondary));
+    background: color-mix(
+      in srgb,
+      var(--bar-color, transparent) 10%,
+      var(--surface-2)
+    );
+    transform: scale(1.15) rotate(-4deg);
+  }
 
-.skillName {
+  .skillBarRow:hover {
+    transform: scale(1.05);
+  }
+
+  .skillBarRow:hover .skillBarName {
+    color: var(--bar-color, var(--text-primary));
+    transition: color 0.3s ease;
+  }
+
+  .skillBarRow:hover .skillBarPct {
+    color: var(--text-primary);
+  }
+}
+.skillBarName {
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  transition: color 0.3s ease;
 }
 
-.skillCat {
-  font-size: 10px;
+.skillBarPct {
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--cat-color, var(--text-muted));
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-left: auto;
+  transition: color 0.3s ease;
+}
+
+.barTrack {
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  width: 0%;
+  border-radius: 100px;
+  background: var(--bar-color, var(--text-secondary));
+  transition: none;
+}
+
+.barFillAnimated {
+  width: var(--bar-target, 0%);
+  transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .skillCategoriesWrap {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ─── CTA ────────────────────────────────────────────────── */
@@ -500,11 +757,12 @@
   flex-wrap: wrap;
 }
 
-.cta:hover {
-  box-shadow: 0 8px 0 var(--card-border-bottom);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .cta:hover {
+    box-shadow: 0 8px 0 var(--card-border-bottom);
+    transform: translateY(-2px);
+  }
 }
-
 .ctaText {
   font-size: clamp(18px, 2.5vw, 24px);
   font-weight: 800;
@@ -536,9 +794,11 @@
   white-space: nowrap;
 }
 
-.ctaButton:hover {
-  opacity: 0.82;
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .ctaButton:hover {
+    opacity: 0.82;
+    transform: translateY(-2px);
+  }
 }
 
 /* ─── Responsive ─────────────────────────────────────────── */
@@ -614,6 +874,15 @@
     align-items: flex-start;
     padding: 28px 24px;
   }
+
+  .statPanelInner {
+    padding: 20px 20px 24px;
+    gap: 20px;
+  }
+
+  .statPanelNumber {
+    font-size: 40px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -640,4 +909,21 @@
   .skillsGrid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+.skillsHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 2.25rem;
+}
+
+.skillsLegend {
+  max-width: 42rem;
+
+  font-size: 0.92rem;
+  line-height: 1.6;
+
+  color: var(--text-muted);
+
+  opacity: 0.82;
 }

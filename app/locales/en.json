@@ -25,6 +25,23 @@
     "contactTitle": "Let's Connect",
     "contactDesc": "Open to opportunities, collabs, and questions."
   },
+  "about": {
+    "stats": {
+      "yearsCoding": "Years Coding",
+      "projectsBuilt": "Projects Built"
+    },
+    "statPanels": {
+      "yearsCoding": {
+        "title": "Years Coding",
+        "body": "I started programming at age 7 and have been writing code consistently ever since — from small scripts to full-stack applications, always pushing to learn the next thing."
+      },
+      "projectsBuilt": {
+        "title": "Projects Built",
+        "body": "Full-stack apps, REST APIs, portfolio projects, and experimental tools — all built with modern web technologies and real users in mind.",
+        "cta": "View all projects"
+      }
+    }
+  },
   "rotatingWords": [
     "Full-Stack Developer",
     "Computer Science Student",
