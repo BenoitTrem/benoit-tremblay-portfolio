@@ -9,7 +9,7 @@
   },
   "home": {
     "name": "Benoit Tremblay",
-    "eyebrow": "Développeur Full-Stack",
+    "eyebrow": "Portfolio · Développeur",
     "heading": "Construire des choses qui comptent.",
     "sub": "Étudiant en informatique et développeur — explorez mes projets, ma stack et ce sur quoi je travaille.",
     "ctaProjects": "Voir les projets",
@@ -27,17 +27,19 @@
   },
   "rotatingWords": [
     "Développeur Full-Stack",
-    "Ingénieur React & Next.js",
-    "Adepte de TypeScript",
-    "Étudiant en informatique",
-    "Laravel & Patrons MVC",
-    "Conception d'API RESTful",
-    "ASP.NET Core",
-    "Programmation orientée objet",
-    "Conception de bases de données",
-    "Scripts Python",
-    "Développement Android",
-    "Projets Raspberry Pi",
-    "Contrôle de version avec Git"
+    "Étudiant en Informatique",
+    "Développeur Back-End",
+    "Développeur Front-End",
+    "Développeur Mobile",
+    "Développeur Next.js",
+    "Développeur React",
+    "Développeur TypeScript",
+    "Développeur Python",
+    "Développeur Java",
+    "Développeur PHP",
+    "Développeur C#",
+    "Développeur Android",
+    "Concepteur de Bases de Données",
+    "Développeur Unreal Engine"
   ]
 }

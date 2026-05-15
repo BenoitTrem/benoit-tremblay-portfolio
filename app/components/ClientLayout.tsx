@@ -78,120 +78,110 @@ export default function ClientLayout({
 
       <ParticleMesh />
 
-      {introDone && (
-        <aside className={`sidebar ${collapsed ? "collapsed" : ""} revealed`}>
-          <div className="sidebar-header">
-            <div className="sidebar-logo">My Portfolio</div>
-            <button
-              className="sidebar-toggle"
-              onClick={() => setCollapsed((c) => !c)}
-              aria-label="Toggle sidebar"
-            >
-              {collapsed ? <Menu size={18} /> : <X size={18} />}
-            </button>
-          </div>
+      <aside
+        className={`sidebar ${collapsed ? "collapsed" : ""} ${introDone ? "revealed" : ""}`}
+      >
+        <div className="sidebar-header">
+          <div className="sidebar-logo">My Portfolio</div>
+          <button
+            className="sidebar-toggle"
+            onClick={() => setCollapsed((c) => !c)}
+            aria-label="Toggle sidebar"
+          >
+            {collapsed ? <Menu size={18} /> : <X size={18} />}
+          </button>
+        </div>
 
-          {navLinks.map(({ href, labelKey, icon: Icon }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`sidebar-link ${isActive(href) ? "active" : ""}`}
-            >
-              <span className="sidebar-link-icon">
-                <Icon size={16} />
-              </span>
-              <span className="nav-label">
-                {t.nav[labelKey as keyof typeof t.nav]}
-              </span>
-            </Link>
-          ))}
-
-          <div className="sidebar-bottom">
-            <button className="sidebar-theme-toggle" onClick={toggleLang}>
-              <span className="sidebar-link-icon sidebar-lang-label">
-                {locale === "fr" ? "EN" : "FR"}
-              </span>
-              <span className="nav-label">
-                {locale === "fr" ? "English" : "Français"}
-              </span>
-            </button>
-
-            <button
-              className="sidebar-theme-toggle"
-              onClick={() => setDark((d) => !d)}
-              aria-label="Toggle theme"
-            >
-              <span className="sidebar-link-icon">
-                {dark ? <Sun size={16} /> : <Moon size={16} />}
-              </span>
-              <span className="nav-label">
-                {dark ? t.nav.lightMode : t.nav.darkMode}
-              </span>
-            </button>
-          </div>
-        </aside>
-      )}
-
-      {introDone && (
-        <div className="topbar revealed">
-          <Link href="/" className="topbar-logo">
-            My Portfolio
+        {navLinks.map(({ href, labelKey, icon: Icon }) => (
+          <Link
+            key={href}
+            href={href}
+            className={`sidebar-link ${isActive(href) ? "active" : ""}`}
+          >
+            <span className="sidebar-link-icon">
+              <Icon size={16} />
+            </span>
+            <span className="nav-label">
+              {t.nav[labelKey as keyof typeof t.nav]}
+            </span>
           </Link>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <button
-              className="burger"
-              onClick={toggleLang}
-              aria-label="Toggle language"
-            >
-              <span style={{ fontSize: "14px", fontWeight: 700 }}>
-                {locale === "fr" ? "EN" : "FR"}
-              </span>
-            </button>
-            <button
-              className="burger"
-              onClick={() => setDark((d) => !d)}
-              aria-label="Toggle theme"
-            >
-              {dark ? <Sun size={22} /> : <Moon size={22} />}
-            </button>
-            <button className="burger" onClick={() => setOpen((o) => !o)}>
-              {open ? <X size={28} /> : <Menu size={28} />}
-            </button>
-          </div>
-        </div>
-      )}
+        ))}
 
-      {introDone && open && (
-        <div className="mobile-backdrop" onClick={() => setOpen(false)} />
-      )}
+        <div className="sidebar-bottom">
+          <button className="sidebar-theme-toggle" onClick={toggleLang}>
+            <span className="sidebar-link-icon sidebar-lang-label">
+              {locale === "fr" ? "EN" : "FR"}
+            </span>
+            <span className="nav-label">
+              {locale === "fr" ? "English" : "Français"}
+            </span>
+          </button>
 
-      {introDone && (
-        <div className={`mobile-drawer ${open ? "open" : ""}`}>
-          {navLinks.map(({ href, labelKey, icon: Icon }) => (
-            <div key={href} className="mobile-link-item">
-              <Link
-                href={href}
-                className={`mobile-link ${isActive(href) ? "active" : ""}`}
-              >
-                <span className="mobile-link-icon">
-                  <Icon size={15} />
-                </span>
-                {t.nav[labelKey as keyof typeof t.nav]}
-              </Link>
-            </div>
-          ))}
+          <button
+            className="sidebar-theme-toggle"
+            onClick={() => setDark((d) => !d)}
+            aria-label="Toggle theme"
+          >
+            <span className="sidebar-link-icon">
+              {dark ? <Sun size={16} /> : <Moon size={16} />}
+            </span>
+            <span className="nav-label">
+              {dark ? t.nav.lightMode : t.nav.darkMode}
+            </span>
+          </button>
         </div>
-      )}
+      </aside>
+
+      <div className={`topbar ${introDone ? "revealed" : ""}`}>
+        <Link href="/" className="topbar-logo">
+          My Portfolio
+        </Link>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <button
+            className="burger"
+            onClick={toggleLang}
+            aria-label="Toggle language"
+          >
+            <span style={{ fontSize: "14px", fontWeight: 700 }}>
+              {locale === "fr" ? "EN" : "FR"}
+            </span>
+          </button>
+          <button
+            className="burger"
+            onClick={() => setDark((d) => !d)}
+            aria-label="Toggle theme"
+          >
+            {dark ? <Sun size={22} /> : <Moon size={22} />}
+          </button>
+          <button className="burger" onClick={() => setOpen((o) => !o)}>
+            {open ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+      </div>
 
       <div
-        className={`desktop-main ${collapsed ? "collapsed" : ""}`}
-        style={{
-          opacity: introDone ? 1 : 0,
-          transform: introDone ? "translateY(0)" : "translateY(18px)",
-          transition: introDone
-            ? "opacity 0.7s ease, transform 1.5s cubic-bezier(0.22, 1, 0.36, 1)"
-            : "none",
-        }}
+        className={`mobile-backdrop ${open ? "visible" : ""}`}
+        onClick={() => setOpen(false)}
+      />
+
+      <div className={`mobile-drawer ${open ? "open" : ""}`}>
+        {navLinks.map(({ href, labelKey, icon: Icon }) => (
+          <div key={href} className="mobile-link-item">
+            <Link
+              href={href}
+              className={`mobile-link ${isActive(href) ? "active" : ""}`}
+            >
+              <span className="mobile-link-icon">
+                <Icon size={15} />
+              </span>
+              {t.nav[labelKey as keyof typeof t.nav]}
+            </Link>
+          </div>
+        ))}
+      </div>
+
+      <div
+        className={`desktop-main ${collapsed ? "collapsed" : ""} ${introDone ? "revealed" : ""}`}
       >
         <LocaleContext.Provider value={locale as Locale}>
           {children}

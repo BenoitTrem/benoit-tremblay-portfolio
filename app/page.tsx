@@ -2,9 +2,10 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import styles from "./home.module.css";
-import { Code2, Layers, Mail, ArrowRight } from "lucide-react";
+import { Code2, Layers, Mail, ArrowRight, Download } from "lucide-react";
 import { useLocale } from "./lib/LocaleContext";
 import { getT } from "./lib/translations";
+import Image from "next/image";
 
 const TICKER_ITEMS = [
   "Next.js",
@@ -23,9 +24,9 @@ const TICKER_ITEMS = [
   "Java",
   "Android",
   "SQL",
-  "MySQL",
   "Entity Framework",
   "MVC",
+  "Unreal Engine",
   "Next.js",
   "TypeScript",
   "React",
@@ -42,15 +43,14 @@ const TICKER_ITEMS = [
   "Java",
   "Android",
   "SQL",
-  "MySQL",
   "Entity Framework",
   "MVC",
+  "Unreal Engine",
 ];
 
 export default function Home() {
   const locale = useLocale();
   const t = getT(locale);
-
   const ROTATING_WORDS = t.rotatingWords;
 
   const [wordIndex, setWordIndex] = useState(0);
@@ -106,27 +106,40 @@ export default function Home() {
         className={styles.hero}
       >
         <div className={styles.heroGrid} aria-hidden="true" />
-        <div className={styles.heroNoise} aria-hidden="true" />
 
         <div className={styles.heroContent}>
           <p className={styles.heroEyebrow}>{t.home.eyebrow}</p>
-
           <h1 id="hero-heading" className={styles.heroName}>
             {t.home.name}
           </h1>
-
           <div className={styles.typewriterRow} aria-live="polite">
             <span className={styles.typewriterText}>{displayed}</span>
             <span className={styles.typewriterCursor} aria-hidden="true">
               |
             </span>
           </div>
+        </div>
 
+        {/* ── Photo outside heroContent so it centers against full section width ── */}
+        <div className={styles.heroPhoto}>
+          <div className={styles.heroImgWrapper}>
+            <Image
+              src="/images/ProfilIconTest.jpg"
+              alt="Your Name"
+              fill
+              className={styles.heroImg}
+              priority
+            />
+          </div>
+        </div>
+
+        <div className={styles.heroContent}>
           <p className={styles.heroSub}>{t.home.sub}</p>
-
-          <Link href="/projects" className={styles.ctaPrimary}>
-            {t.home.ctaProjects} <ArrowRight size={15} />
-          </Link>
+          <div className={styles.ctaDiv}>
+            <a href="/cv.pdf" download className={styles.ctaPrimary}>
+              <Download size={15} /> Download CV
+            </a>
+          </div>
         </div>
 
         {/* Ticker */}
@@ -152,27 +165,10 @@ export default function Home() {
 
         <div className={styles.cardDiv}>
           <Link
-            href="/projects"
-            className={`${styles.splitCard} ${styles.splitCardTech}`}
-            data-reveal
-            style={{ "--delay": "0ms" } as React.CSSProperties}
-          >
-            <div className={styles.splitCardIcon}>
-              <Code2 size={22} strokeWidth={1.5} />
-            </div>
-            <div className={styles.splitCardBody}>
-              <p className={styles.splitCardTag}>{t.home.techTag}</p>
-              <h3 className={styles.splitCardTitle}>{t.home.techTitle}</h3>
-              <p className={styles.splitCardDesc}>{t.home.techDesc}</p>
-            </div>
-            <span className={styles.splitCardArrow}>→</span>
-          </Link>
-
-          <Link
             href="/about"
             className={`${styles.splitCard} ${styles.splitCardAbout}`}
             data-reveal
-            style={{ "--delay": "100ms" } as React.CSSProperties}
+            style={{ "--delay": "0ms" } as React.CSSProperties}
           >
             <div className={styles.splitCardIcon}>
               <Layers size={22} strokeWidth={1.5} />
@@ -181,6 +177,23 @@ export default function Home() {
               <p className={styles.splitCardTag}>{t.home.aboutTag}</p>
               <h3 className={styles.splitCardTitle}>{t.home.aboutTitle}</h3>
               <p className={styles.splitCardDesc}>{t.home.aboutDesc}</p>
+            </div>
+            <span className={styles.splitCardArrow}>→</span>
+          </Link>
+
+          <Link
+            href="/projects"
+            className={`${styles.splitCard} ${styles.splitCardTech}`}
+            data-reveal
+            style={{ "--delay": "100ms" } as React.CSSProperties}
+          >
+            <div className={styles.splitCardIcon}>
+              <Code2 size={22} strokeWidth={1.5} />
+            </div>
+            <div className={styles.splitCardBody}>
+              <p className={styles.splitCardTag}>{t.home.techTag}</p>
+              <h3 className={styles.splitCardTitle}>{t.home.techTitle}</h3>
+              <p className={styles.splitCardDesc}>{t.home.techDesc}</p>
             </div>
             <span className={styles.splitCardArrow}>→</span>
           </Link>

@@ -9,7 +9,7 @@
   },
   "home": {
     "name": "Benoit Tremblay",
-    "eyebrow": "Full-Stack Developer",
+    "eyebrow": "Portfolio · Developer",
     "heading": "Building things that matter.",
     "sub": "Computer science student and developer — explore my projects, stack, and what I'm working on.",
     "ctaProjects": "View Projects",
@@ -27,17 +27,19 @@
   },
   "rotatingWords": [
     "Full-Stack Developer",
-    "React & Next.js Engineer",
-    "TypeScript Advocate",
     "Computer Science Student",
-    "Laravel & MVC Patterns",
-    "RESTful API Design",
-    "ASP.NET Core",
-    "Object-Oriented Programming",
-    "Relational Database Design",
-    "Python Scripting",
-    "Android Development",
-    "Raspberry Pi Projects",
-    "Version Control with Git"
+    "Back-End Developer",
+    "Front-End Developer",
+    "Mobile Developer",
+    "Next.js Developer",
+    "React Developer",
+    "TypeScript Developer",
+    "Python Developer",
+    "Java Developer",
+    "PHP Developer",
+    "C# Developer",
+    "Android Developer",
+    "Database Designer",
+    "Unreal Engine Developer"
   ]
 }

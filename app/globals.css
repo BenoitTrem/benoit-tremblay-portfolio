@@ -97,11 +97,21 @@ body {
   display: flex;
   flex-direction: column;
   margin-left: 280px;
-  transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.7s ease,
+    transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .desktop-main.collapsed {
   margin-left: 72px;
+}
+
+.desktop-main.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .desktop-main footer {
@@ -188,14 +198,18 @@ body {
   padding: 24px 0;
   z-index: 9999;
   border-right: 1px solid var(--border);
+  opacity: 0;
   transition:
+    opacity 1s ease,
     width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
     background 0.3s ease,
     border-color 0.3s ease;
   overflow-x: hidden;
   overflow-y: auto;
 }
-
+.sidebar.revealed {
+  opacity: 1;
+}
 .sidebar.collapsed {
   width: 72px;
 }
@@ -407,18 +421,17 @@ body {
   opacity: 1;
 }
 .mobile-backdrop {
-  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: transparent;
+  pointer-events: none; /* blocks nothing when hidden */
 }
 
-@media (max-width: 768px) {
-  .mobile-backdrop {
-    display: block;
-    position: fixed;
-    inset: 0;
-    z-index: 99;
-    background: transparent;
-  }
+.mobile-backdrop.visible {
+  pointer-events: auto;
 }
+
 .mobile-link {
   display: flex;
   align-items: center;
