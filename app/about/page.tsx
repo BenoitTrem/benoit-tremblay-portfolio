@@ -221,13 +221,23 @@ export default function About() {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               const fills = entry.target.querySelectorAll<HTMLElement>(
-                `.${styles.barFill}`,
+                `.${styles.skillRowFill}`,
               );
+
               fills.forEach((fill, i) => {
                 setTimeout(() => {
-                  fill.classList.add(styles.barFillAnimated);
+                  fill.classList.add(styles.skillRowFillAnimated);
                 }, i * 120);
               });
+
+              const lines = entry.target.querySelectorAll<HTMLElement>(
+                `.${styles.skillCatLine}`,
+              );
+
+              lines.forEach((line) => {
+                line.classList.add(styles.skillCatLineActive);
+              });
+
               observer.unobserve(entry.target);
             }
           });
@@ -373,15 +383,9 @@ export default function About() {
         </div>
 
         {/* ── Skills ── */}
-        {/* ── Skills ── */}
         <section className={styles.skillsSection}>
           <div className={styles.skillsHeader}>
             <p className={styles.sectionHeading}>Technical skills</p>
-
-            <p className={styles.skillsLegend}>
-              Proficiency reflects practical experience, project usage, and
-              overall confidence with each technology.
-            </p>
           </div>
 
           <div className={styles.skillCategoriesWrap}>
@@ -393,7 +397,14 @@ export default function About() {
                   blockRefs.current[catIdx] = el;
                 }}
               >
-                <div className={styles.skillCatHeader}>
+                <div
+                  className={styles.skillCatHeader}
+                  style={
+                    {
+                      "--bar-color": `var(${cat.colorVar})`,
+                    } as React.CSSProperties
+                  }
+                >
                   <span
                     className={styles.skillCatDot}
                     style={{ background: `var(${cat.colorVar})` }}
@@ -406,7 +417,15 @@ export default function About() {
 
                 <div className={styles.skillBarsGrid}>
                   {cat.skills.map((skill) => (
-                    <div key={skill.name} className={styles.skillBarRow}>
+                    <div
+                      key={skill.name}
+                      className={styles.skillBarRow}
+                      style={
+                        {
+                          "--bar-color": `var(${cat.colorVar})`,
+                        } as React.CSSProperties
+                      }
+                    >
                       <div className={styles.skillBarMeta}>
                         <div className={styles.skillBarLeft}>
                           <span
@@ -424,22 +443,6 @@ export default function About() {
                             {skill.name}
                           </span>
                         </div>
-
-                        <span className={styles.skillBarPct}>
-                          {skill.level}%
-                        </span>
-                      </div>
-
-                      <div className={styles.barTrack}>
-                        <div
-                          className={styles.barFill}
-                          style={
-                            {
-                              "--bar-color": `var(${cat.colorVar})`,
-                              "--bar-target": `${skill.level}%`,
-                            } as React.CSSProperties
-                          }
-                        />
                       </div>
                     </div>
                   ))}

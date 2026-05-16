@@ -348,7 +348,13 @@
     transform 0.4s ease,
     box-shadow 0.4s ease;
 }
-
+@media (hover: none) {
+  .ctaPrimary:active {
+    transform: translateY(4px);
+    border-color: var(--text-secondary);
+    box-shadow: none;
+  }
+}
 @media (hover: hover) {
   .ctaPrimary:hover {
     transform: translateY(-8px);
@@ -397,6 +403,62 @@
   .splitCardTech:hover .splitCardDesc,
   .splitCardAbout:hover .splitCardDesc,
   .splitCardContact:hover .splitCardDesc {
+    color: var(--text-primary);
+  }
+}
+
+@media (hover: none) {
+  .splitCard {
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      background-color 0.25s;
+  }
+
+  .splitCardIcon {
+    transition: transform 0.25s ease-in-out;
+  }
+
+  .splitCardArrow {
+    transition:
+      transform 0.25s ease,
+      color 0.25s ease;
+  }
+
+  .splitCardTitle {
+    transition: color 0.25s ease;
+  }
+
+  .splitCardTech:active,
+  .splitCardAbout:active,
+  .splitCardContact:active {
+    background: var(--surface-2);
+    border-color: var(--text-secondary);
+    transform: translateY(-10px);
+  }
+
+  .splitCardTech:active .splitCardArrow,
+  .splitCardAbout:active .splitCardArrow,
+  .splitCardContact:active .splitCardArrow {
+    transform: translateX(6px);
+    color: var(--text-primary);
+  }
+
+  .splitCardTech:active .splitCardIcon,
+  .splitCardAbout:active .splitCardIcon,
+  .splitCardContact:active .splitCardIcon {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+    transform: scale(1.1);
+  }
+
+  .splitCardTech:active .splitCardTitle,
+  .splitCardAbout:active .splitCardTitle,
+  .splitCardContact:active .splitCardTitle,
+  .splitCardTech:active .splitCardDesc,
+  .splitCardAbout:active .splitCardDesc,
+  .splitCardContact:active .splitCardDesc {
     color: var(--text-primary);
   }
 }
@@ -643,6 +705,18 @@
 
   .heroImgWrapper:hover .heroImg {
     filter: grayscale(0%);
+  }
+}
+
+@media (hover: none) {
+  .heroImgWrapper {
+    transition:
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease;
+  }
+  .heroImgWrapper:active {
+    transform: scale(1.05);
+    border-color: var(--text-secondary);
   }
 }
 
