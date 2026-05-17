@@ -8,7 +8,7 @@ import Footer from "./Footer";
 import { getT } from "../lib/translations";
 import { LocaleContext } from "../lib/LocaleContext";
 import type { Locale } from "../lib/translations";
-import ParticleMesh from "./ParticleMesh";
+import ParticleMesh from "./WaveBackground";
 import Intro from "./Intro";
 
 const navLinks = [
