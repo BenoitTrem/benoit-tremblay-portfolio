@@ -115,6 +115,7 @@ const SkillIcons: Record<string, React.ReactNode> = {
   ),
 };
 
+/* ─── Skill categories ───────────────────────────────────── */
 const skillCategories = [
   {
     label: "Frontend",
@@ -158,43 +159,93 @@ const skillCategories = [
   },
 ];
 
+/* ─── GitHub username ────────────────────────────────────── */
+const GITHUB_USER = "BenoitTrem";
+
+/* ─── Types ──────────────────────────────────────────────── */
+type StatKey = "projectsBuilt" | "repos" | "topLang";
+
+/* ─── Component ──────────────────────────────────────────── */
 export default function About() {
   const locale = useLocale();
   const t = getT(locale);
   const blockRefs = useRef<(HTMLDivElement | null)[]>([]);
   const innerRef = useRef<HTMLDivElement | null>(null);
 
-  type StatKey = keyof typeof statPanelContent;
-
   const [activeStat, setActiveStat] = useState<StatKey | null>(null);
   const [visibleStat, setVisibleStat] = useState<StatKey | null>(null);
   const [switching, setSwitching] = useState(false);
-  const stats: {
-    key: StatKey;
-    number: string;
-    label: string;
-  }[] = [
-    {
-      key: "yearsCoding",
-      number: "8+",
-      label: t.about.stats.yearsCoding,
-    },
+
+  const [githubStats, setGithubStats] = useState<{
+    repos: number;
+    topLang: string;
+    topLangs: { name: string; count: number }[];
+  } | null>(null);
+
+  /* ─── GitHub fetch ───────────────────────────────────────── */
+  useEffect(() => {
+    async function fetchGitHub() {
+      try {
+        const userRes = await fetch(
+          `https://api.github.com/users/${GITHUB_USER}`,
+        );
+        const user = await userRes.json();
+
+        const reposRes = await fetch(
+          `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=pushed`,
+        );
+        const repos = await reposRes.json();
+
+        const langCount: Record<string, number> = {};
+        for (const repo of repos) {
+          if (repo.language) {
+            langCount[repo.language] = (langCount[repo.language] || 0) + 1;
+          }
+        }
+
+        const sortedLangs = Object.entries(langCount)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5)
+          .map(([name, count]) => ({ name, count }));
+
+        const topLang = sortedLangs[0]?.name ?? "N/A";
+
+        setGithubStats({
+          repos: user.public_repos,
+          topLang,
+          topLangs: sortedLangs,
+        });
+      } catch (err) {
+        console.error("GitHub fetch failed", err);
+      }
+    }
+    fetchGitHub();
+  }, []);
+
+  /* ─── Stats config ───────────────────────────────────────── */
+  const stats: { key: StatKey; number: string; label: string }[] = [
     {
       key: "projectsBuilt",
       number: "12",
       label: t.about.stats.projectsBuilt,
     },
-  ];
-  const statPanelContent = {
-    yearsCoding: {
-      title: t.about.statPanels.yearsCoding.title,
-      body: (
-        <p className={styles.statPanelText}>
-          {t.about.statPanels.yearsCoding.body}
-        </p>
-      ),
+    {
+      key: "repos",
+      number: githubStats ? `${githubStats.repos}` : "—",
+      label: "Public Repos",
     },
+    {
+      key: "topLang",
+      number: githubStats ? githubStats.topLang : "—",
+      label: "Top Language",
+    },
+  ];
 
+  /* ─── Stat panel content ─────────────────────────────────── */
+  const statPanelContent: Record<
+    StatKey,
+    { title: string; body: React.ReactNode }
+  > = {
     projectsBuilt: {
       title: t.about.statPanels.projectsBuilt.title,
       body: (
@@ -202,7 +253,6 @@ export default function About() {
           <p className={styles.statPanelText}>
             {t.about.statPanels.projectsBuilt.body}
           </p>
-
           <Link href="/projects" className={styles.statPanelLink}>
             {t.about.statPanels.projectsBuilt.cta}
             <ArrowRight size={13} />
@@ -210,7 +260,46 @@ export default function About() {
         </>
       ),
     },
+    repos: {
+      title: "Projects & Repositories",
+      body: (
+        <>
+          <p className={styles.statPanelText}>
+            {githubStats?.repos} public repositories on GitHub — ranging from
+            full-stack web apps to algorithms and personal experiments. Each one
+            is a snapshot of something I was learning or building at the time.
+          </p>
+          <a
+            href={`https://github.com/${GITHUB_USER}?tab=repositories`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.statPanelLink}
+          >
+            Browse repos <ArrowRight size={13} />
+          </a>
+        </>
+      ),
+    },
+    topLang: {
+      title: "Top Languages",
+      body: (
+        <>
+          <p className={styles.statPanelText}>
+            Languages I use most across my public repositories.
+          </p>
+          <div className={styles.statPanelLangRow}>
+            {githubStats?.topLangs?.map((lang, i) => (
+              <div key={lang.name} className={styles.statPanelLangItem}>
+                <span className={styles.statPanelLangRank}>#{i + 1}</span>
+                <span className={styles.statPanelLangName}>{lang.name}</span>
+              </div>
+            ))}
+          </div>
+        </>
+      ),
+    },
   };
+
   /* ─── Skill bar intersection animation ──────────────────── */
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
@@ -223,21 +312,17 @@ export default function About() {
               const fills = entry.target.querySelectorAll<HTMLElement>(
                 `.${styles.skillRowFill}`,
               );
-
               fills.forEach((fill, i) => {
                 setTimeout(() => {
                   fill.classList.add(styles.skillRowFillAnimated);
                 }, i * 120);
               });
-
               const lines = entry.target.querySelectorAll<HTMLElement>(
                 `.${styles.skillCatLine}`,
               );
-
               lines.forEach((line) => {
                 line.classList.add(styles.skillCatLineActive);
               });
-
               observer.unobserve(entry.target);
             }
           });
@@ -250,32 +335,26 @@ export default function About() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
+  /* ─── Stat click handler ─────────────────────────────────── */
   const handleStatClick = useCallback(
-    (label: StatKey) => {
-      // Clicking the same stat → close
-      if (activeStat === label) {
-        setVisibleStat(null); // triggers panel close (grid-rows → 0fr)
+    (key: StatKey) => {
+      if (activeStat === key) {
+        setVisibleStat(null);
         setSwitching(false);
-        // After the close transition, clear activeStat so content unmounts cleanly
         setTimeout(() => setActiveStat(null), 650);
         return;
       }
-
       if (activeStat === null) {
-        // Panel is closed → open fresh
-        setActiveStat(label);
-        setVisibleStat(label);
+        setActiveStat(key);
+        setVisibleStat(key);
         setSwitching(false);
       } else {
-        // Panel is already open → cross-fade to new content
-        // 1. Fade out current content
         setSwitching(true);
         setTimeout(() => {
-          // 2. Swap content while invisible
-          setActiveStat(label);
-          setVisibleStat(label);
+          setActiveStat(key);
+          setVisibleStat(key);
           setSwitching(false);
-        }, 180); // matches .statPanelInnerSwitching transition duration
+        }, 180);
       }
     },
     [activeStat],
@@ -289,61 +368,10 @@ export default function About() {
       <div className={styles.container}>
         {/* ── Hero ── */}
         <section className={styles.hero}>
-          <div>
+          <div className={styles.heroText}>
             <h1 className={styles.eyebrow}>About me</h1>
-            <p className={styles.title}>Student Developer</p>
-            <p className={styles.subtitle}>
-              building software that solves real problems.
-            </p>
-          </div>
-
-          <div className={styles.imageCard}>
-            <div className={styles.imagePlaceholder}>
-              <span className={styles.imageLabel}>Photo coming soon</span>
-            </div>
           </div>
         </section>
-
-        {/* ── Stats + inline panel ── */}
-        <div className={styles.statsWrapper}>
-          <div className={`${styles.stats} ${isOpen ? styles.statsOpen : ""}`}>
-            {stats.map((s) => (
-              <a
-                key={s.label}
-                className={`${styles.stat} ${activeStat === s.key ? styles.statActive : ""}`}
-                onClick={() => handleStatClick(s.key)}
-                aria-expanded={activeStat === s.key}
-              >
-                <span className={styles.statNumber}>{s.number}</span>
-                <span className={styles.statLabel}>{s.label}</span>
-              </a>
-            ))}
-          </div>
-
-          {/* Inline expanding panel */}
-          <div
-            className={`${styles.statPanel} ${isOpen ? styles.statPanelOpen : ""}`}
-            aria-hidden={!isOpen}
-          >
-            <div className={styles.statPanelClip}>
-              <div
-                ref={innerRef}
-                className={[
-                  styles.statPanelInner,
-                  isOpen && !switching ? styles.statPanelInnerVisible : "",
-                  switching ? styles.statPanelInnerSwitching : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
-              >
-                <div className={styles.statPanelContent}>
-                  <p className={styles.statPanelTitle}>{panel?.title ?? ""}</p>
-                  {panel?.body}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* ── Bio ── */}
         <div className={styles.bio}>
@@ -380,12 +408,64 @@ export default function About() {
               process is the same.
             </p>
           </div>
+          <div className={styles.bioImageCard}>
+            <div className={styles.imagePlaceholder}>
+              <span className={styles.imageLabel}>Photo coming soon</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Stats + inline panel ── */}
+        <div className={styles.statsWrapper}>
+          <div className={`${styles.stats} ${isOpen ? styles.statsOpen : ""}`}>
+            {stats.map((s) => (
+              <div
+                key={s.key}
+                className={`${styles.stat} ${activeStat === s.key ? styles.statActive : ""}`}
+                onClick={() => handleStatClick(s.key)}
+                aria-expanded={activeStat === s.key}
+              >
+                <span className={styles.statNumber}>{s.number}</span>
+                <span className={styles.statLabel}>{s.label}</span>
+              </div>
+            ))}
+          </div>
+
+          <div
+            className={`${styles.statPanel} ${isOpen ? styles.statPanelOpen : ""}`}
+            aria-hidden={!isOpen}
+          >
+            <div className={styles.statPanelClip}>
+              <div
+                ref={innerRef}
+                className={[
+                  styles.statPanelInner,
+                  isOpen && !switching ? styles.statPanelInnerVisible : "",
+                  switching ? styles.statPanelInnerSwitching : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              >
+                <div className={styles.statPanelContent}>
+                  <p className={styles.statPanelTitle}>{panel?.title ?? ""}</p>
+                  {panel?.body}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* ── Skills ── */}
         <section className={styles.skillsSection}>
           <div className={styles.skillsHeader}>
-            <p className={styles.sectionHeading}>Technical skills</p>
+            <div className={styles.skillsTitleRow}>
+              <p className={styles.sectionHeading}>Technical skills</p>
+              <div className={styles.skillsLine} />
+            </div>
+            <p className={styles.skillsLegend}>
+              Technologies, frameworks and tools I&apos;ve learned, worked with
+              and use in projects.
+            </p>
           </div>
 
           <div className={styles.skillCategoriesWrap}>
@@ -409,9 +489,7 @@ export default function About() {
                     className={styles.skillCatDot}
                     style={{ background: `var(${cat.colorVar})` }}
                   />
-
                   <span className={styles.skillCatLabel}>{cat.label}</span>
-
                   <span className={styles.skillCatLine} />
                 </div>
 
@@ -438,7 +516,6 @@ export default function About() {
                           >
                             {SkillIcons[skill.name]}
                           </span>
-
                           <span className={styles.skillBarName}>
                             {skill.name}
                           </span>
@@ -454,9 +531,7 @@ export default function About() {
 
         {/* ── CTA ── */}
         <div className={styles.cta}>
-          <p className={styles.ctaText}>
-            Want to <span>work together</span>?
-          </p>
+          <p className={styles.ctaText}>Want to work together?</p>
           <Link href="/contact" className={styles.ctaButton}>
             Get in touch <ArrowRight size={14} />
           </Link>

@@ -47,7 +47,7 @@ const TICKER_ITEMS = [
   "MVC",
   "Unreal Engine",
 ];
-
+const GITHUB_USER = "BenoitTrem";
 export default function Home() {
   const locale = useLocale();
   const t = getT(locale);
@@ -138,6 +138,16 @@ export default function Home() {
           <div className={styles.ctaDiv}>
             <a href="/cv.pdf" download className={styles.ctaPrimary}>
               <Download size={15} /> Download CV
+            </a>
+
+            <div className={styles.divider_3} />
+            <a
+              href={`https://github.com/${GITHUB_USER}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.ctaPrimary}
+            >
+              GitHub <ArrowRight size={13} />
             </a>
           </div>
         </div>
