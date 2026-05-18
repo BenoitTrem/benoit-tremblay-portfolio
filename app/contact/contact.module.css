@@ -378,6 +378,38 @@ a.infoValue:hover {
     transform: rotate(360deg);
   }
 }
+.sentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.resetBtn {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.resetBtn:hover {
+  color: var(--text-primary);
+}
+.input:disabled,
+.textarea:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 
 /* ─── Responsive ── */
 @media (max-width: 768px) {

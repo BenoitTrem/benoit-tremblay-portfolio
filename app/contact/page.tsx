@@ -47,7 +47,8 @@ export default function Contact() {
     const { name, value } = e.target;
     const updated = { ...form, [name]: value };
     setForm(updated);
-    // re-validate the changed field if already touched
+    // don't re-validate if already sent
+    if (status === "sent") return;
     if (touched[name as keyof FormFields]) {
       const newErrors = validate(updated);
       setErrors((prev) => ({
@@ -60,6 +61,8 @@ export default function Contact() {
   const handleBlur = (
     e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
+    // don't validate if already sent
+    if (status === "sent") return;
     const { name } = e.target;
     setTouched((prev) => ({ ...prev, [name]: true }));
     const newErrors = validate(form);
@@ -67,6 +70,13 @@ export default function Contact() {
       ...prev,
       [name]: newErrors[name as keyof FormFields],
     }));
+  };
+
+  const handleReset = () => {
+    setStatus("idle");
+    setForm({ email: "", subject: "", message: "" });
+    setErrors({});
+    setTouched({});
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -179,6 +189,7 @@ export default function Contact() {
                 required
                 placeholder="you@example.com"
                 {...field("email")}
+                disabled={status === "sent"}
               />
               {errors.email && (
                 <p className={styles.fieldError}>{errors.email}</p>
@@ -195,6 +206,7 @@ export default function Contact() {
                 required
                 placeholder="Project inquiry, collaboration…"
                 {...field("subject")}
+                disabled={status === "sent"}
               />
               {errors.subject && (
                 <p className={styles.fieldError}>{errors.subject}</p>
@@ -212,6 +224,7 @@ export default function Contact() {
                 placeholder="Tell me about your project or idea…"
                 {...field("message")}
                 className={`${styles.textarea} ${errors.message ? styles.inputError : ""}`}
+                disabled={status === "sent"}
               />
               {errors.message && (
                 <p className={styles.fieldError}>{errors.message}</p>
@@ -219,32 +232,40 @@ export default function Contact() {
             </div>
 
             <div className={styles.formFooter}>
-              {status === "sent" && (
-                <p className={styles.successMsg}>
-                  ✓ Message sent — I'll be in touch soon.
-                </p>
-              )}
               {status === "error" && (
                 <p className={styles.errorMsg}>
                   Something went wrong. Please try again.
                 </p>
               )}
-              <button
-                type="submit"
-                className={styles.submitBtn}
-                disabled={status === "sending" || status === "sent"}
-              >
-                {status === "sending" ? (
-                  <span className={styles.spinner} />
-                ) : status === "sent" ? (
-                  "Sent!"
-                ) : (
-                  <>
-                    {" "}
-                    Send message <Send size={15} />{" "}
-                  </>
-                )}
-              </button>
+              {status === "sent" ? (
+                <div className={styles.sentRow}>
+                  <p className={styles.successMsg}>
+                    ✓ Message sent — I'll be in touch soon.
+                  </p>
+                  <button
+                    type="button"
+                    className={styles.resetBtn}
+                    onClick={handleReset}
+                  >
+                    Send another
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="submit"
+                  className={styles.submitBtn}
+                  disabled={status === "sending"}
+                >
+                  {status === "sending" ? (
+                    <span className={styles.spinner} />
+                  ) : (
+                    <>
+                      {" "}
+                      Send message <Send size={15} />{" "}
+                    </>
+                  )}
+                </button>
+              )}
             </div>
           </form>
         </div>
