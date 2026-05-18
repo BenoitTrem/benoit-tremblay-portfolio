@@ -968,6 +968,7 @@
 
   .eyebrow {
     text-align: center;
+    margin-top: 50px;
   }
   .title {
     text-align: center;
@@ -1071,6 +1072,10 @@
 }
 
 @media (max-width: 900px) and (orientation: landscape) {
+  .eyebrow {
+    text-align: center;
+    margin-top: 50px;
+  }
   .bio {
     grid-template-columns: 1fr;
   }
