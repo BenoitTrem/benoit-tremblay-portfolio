@@ -6,14 +6,14 @@ export default function WaveBackground() {
 
   useEffect(() => {
     const svg = svgRef.current!;
-    const isDark =
-      document.documentElement.getAttribute("data-theme") !== "light";
-    const STROKE = isDark ? "rgba(255,255,255," : "rgba(0,0,0,";
     const WAVE_COUNT = 6;
     let W: number,
       H: number,
       t = 0,
       raf: number;
+
+    const getTheme = () =>
+      document.documentElement.getAttribute("data-theme") === "light";
 
     const waves = Array.from({ length: WAVE_COUNT }, (_, i) => ({
       amp: 30 + i * 12,
@@ -47,21 +47,28 @@ export default function WaveBackground() {
     };
 
     svg.innerHTML = "";
-    const paths = waves.map((w, i) => {
+    const paths = waves.map((w) => {
       const path = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "path",
       );
       path.setAttribute("fill", "none");
-      path.setAttribute("stroke", STROKE + w.alpha + ")");
-      path.setAttribute("stroke-width", String(w.width));
       svg.appendChild(path);
       return path;
     });
 
     const animate = () => {
+      const isLight = getTheme();
+
       t++;
-      waves.forEach((w, i) => paths[i].setAttribute("d", buildPath(w)));
+      waves.forEach((w, i) => {
+        const alpha = isLight ? w.alpha * 1.5 : w.alpha;
+        const STROKE = isLight
+          ? `rgba(0,0,0,${alpha})`
+          : `rgba(255,255,255,${alpha})`;
+        paths[i].setAttribute("stroke", STROKE);
+        paths[i].setAttribute("d", buildPath(w));
+      });
       raf = requestAnimationFrame(animate);
     };
 

@@ -18,7 +18,6 @@ const navLinks = [
   { href: "/contact", labelKey: "contact", icon: Mail },
 ];
 
-// Read sessionStorage synchronously — runs once at module level on the client
 const getInitialIntroDone = () => {
   if (typeof window === "undefined") return false;
   return localStorage.getItem("introDone") === "true";

@@ -7,110 +7,81 @@ export default function Intro({ onDone }: { onDone: () => void }) {
   const [progress, setProgress] = useState(0);
   const [nameVisible, setNameVisible] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
   const rafRef = useRef<number>(0);
+  const waveRafRef = useRef<number>(0);
 
+  // — Wave background —
   useEffect(() => {
-    const canvas = canvasRef.current!;
-    const ctx = canvas.getContext("2d")!;
-    let W: number, H: number;
-    let particles: {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      r: number;
-    }[] = [];
-    let globalAlpha = 0;
-    let fading = false;
+    const svg = svgRef.current!;
+    const WAVE_COUNT = 6;
+    let W: number,
+      H: number,
+      t = 0;
 
-    const getConfig = () => {
-      const mobile = W <= 768;
-      return {
-        count: mobile ? 20 : 60,
-        maxDist: mobile ? 70 : 130,
-        speed: mobile ? 0.2 : 0.4,
-        minR: mobile ? 0.8 : 1.5,
-        maxR: mobile ? 0.4 : 1,
-      };
-    };
-
-    const buildParticles = () => {
-      const cfg = getConfig();
-      particles = Array.from({ length: cfg.count }, () => ({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * cfg.speed,
-        vy: (Math.random() - 0.5) * cfg.speed,
-        r: cfg.minR + Math.random() * cfg.maxR,
-      }));
-    };
+    const waves = Array.from({ length: WAVE_COUNT }, (_, i) => ({
+      amp: 30 + i * 12,
+      freq: 0.003 - i * 0.0003,
+      speed: 0.004 + i * 0.0008,
+      yBase: 0,
+      alpha: 0.06 + i * 0.04,
+      width: 1 - i * 0.1,
+      offset: (i / WAVE_COUNT) * Math.PI * 2,
+    }));
 
     const resize = () => {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-      buildParticles();
-    };
-
-    const handleBeforeUnload = () => {
-      fading = true;
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    const draw = () => {
-      const cfg = getConfig();
-
-      if (fading) {
-        globalAlpha = Math.max(0, globalAlpha - 0.04);
-      } else {
-        globalAlpha = Math.min(1, globalAlpha + 0.02);
-      }
-
-      ctx.clearRect(0, 0, W, H);
-      ctx.save();
-      ctx.globalAlpha = globalAlpha;
-
-      particles.forEach((p) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > W) p.vx *= -1;
-        if (p.y < 0 || p.y > H) p.vy *= -1;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(255,255,255,0.5)";
-        ctx.fill();
+      W = window.innerWidth;
+      H = window.innerHeight;
+      waves.forEach((w, i) => {
+        w.yBase = H * (0.2 + (i / WAVE_COUNT) * 0.65);
       });
+    };
 
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const a = particles[i],
-            b = particles[j];
-          const dist = Math.hypot(a.x - b.x, a.y - b.y);
-          if (dist < cfg.maxDist) {
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(255,255,255,${((1 - dist / cfg.maxDist) * 0.18).toFixed(3)})`;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
-          }
-        }
+    const buildPath = (w: (typeof waves)[0]) => {
+      const pts: string[] = [];
+      for (let x = 0; x <= W + 8; x += 8) {
+        const y =
+          w.yBase +
+          Math.sin(x * w.freq + t * w.speed + w.offset) * w.amp +
+          Math.sin(x * w.freq * 2.1 + t * w.speed * 1.3 + w.offset) *
+            (w.amp * 0.4);
+        pts.push(x === 0 ? `M${x},${y}` : `L${x},${y}`);
       }
+      return pts.join(" ");
+    };
 
-      ctx.restore();
-      rafRef.current = requestAnimationFrame(draw);
+    svg.innerHTML = "";
+    const paths = waves.map((w) => {
+      const path = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path",
+      );
+      path.setAttribute("fill", "none");
+      svg.appendChild(path);
+      return path;
+    });
+
+    const animate = () => {
+      t++;
+      waves.forEach((w, i) => {
+        paths[i].setAttribute("stroke", `rgba(255,255,255,${w.alpha})`);
+        paths[i].setAttribute("stroke-width", String(w.width));
+        paths[i].setAttribute("d", buildPath(w));
+      });
+      waveRafRef.current = requestAnimationFrame(animate);
     };
 
     resize();
     window.addEventListener("resize", resize);
-    draw();
+    animate();
 
     return () => {
-      cancelAnimationFrame(rafRef.current);
+      cancelAnimationFrame(waveRafRef.current);
       window.removeEventListener("resize", resize);
-      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
 
+  // — Progress bar —
   useEffect(() => {
     const t = setTimeout(() => setNameVisible(true), 100);
     return () => clearTimeout(t);
@@ -126,11 +97,8 @@ export default function Intro({ onDone }: { onDone: () => void }) {
     const tick = (now: number) => {
       const t = Math.min((now - start) / DURATION, 1);
       setProgress(Math.round(ease(t) * 100));
-      if (t < 1) {
-        raf = requestAnimationFrame(tick);
-      } else {
-        setTimeout(() => setPhase("fadeout"), 600);
-      }
+      if (t < 1) raf = requestAnimationFrame(tick);
+      else setTimeout(() => setPhase("fadeout"), 600);
     };
 
     raf = requestAnimationFrame(tick);
@@ -148,6 +116,20 @@ export default function Intro({ onDone }: { onDone: () => void }) {
       className={`${styles.intro} ${phase === "fadeout" ? styles.fadeout : ""}`}
     >
       <canvas ref={canvasRef} className={styles.canvas} />
+
+      <svg
+        ref={svgRef}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
+          opacity: 0.5,
+          zIndex: 1,
+        }}
+      />
 
       <div className={styles.content}>
         <div

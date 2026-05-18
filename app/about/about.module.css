@@ -1,18 +1,38 @@
-/* ─── Category color tokens ──────────────────────────────── */
-.page {
-  --cat-frontend: #4e9eff;
-  --cat-backend: #4ecca3;
-  --cat-language: #c97aff;
-  --cat-tools: #ffb84e;
-  --cat-cs: #ff7a7a;
-  --radius-sm: 6px;
-  --radius-md: 14px;
-  --radius-lg: 22px;
-  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.15);
-  --shadow-md: 0 8px 40px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 20px 80px rgba(0, 0, 0, 0.25);
+:global(:root) {
+  --cat-language: #2563eb; /* blue */
+  --cat-frontend: #10b981; /* green */
+  --cat-backend: #f97316; /* orange */
+  --cat-db: #a855f7; /* purple */
+  --cat-tools: #ef4444; /* red */
+  --cat-ides: #0ea5e9; /* sky blue */
+  --cat-games: #eab308; /* yellow */
+  --cat-mobile: #ec4899; /* pink */
+  --cat-cloud: #14b8a6; /* teal */
+  --cat-systems: #64748b; /* slate */
+  --csharp-c: #ffffff;
+  --csharp-hash: #ffffff;
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 40px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 20px 80px rgba(0, 0, 0, 0.18);
 }
 
+:global([data-theme="dark"]) {
+  --cat-language: #60a5fa;
+  --cat-frontend: #34d399;
+  --cat-backend: #fb923c;
+  --cat-db: #c084fc;
+  --cat-tools: #f87171;
+  --cat-ides: #38bdf8;
+  --cat-games: #facc15;
+  --cat-mobile: #f472b6;
+  --cat-cloud: #2dd4bf;
+  --cat-systems: #94a3b8;
+  --csharp-c: #000000;
+  --csharp-hash: #000000;
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 40px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 20px 80px rgba(0, 0, 0, 0.45);
+}
 /* ─── Page wrapper ───────────────────────────────────────── */
 .page {
   min-height: 100vh;
@@ -292,12 +312,6 @@
   color: var(--text-primary);
 }
 
-/* ─── Stat panel (inline expand) ────────────────────────── */
-/*
-  KEY FIX: only ONE transition declaration here.
-  The original had two `transition` rules — the second one was
-  overriding the first, so grid-template-rows never animated.
-*/
 .statPanel {
   display: grid;
   grid-template-rows: 0fr;
@@ -604,8 +618,9 @@
 /* ─── Skill categories (bar layout) ─────────────────────── */
 .skillCategoriesWrap {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 42px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+  align-items: start;
 }
 
 .skillCatBlock {
@@ -618,7 +633,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .skillCatDot {
@@ -717,16 +732,16 @@
 }
 
 .skillBarIcon {
-  width: 22px;
-  height: 22px;
+  width: 30px;
+  height: 30px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 5px;
-  background: var(--surface-2);
+  background: var(--bar-target);
   border: 1px solid var(--border-2);
-  color: var(--text-muted);
+  color: inherit;
   transition:
     border-color 0.35s ease,
     color 0.35s ease,
@@ -1137,4 +1152,63 @@
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--text-primary);
+}
+/* ─── Skill chips (replaces bars for multi-skill layout) ─── */
+.skillChipsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+  align-content: start;
+}
+
+.skillChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 5px;
+  border-radius: 8px;
+  border: 1px solid var(--card-border-bottom);
+  background: transparent;
+  box-shadow: 0 0 0 var(--bar-color);
+  transition:
+    background-color 0.3s,
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+  cursor: default;
+}
+
+@media (hover: hover) {
+  .skillChip:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 0 var(--bar-color);
+    border-color: var(--bar-color);
+  }
+
+  .skillChip:hover .skillBarIcon {
+    border-color: var(--bar-color);
+    color: var(--bar-color);
+    background: color-mix(in srgb, var(--bar-color) 10%, var(--surface-2));
+    transform: scale(1.15);
+  }
+  .skillChip:active .skillBarIcon {
+    color: var(--bar-color);
+  }
+
+  .skillChip:hover .skillBarName {
+    color: var(--bar-color);
+  }
+}
+
+@media (hover: none) {
+  .skillChip:active {
+    border-color: var(--bar-color);
+  }
+  .skillChip:active .skillBarIcon {
+    border-color: var(--bar-color);
+    color: var(--bar-color);
+  }
+  .skillChip:active .skillBarName {
+    color: var(--bar-color);
+  }
 }

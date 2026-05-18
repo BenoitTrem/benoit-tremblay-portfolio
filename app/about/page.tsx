@@ -5,60 +5,155 @@ import Link from "next/link";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useLocale } from "../lib/LocaleContext";
 import { getT } from "../lib/translations";
+import * as simpleIcons from "simple-icons";
+import { siReact } from "simple-icons";
 
 /* ─── Inline SVG icons per skill ────────────────────────── */
-const SkillIcons: Record<string, React.ReactNode> = {
+export const SkillIcons = {
+  // ── Languages ──
+  TypeScript: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siTypescript.path} fill="currentColor" />
+    </svg>
+  ),
+
+  JavaScript: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siJavascript.path} fill="currentColor" />
+    </svg>
+  ),
+
+  Python: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siPython.path} fill="currentColor" />
+    </svg>
+  ),
+
+  Java: (
+    <svg viewBox="0 0 24 24">
+      {/* flame */}
+      <path
+        fill="currentColor"
+        d="M12 2c2 2.2-1.5 3.2-1.5 5.2S14 9.5 12 12C10 9.6 7.5 8.8 9 6.2 10.2 4 13 4 12 2z"
+      />
+
+      {/* top cup ring */}
+      <path
+        fill="currentColor"
+        d="M5 11c2.5 1.5 11.5 1.5 14 0-1 2-13 2-14 0z"
+      />
+
+      {/* middle rings */}
+      <path fill="currentColor" d="M4 14c3 2 13 2 16 0-1 2.5-15 2.5-16 0z" />
+
+      <path
+        fill="currentColor"
+        d="M5 17c2.5 1.5 11.5 1.5 14 0-1 2-13 2-14 0z"
+      />
+
+      {/* bottom base */}
+      <path fill="currentColor" d="M6 19c2 1 10 1 12 0-1.5 2-10.5 2-12 0z" />
+    </svg>
+  ),
+  Kotlin: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siKotlin.path} fill="currentColor" />
+    </svg>
+  ),
+  "C#": (
+    <svg viewBox="0 0 256 256" fill="currentColor">
+      {/* hex background */}
+      <path
+        d="M128 0l111 64v128l-111 64L17 192V64L128 0z"
+        fill="currentColor"
+      />
+
+      {/* inner shading split (like official logo) */}
+      <path d="M128 0l111 64v128L128 256V0z" fill="currentColor" />
+
+      {/* C */}
+      <path
+        d="M150 88c-10-10-23-16-38-16-31 0-56 25-56 56s25 56 56 56c15 0 28-6 38-16l-18-14c-6 6-13 9-22 9-20 0-36-16-36-36s16-36 36-36c9 0 16 3 22 9l18-12z"
+        fill="var(--csharp-c)"
+      />
+
+      {/* # */}
+      <path
+        d="M168 102h10l3-14h10l-3 14h10v10h-12l-2 10h12v10h-14l-3 14h-10l3-14h-10l-3 14h-10l3-14h-10v-10h12l2-10h-12v-10h14l3-14h10l-3 14zm0 20h10l2-10h-10l-2 10z"
+        fill="var(--csharp-hash)"
+      />
+    </svg>
+  ),
+  PHP: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siPhp.path} fill="currentColor" />
+    </svg>
+  ),
+  HTML5: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siHtml5.path} fill="currentColor" />
+    </svg>
+  ),
+  CSS3: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siCss.path} fill="currentColor" />
+    </svg>
+  ),
+  // ── Frontend ──
   React: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    >
-      <circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none" />
-      <ellipse cx="12" cy="12" rx="10" ry="3.5" />
-      <ellipse cx="12" cy="12" rx="10" ry="3.5" transform="rotate(60 12 12)" />
-      <ellipse cx="12" cy="12" rx="10" ry="3.5" transform="rotate(120 12 12)" />
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siReact.path} fill="currentColor" />
     </svg>
   ),
   "Next.js": (
-    <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.75 14.25L8.5 7.5H7v9h1.75v-6.75l6.5 8.5H17v-9h-1.75v6.75z" />
+    <svg viewBox="0 0 24 24" className="text-gray-900 dark:text-white">
+      <path d={simpleIcons.siNextdotjs.path} fill="currentColor" />
+    </svg>
+  ),
+  "Vue.js": (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siVuedotjs.path} fill="currentColor" />
     </svg>
   ),
   "Tailwind CSS": (
-    <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 6C9.6 6 8.1 7.2 7.5 9.6c.9-1.2 1.95-1.65 3.15-1.35.685.171 1.174.669 1.715 1.219C13.248 10.39 14.205 11.4 16.5 11.4c2.4 0 3.9-1.2 4.5-3.6-.9 1.2-1.95 1.65-3.15 1.35-.685-.171-1.174-.669-1.715-1.219C15.252 7.01 14.295 6 12 6zM7.5 11.4C5.1 11.4 3.6 12.6 3 15c.9-1.2 1.95-1.65 3.15-1.35.685.171 1.174.669 1.715 1.219C8.748 15.79 9.705 16.8 12 16.8c2.4 0 3.9-1.2 4.5-3.6-.9 1.2-1.95 1.65-3.15 1.35-.685-.171-1.174-.669-1.715-1.219C10.752 12.41 9.795 11.4 7.5 11.4z" />
+    <svg viewBox="0 0 24 24" className={styles.skillSvg}>
+      <path d={simpleIcons.siTailwindcss.path} fill="currentColor" />
     </svg>
   ),
-  "CSS / HTML": (
-    <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M4 3l1.5 16.5L12 21l6.5-1.5L20 3H4zm13.1 5H8.9l.2 2h7.8l-.6 6.5L12 17.9l-4.3-1.4-.3-3.1h2l.1 1.6 2.5.7 2.5-.7.3-3H8.6L8 7h8.3l-.2 1z" />
+  Bootstrap: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siBootstrap.path} fill="currentColor" />
     </svg>
   ),
-  TypeScript: (
+  Blade: (
     <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M3 3h18v18H3V3zm10.5 13.5v-2.25h-1.5V18H9.75v-3.75H8.25V18H6.75v-5.25h6v3.75zm4.5-3.75h-1.5V18h-1.5v-5.25H13.5V11.25H18v1.5z" />
+      <path d="M23.111 0L12.555 10.555 2 0H0v.948L11.027 11.97 0 23v.948h2L12.555 13.39 23.109 23.95H25V23l-11.027-11.03L25 .948V0z" />
     </svg>
   ),
-  JavaScript: (
-    <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M3 3h18v18H3V3zm9.75 13.5c0 1.5-1.5 2.25-3 1.5l.75-1.125c.375.375.75.375.75 0v-5.625h1.5V16.5zm3.75.375c0 1.5-1.125 2.25-2.625 1.875l.375-1.125c.375.375.75.375.75 0 .375 0 .75-.375.75-.75V11.25h1.5v5.625z" />
+  // ── Backend ──
+  Laravel: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siLaravel.path} fill="currentColor" />
     </svg>
   ),
-  Python: (
-    <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2c-2.1 0-3.9.4-5.1 1.1C5.5 3.9 5 5 5 6.4V8h7v1H5c-1.5 0-2.8 1-3.2 2.5-.5 1.7-.5 2.8 0 4.5.4 1.3 1.4 2.5 3.2 2.5H7v-2c0-1.7 1.5-3 3.2-3h5.5c1.5 0 2.8-1.2 2.8-2.8V6.4C18.5 4 15.5 2 12 2zm-2 2.5c.6 0 1 .4 1 1s-.4 1-1 1-1-.4-1-1 .4-1 1-1zm9.2 7c1.5 0 2.8.9 3.2 2.2.5 1.7.5 3.5 0 5.1-.4 1.3-1.4 2.2-3.2 2.2H17v-1.8c0-1.7-1.5-3.2-3.2-3.2H8.3c-1.5 0-2.8-1.2-2.8-2.8v-1.7H7v1.5c0 .8.7 1.5 1.5 1.5H17v-3h2.2zM14 19c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1z" />
+  Spring: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siSpring.path} fill="currentColor" />
     </svg>
   ),
-  Java: (
-    <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M8.851 18.56s-.917.534.653.714c1.902.218 2.874.187 4.969-.211 0 0 .552.346 1.321.646-4.699 2.013-10.633-.118-6.943-1.149M8.276 15.933s-1.028.761.542.924c2.032.209 3.636.227 6.413-.308 0 0 .384.389.987.602-5.679 1.661-12.007.13-7.942-1.218M13.116 11.475c1.158 1.333-.304 2.533-.304 2.533s2.939-1.518 1.589-3.418c-1.261-1.772-2.228-2.652 3.007-5.688 0-.001-8.216 2.051-4.292 6.573M19.33 20.504s.679.559-.747.991c-2.712.822-11.288 1.069-13.669.033-.856-.373.75-.89 1.254-.998.527-.114.828-.093.828-.093-.953-.671-6.156 1.317-2.643 1.887 9.58 1.553 17.462-.7 14.977-1.82M9.292 13.21s-4.362 1.036-1.544 1.412c1.189.159 3.561.123 5.77-.062 1.806-.152 3.618-.477 3.618-.477s-.637.272-1.098.587c-4.429 1.165-12.986.623-10.522-.568 2.082-1.006 3.776-.892 3.776-.892M17.116 17.584c4.503-2.34 2.421-4.589.968-4.285-.355.074-.515.138-.515.138s.132-.207.385-.297c2.875-1.011 5.086 2.981-.928 4.562 0-.001.07-.062.09-.118M14.401 0s2.494 2.494-2.365 6.33c-3.896 3.077-.888 4.832-.001 6.836-2.274-2.053-3.943-3.858-2.824-5.539 1.644-2.469 6.197-3.665 5.19-7.627M9.734 23.924c4.322.277 10.959-.153 11.116-2.19 0 0-.302.775-3.572 1.391-3.688.694-8.239.613-10.937.168 0-.001.553.457 3.393.631" />
+  ".NET": (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siDotnet.path} fill="currentColor" />
     </svg>
   ),
-  "Node.js": (
-    <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 1.85c-.27 0-.55.07-.76.22L3.34 6.35c-.43.25-.7.7-.7 1.19v9.01c0 .49.27.94.7 1.19l7.9 4.28c.42.23.93.23 1.35 0l7.9-4.28c.43-.25.7-.7.7-1.19V7.54c0-.49-.27-.94-.7-1.19l-7.9-4.28c-.21-.15-.49-.22-.59-.22zm-.1 3.71l4.52 2.61c.15.09.24.26.24.43v5.22c0 .17-.09.34-.24.43l-4.52 2.61c-.15.09-.33.09-.48 0L6.9 13.25c-.15-.09-.24-.26-.24-.43V8.6c0-.17.09-.34.24-.43l4.52-2.61c.08-.04.16-.07.24-.07s.16.02.24.07z" />
+  "React Native": (
+    <svg viewBox="0 0 24 24">
+      <path d={siReact.path} fill="currentColor" />
+    </svg>
+  ),
+  Android: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siAndroid.path} fill="currentColor" />
     </svg>
   ),
   "REST APIs": (
@@ -70,93 +165,224 @@ const SkillIcons: Record<string, React.ReactNode> = {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M8 9l3 3-3 3M13 15h3" />
       <rect x="3" y="3" width="18" height="18" rx="2" />
+      <path d="M8 9l3 3-3 3M13 15h3" />
     </svg>
   ),
-  PostgreSQL: (
+  // ── DB & Cloud ──
+  MySQL: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siMysql.path} fill="currentColor" />
+    </svg>
+  ),
+  SQLite: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siSqlite.path} fill="currentColor" />
+    </svg>
+  ),
+  PhpMyAdmin: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siPhpmyadmin.path} fill="currentColor" />
+    </svg>
+  ),
+  AWS: (
     <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M17.128 0a10.134 10.134 0 0 0-2.755.403l-.063.02A10.922 10.922 0 0 0 12.6.258C11.422.238 10.41.524 9.594 1 8.58.845 7.519.786 6.5.836 4.97.91 3.35 1.29 2.18 2.226 1.45 2.94 1.053 3.9 1.012 4.9c-.13 2.974 1.987 5.127 3.73 6.466a12.06 12.06 0 0 0 1.56.973c-.069.067-.139.15-.207.253-.468.694-.567 1.555-.543 2.176.024.644.158 1.29.29 1.94.13.63.264 1.27.285 1.95.02.75-.097 1.43-.535 2.015l-.024.033-.019.036c-.137.258-.15.506-.069.742.082.236.278.45.57.63.58.35 1.452.51 2.557.47 1.088-.04 2.137-.26 2.924-.87a3.68 3.68 0 0 0 .835-.97 4.657 4.657 0 0 0 1.574.254c.592 0 1.243-.111 1.927-.35a5.234 5.234 0 0 0 .57-.25c.55.336 1.255.594 2.198.594.89 0 1.97-.23 3.25-.972l.03-.018.027-.021c.42-.336.63-.81.636-1.314.007-.45-.142-.903-.356-1.314-.215-.412-.487-.78-.694-1.059a3.562 3.562 0 0 1-.162-.25c.537-.623.876-1.454.876-2.498 0-1.055-.23-1.99-.61-2.77a5.59 5.59 0 0 0-.13-.24c-.012-.37.013-.74.04-1.12.04-.56.082-1.14.03-1.74-.1-1.15-.573-2.08-1.42-2.61A5.072 5.072 0 0 0 17.128 0z" />
+      <path d="M6.763 10.036c0 .296.032.535.088.71.064.176.144.368.256.576.04.063.056.127.056.183 0 .08-.048.16-.152.24l-.503.335a.383.383 0 0 1-.208.072c-.08 0-.16-.04-.239-.112a2.47 2.47 0 0 1-.287-.375 6.18 6.18 0 0 1-.248-.471c-.622.734-1.405 1.101-2.347 1.101-.67 0-1.205-.191-1.596-.574-.391-.384-.59-.894-.59-1.533 0-.678.239-1.23.726-1.644.487-.415 1.133-.623 1.955-.623.272 0 .551.024.846.064.296.04.6.104.918.176v-.583c0-.607-.127-1.03-.375-1.277-.255-.248-.686-.367-1.3-.367-.28 0-.568.031-.863.103-.295.072-.583.16-.862.272a2.287 2.287 0 0 1-.28.104.488.488 0 0 1-.127.023c-.112 0-.168-.08-.168-.247v-.391c0-.128.016-.224.056-.28a.597.597 0 0 1 .224-.167c.279-.144.614-.264 1.005-.36a4.84 4.84 0 0 1 1.246-.151c.95 0 1.644.216 2.091.647.439.43.662 1.085.662 1.963v2.586zm-3.24 1.214c.263 0 .534-.048.822-.144.287-.096.543-.271.758-.51.128-.152.224-.32.272-.512.047-.191.08-.423.08-.694v-.335a6.66 6.66 0 0 0-.735-.136 6.02 6.02 0 0 0-.75-.048c-.535 0-.926.104-1.19.32-.263.215-.39.518-.39.917 0 .375.095.655.295.846.191.2.47.296.838.296zm6.41.862c-.144 0-.24-.024-.304-.08-.063-.048-.12-.16-.168-.311L7.586 5.55a1.398 1.398 0 0 1-.072-.32c0-.128.064-.2.191-.2h.783c.151 0 .255.025.31.08.065.048.113.16.16.312l1.342 5.284 1.245-5.284c.04-.16.088-.264.151-.312a.549.549 0 0 1 .32-.08h.638c.152 0 .256.025.32.08.063.048.12.16.151.312l1.261 5.348 1.381-5.348c.048-.16.104-.264.16-.312a.52.52 0 0 1 .311-.08h.743c.127 0 .2.065.2.2 0 .04-.009.08-.017.127a1.137 1.137 0 0 1-.056.2l-1.923 6.17c-.048.16-.104.263-.168.311a.51.51 0 0 1-.303.08h-.687c-.151 0-.255-.024-.32-.08-.063-.056-.119-.16-.15-.32l-1.238-5.148-1.23 5.14c-.04.16-.087.264-.15.32-.065.056-.177.08-.32.08zm10.256.215c-.415 0-.83-.048-1.229-.143-.399-.096-.71-.2-.918-.32-.128-.071-.215-.151-.247-.223a.563.563 0 0 1-.048-.224v-.407c0-.167.064-.247.183-.247.048 0 .096.008.144.024.048.016.12.048.2.08.271.12.566.215.878.279.319.064.63.096.95.096.502 0 .894-.088 1.165-.264a.86.86 0 0 0 .415-.758.777.777 0 0 0-.215-.559c-.144-.151-.416-.287-.807-.415l-1.157-.36c-.583-.184-1.014-.454-1.277-.808a1.902 1.902 0 0 1-.4-1.158c0-.335.073-.63.216-.886.144-.255.335-.479.575-.654.24-.184.51-.32.83-.415.32-.096.655-.136 1.006-.136.175 0 .359.008.535.032.183.024.35.056.51.088.15.04.295.08.43.127.136.048.24.096.317.144a.653.653 0 0 1 .224.183.39.39 0 0 1 .064.224v.375c0 .168-.064.256-.184.256a.83.83 0 0 1-.303-.096 3.652 3.652 0 0 0-1.532-.311c-.455 0-.815.071-1.062.224-.248.152-.375.383-.375.71 0 .224.08.416.24.567.159.152.454.304.877.44l1.134.358c.574.184.99.44 1.237.767.247.327.367.702.367 1.117 0 .343-.072.655-.207.926-.144.272-.336.511-.583.703-.248.2-.543.343-.886.447-.36.111-.734.167-1.142.167z" />
     </svg>
   ),
-  "Algorithms & DS": (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M3 6h18M3 12h12M3 18h6" />
-      <circle cx="19" cy="18" r="2" />
-      <path d="M17 12l2 2 4-4" />
-    </svg>
-  ),
-  "Git / GitHub": (
+  Azure: (
     <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+      <path d="M6 22h3.8l2-5.2h4.5L18.5 22H22L15.2 2H9.8L3 22h3zm5.8-8.2L14 7.8l2.2 6z" />
     </svg>
   ),
+  Vercel: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siVercel.path} fill="currentColor" />
+    </svg>
+  ),
+  Netlify: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siNetlify.path} fill="currentColor" />
+    </svg>
+  ),
+  // ── Tools & DevOps ──
+  Git: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siGit.path} fill="currentColor" />
+    </svg>
+  ),
+  GitHub: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siGithub.path} fill="currentColor" />
+    </svg>
+  ),
+  GitLab: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siGitlab.path} fill="currentColor" />
+    </svg>
+  ),
+  GitKraken: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siGitkraken.path} fill="currentColor" />
+    </svg>
+  ),
+  VMware: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siVmware.path} fill="currentColor" />
+    </svg>
+  ),
+  "Raspberry Pi": (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12.017 0C9.366.02 7.093 1.67 7.093 1.67s-.43-.127-.97-.127c-.44 0-.79.098-1.01.189-.23-.23-.56-.42-.94-.42-.52 0-.87.315-.87.315s.09.44.45.758c-.2.3-.3.65-.3.975 0 .09.01.18.02.27-.37.55-.52 1.16-.42 1.77l.05.2c-.22.22-.35.51-.35.83 0 .17.04.34.1.48-.37.81-.1 1.79.74 2.27.69 1.68 2.2 2.81 2.2 2.81s-.53.67-.53 1.42c0 .32.07.64.25.93C5.02 16.33 3.9 18.72 3.9 19.5c0 2.25 2.3 3.56 5.51 3.87-.24-.49-.38-1.05-.38-1.64 0-1.09.46-2.07 1.21-2.78.21.07.43.11.66.11.23 0 .45-.04.66-.11.75.71 1.21 1.69 1.21 2.78 0 .59-.14 1.15-.38 1.64 3.21-.31 5.51-1.62 5.51-3.87 0-.78-1.12-3.17-1.62-5.09.18-.29.25-.61.25-.93 0-.75-.53-1.42-.53-1.42s1.51-1.13 2.2-2.81c.84-.48 1.11-1.46.74-2.27.06-.14.1-.31.1-.48 0-.32-.13-.61-.35-.83l.05-.2c.1-.61-.05-1.22-.42-1.77.01-.09.02-.18.02-.27 0-.325-.1-.675-.3-.975.36-.318.45-.758.45-.758s-.35-.315-.87-.315c-.38 0-.71.19-.94.42-.22-.091-.57-.189-1.01-.189-.54 0-.97.127-.97.127S14.668.02 12.017 0z" />
+    </svg>
+  ),
+  // ── IDEs ──
   "VS Code": (
     <svg viewBox="0 0 24 24" fill="currentColor">
       <path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 19.948V4.053a1.5 1.5 0 0 0-.85-1.466zm-5.146 14.861L10.826 12l7.178-5.448v10.896z" />
     </svg>
   ),
-  Docker: (
+  "Visual Studio": (
     <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M13.983 11.078h2.119a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.119a.185.185 0 0 0-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 0 0 .186-.186V3.574a.186.186 0 0 0-.186-.185h-2.118a.185.185 0 0 0-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 0 0 .186-.186V6.29a.186.186 0 0 0-.186-.185h-2.118a.185.185 0 0 0-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 0 0 .184-.186V6.29a.185.185 0 0 0-.185-.185H8.1a.185.185 0 0 0-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 0 0 .185-.186V6.29a.185.185 0 0 0-.185-.185H5.136a.186.186 0 0 0-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.118a.185.185 0 0 0-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 0 0 .184-.185V9.006a.185.185 0 0 0-.184-.186h-2.12a.185.185 0 0 0-.185.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 0 0 .185-.185V9.006a.185.185 0 0 0-.184-.186h-2.12a.186.186 0 0 0-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 0 0 .184-.185V9.006a.185.185 0 0 0-.184-.186h-2.12a.185.185 0 0 0-.185.186v1.887c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 0 0-.75.748 11.376 11.376 0 0 0 .692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 0 0 3.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288z" />
+      <path d="M17.583.063L9.945 6.875 4.196 2.142.21 3.988.014 18.63l4.182 1.846 5.75-4.734 7.637 6.813L24 20.168V2.475zm-1.074 14.99l-5.9-4.52 5.9-4.52v9.04zM1.324 17.284V5.364l3.474 5.96z" />
     </svg>
   ),
-  "Linux / CLI": (
-    <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M20.581 19.049c-.55-.446-.336-1.431-.907-1.917.553-3.365-.997-6.331-2.845-8.232C15.551 7.05 14.184 6 12.054 6 9.219 6 7.049 7.9 5.835 10.29 4.62 12.682 4.41 15.568 5.774 17.1c-.489.42-.975 1.263-1.415 1.877-.514.724-.292 1.554.356 1.261.653-.3 1.015-1.033 1.678-1.408 1.255 1.148 3.067 1.752 5.52 1.688 2.454-.065 4.317-.75 5.528-1.908.634.423.988 1.258 1.67 1.546.64.277.856-.472.47-1.107z" />
+  "IntelliJ IDEA": (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siIntellijidea.path} fill="currentColor" />
+    </svg>
+  ),
+  PyCharm: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siPycharm.path} fill="currentColor" />
+    </svg>
+  ),
+  PhpStorm: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siPhpstorm.path} fill="currentColor" />
+    </svg>
+  ),
+  WebStorm: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siWebstorm.path} fill="currentColor" />
+    </svg>
+  ),
+  "Android Studio": (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siAndroidstudio.path} fill="currentColor" />
+    </svg>
+  ),
+  // ── Games & 3D ──
+  Unity: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siUnity.path} fill="currentColor" />
+    </svg>
+  ),
+  "Unreal Engine": (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siUnrealengine.path} fill="currentColor" />
+    </svg>
+  ),
+  Blender: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siBlender.path} fill="currentColor" />
     </svg>
   ),
 };
 
 /* ─── Skill categories ───────────────────────────────────── */
-const skillCategories = [
-  {
-    label: "Frontend",
-    colorVar: "--cat-frontend",
-    skills: [
-      { name: "React", level: 90 },
-      { name: "Next.js", level: 85 },
-      { name: "Tailwind CSS", level: 88 },
-      { name: "CSS / HTML", level: 92 },
-    ],
-  },
+export const skillCategories = [
   {
     label: "Languages",
     colorVar: "--cat-language",
     skills: [
-      { name: "TypeScript", level: 82 },
-      { name: "JavaScript", level: 88 },
-      { name: "Python", level: 78 },
-      { name: "Java", level: 70 },
+      { name: "TypeScript" },
+      { name: "JavaScript" },
+      { name: "Python" },
+      { name: "Java" },
+      { name: "Kotlin" },
+      { name: "C#" },
+      { name: "PHP" },
+      { name: "HTML5" },
+      { name: "CSS3" },
     ],
   },
   {
-    label: "Backend",
+    label: "Frontend",
+    colorVar: "--cat-frontend",
+    skills: [
+      { name: "React" },
+      { name: "Next.js" },
+      { name: "Vue.js" },
+      { name: "Tailwind CSS" },
+      { name: "Bootstrap" },
+    ],
+  },
+  {
+    label: "Backend & APIs",
     colorVar: "--cat-backend",
     skills: [
-      { name: "Node.js", level: 80 },
-      { name: "REST APIs", level: 85 },
-      { name: "PostgreSQL", level: 72 },
-      { name: "Algorithms & DS", level: 75 },
+      { name: "Laravel" },
+      { name: "Spring" },
+      { name: ".NET" },
+      { name: "REST APIs" },
     ],
   },
   {
-    label: "Tools & DevOps",
-    colorVar: "--cat-tools",
+    label: "Mobile Development",
+    colorVar: "--cat-mobile",
+    skills: [{ name: "React Native" }, { name: "Android" }],
+  },
+  {
+    label: "Databases",
+    colorVar: "--cat-db",
+    skills: [{ name: "MySQL" }, { name: "SQLite" }, { name: "PhpMyAdmin" }],
+  },
+  {
+    label: "Cloud & Deployment",
+    colorVar: "--cat-cloud",
     skills: [
-      { name: "Git / GitHub", level: 90 },
-      { name: "VS Code", level: 95 },
-      { name: "Docker", level: 65 },
-      { name: "Linux / CLI", level: 70 },
+      { name: "AWS" },
+      { name: "Azure" },
+      { name: "Vercel" },
+      { name: "Netlify" },
     ],
   },
+  {
+    label: "Versioning & Collaboration",
+    colorVar: "--cat-tools",
+    skills: [
+      { name: "Git" },
+      { name: "GitHub" },
+      { name: "GitLab" },
+      { name: "GitKraken" },
+    ],
+  },
+  {
+    label: "IDEs & Editors",
+    colorVar: "--cat-ides",
+    skills: [
+      { name: "VS Code" },
+      { name: "Visual Studio" },
+      { name: "IntelliJ IDEA" },
+      { name: "PyCharm" },
+      { name: "PhpStorm" },
+      { name: "WebStorm" },
+      { name: "Android Studio" },
+    ],
+  },
+  {
+    label: "Game Development",
+    colorVar: "--cat-games",
+    skills: [{ name: "Unity" }, { name: "Unreal Engine" }, { name: "Blender" }],
+  },
+  /** 
+  {
+    label: "Systems & Hardware",
+    colorVar: "--cat-systems",
+    skills: [{ name: "VMware" }, { name: "Raspberry Pi" }],
+  },
+  */
 ];
 
 /* ─── GitHub username ────────────────────────────────────── */
@@ -493,34 +719,28 @@ export default function About() {
                   <span className={styles.skillCatLine} />
                 </div>
 
-                <div className={styles.skillBarsGrid}>
+                <div className={styles.skillChipsGrid}>
                   {cat.skills.map((skill) => (
                     <div
                       key={skill.name}
-                      className={styles.skillBarRow}
+                      className={styles.skillChip}
                       style={
                         {
                           "--bar-color": `var(${cat.colorVar})`,
                         } as React.CSSProperties
                       }
                     >
-                      <div className={styles.skillBarMeta}>
-                        <div className={styles.skillBarLeft}>
-                          <span
-                            className={styles.skillBarIcon}
-                            style={
-                              {
-                                "--bar-color": `var(${cat.colorVar})`,
-                              } as React.CSSProperties
-                            }
-                          >
-                            {SkillIcons[skill.name]}
-                          </span>
-                          <span className={styles.skillBarName}>
-                            {skill.name}
-                          </span>
-                        </div>
-                      </div>
+                      <span
+                        className={styles.skillBarIcon}
+                        style={
+                          {
+                            "--bar-color": `var(${cat.colorVar})`,
+                          } as React.CSSProperties
+                        }
+                      >
+                        {SkillIcons[skill.name as keyof typeof SkillIcons]}
+                      </span>
+                      <span className={styles.skillBarName}>{skill.name}</span>
                     </div>
                   ))}
                 </div>

@@ -104,7 +104,7 @@
     opacity 0.6s ease 0.2s,
     transform 0.6s ease 0.2s;
   width: clamp(280px, 55vw, 520px);
-  height: 1px;
+  height: 2px;
   background: linear-gradient(
     90deg,
     transparent,
