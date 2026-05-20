@@ -117,7 +117,6 @@
 
 .infoIcon {
   color: var(--text-muted);
-  margin-top: 2px;
   flex-shrink: 0;
 }
 
@@ -145,7 +144,7 @@ a.infoValue:hover {
 
 .infoDivider {
   width: 100%;
-  height: 1px;
+  height: 2px;
   background: var(--card-border-bottom);
   margin: 16px 0;
 }

@@ -1,14 +1,14 @@
 :global(:root) {
-  --cat-language: #3b6fd4; /* indigo blue — deeper, less electric */
-  --cat-frontend: #0d9e6e; /* emerald — richer than pure green */
-  --cat-backend: #e8670a; /* burnt orange — warmer, less neon */
-  --cat-db: #9333ea; /* violet — more refined than pink-purple */
-  --cat-tools: #dc2626; /* crimson — grounded red */
-  --cat-ides: #0284c7; /* ocean blue — distinct from language */
-  --cat-games: #b45309; /* amber brown — readable, not garish */
-  --cat-mobile: #db2777; /* rose — distinct from tools red */
-  --cat-cloud: #0f766e; /* deep teal — calm and professional */
-  --cat-systems: #475569; /* slate — neutral anchor */
+  --cat-language: #3b6fd4;
+  --cat-frontend: #0d9e6e;
+  --cat-backend: #e8670a;
+  --cat-db: #9333ea;
+  --cat-tools: #dc2626;
+  --cat-ides: #0284c7;
+  --cat-games: #b45309;
+  --cat-mobile: #db2777;
+  --cat-cloud: #0f766e;
+  --cat-systems: #475569;
   --csharp-c: #ffffff;
   --csharp-hash: #ffffff;
   --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.08);
@@ -17,16 +17,16 @@
 }
 
 :global([data-theme="dark"]) {
-  --cat-language: #7aa8f0; /* softer indigo — not too bright on dark */
-  --cat-frontend: #4ade9a; /* mint green — fresh without being harsh */
-  --cat-backend: #f59b50; /* warm amber — readable on dark bg */
-  --cat-db: #b57df5; /* lavender violet — softer than pure purple */
-  --cat-tools: #f47070; /* soft red — less aggressive */
-  --cat-ides: #4db8f0; /* sky — lighter for dark contrast */
-  --cat-games: #e8b84b; /* gold — warm and readable */
-  --cat-mobile: #f07ab8; /* blush pink — gentle */
-  --cat-cloud: #3dd6c8; /* aqua teal — pops on dark */
-  --cat-systems: #8fa3b8; /* cool gray — subtle */
+  --cat-language: #7aa8f0;
+  --cat-frontend: #4ade9a;
+  --cat-backend: #f59b50;
+  --cat-db: #b57df5;
+  --cat-tools: #f47070;
+  --cat-ides: #4db8f0;
+  --cat-games: #e8b84b;
+  --cat-mobile: #f07ab8;
+  --cat-cloud: #3dd6c8;
+  --cat-systems: #8fa3b8;
   --csharp-c: #000000;
   --csharp-hash: #000000;
   --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.25);

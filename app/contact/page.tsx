@@ -162,14 +162,6 @@ export default function Contact() {
                 </div>
               </div>
             </div>
-
-            <p className={styles.sectionHeading} style={{ marginTop: 40 }}>
-              Availability
-            </p>
-            <div className={styles.availCard}>
-              <span className={styles.availDot} />
-              <p className={styles.availText}>Open to new opportunities</p>
-            </div>
           </div>
 
           {/* ── Form ── */}
