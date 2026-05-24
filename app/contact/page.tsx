@@ -123,7 +123,6 @@ export default function Contact() {
       <div className={styles.container}>
         {/* ── Hero ── */}
         <div className={styles.hero}>
-          <p className={styles.eyebrow}>Get in touch</p>
           <h1 className={styles.title}>Contact</h1>
           <p className={styles.subtitle}>
             Have a project in mind, a question, or just want to say hello? Fill

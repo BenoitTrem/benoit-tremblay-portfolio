@@ -59,12 +59,13 @@
 
 /* title is now the big h1 */
 .title {
-  font-size: clamp(40px, 6vw, 72px);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  font-size: clamp(32px, 5vw, 56px);
   font-weight: 800;
   letter-spacing: -0.02em;
-  line-height: 1.05;
   color: var(--text-primary);
-  margin: 0 0 18px;
+  position: relative;
 }
 
 .subtitle {
@@ -432,5 +433,20 @@ a.infoValue:hover {
   .submitBtn {
     margin-left: 0;
     justify-content: center;
+  }
+}
+@media (max-width: 900px) {
+  .title {
+    text-align: center;
+    margin-top: 50px;
+  }
+  .subtitle {
+    text-align: center;
+  }
+}
+@media (max-width: 900px) and (orientation: landscape) {
+  .title {
+    text-align: center;
+    margin-top: 50px;
   }
 }

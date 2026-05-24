@@ -469,10 +469,13 @@
   border: 2px solid var(--card-border-bottom);
   aspect-ratio: 3 / 4;
   background: var(--surface);
+  box-shadow: 0 0 0 var(--card-border-bottom);
   transition:
-    box-shadow 0.4s,
     border-color 0.4s,
-    transform 0.4s;
+    opacity 0.2s ease,
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    background-color 0.4s;
 }
 
 @media (hover: hover) {
