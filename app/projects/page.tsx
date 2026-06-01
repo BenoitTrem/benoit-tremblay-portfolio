@@ -89,6 +89,7 @@ export interface Project {
   itchio?: string;
   live?: string;
   tag: string; // e.g. "Full-Stack", "Mobile", "Tool"
+  download?: string;
 }
 
 const PROJECTS: Project[] = [
@@ -194,6 +195,7 @@ const PROJECTS: Project[] = [
     tech: ["C#", "Visual Studio"],
     github: "https://github.com/BenoitTrem/aventure-du-magicien-console.git",
     tag: "Game",
+    download: "/downloads/AventureDuMagicien.exe",
   },
 ];
 
@@ -299,6 +301,18 @@ function ProjectCard({ project }: { project: Project }) {
           >
             <ExternalLink size={14} />
             Live
+          </a>
+        )}
+        {project.download && (
+          <a
+            href={project.download}
+            download
+            className={`${styles.cardLink} ${styles.cardLinkPrimary}`}
+          >
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+              <path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z" />
+            </svg>
+            Download
           </a>
         )}
       </div>

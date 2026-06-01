@@ -469,6 +469,12 @@
   .subtitle {
     text-align: center;
   }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
 }
 @media (max-width: 900px) and (orientation: landscape) {
   .title {
