@@ -125,6 +125,18 @@ const PROJECTS: Project[] = [
     tag: "Web",
   },
   {
+    id: "lcu-dashboard",
+    title: "LoL Client Dashboard",
+    description:
+      "A fan-made desktop app for interacting with the League of Legends client. Auto-accept, auto ban/pick, lobby management, and more.",
+    image: undefined,
+    tech: ["Electron", "Next.js", "TypeScript", "VS Code"],
+    github: "https://github.com/BenoitTrem/lol-client-dashboard.git",
+    tag: "Tool",
+    download:
+      "https://github.com/BenoitTrem/lol-client-dashboard/releases/download/V1.0.0/LoL.Dashboard.Setup.1.0.0.exe",
+  },
+  {
     id: "PHP Project",
     title: "Conference Manager",
     description: "",
