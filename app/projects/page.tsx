@@ -207,7 +207,8 @@ const PROJECTS: Project[] = [
     tech: ["C#", "Visual Studio"],
     github: "https://github.com/BenoitTrem/aventure-du-magicien-console.git",
     tag: "Game",
-    download: "/downloads/AventureDuMagicien.exe",
+    download:
+      "https://github.com/BenoitTrem/aventure-du-magicien-console/releases/download/V.1.0.0/AventureDuMagicien.exe",
   },
 ];
 
