@@ -8,13 +8,12 @@ import { getT } from "../lib/translations";
 import * as simpleIcons from "simple-icons";
 import { SkillIcons } from "../about/page";
 
-/* ─── Brand colors (hex, no #) from simple-icons ─────────── */
 const BRAND_COLOR: Record<string, string> = {
   // Languages
   TypeScript: "#" + simpleIcons.siTypescript.hex,
   JavaScript: "#" + simpleIcons.siJavascript.hex,
   Python: "#" + simpleIcons.siPython.hex,
-  Java: "#007396", // simple-icons has no Java hex, use official
+  Java: "#007396",
   Kotlin: "#" + simpleIcons.siKotlin.hex,
   "C#": "#239120",
   PHP: "#" + simpleIcons.siPhp.hex,
@@ -27,11 +26,14 @@ const BRAND_COLOR: Record<string, string> = {
   JQuery: "#" + simpleIcons.siJquery.hex,
   "Tailwind CSS": "#" + simpleIcons.siTailwindcss.hex,
   Bootstrap: "#" + simpleIcons.siBootstrap.hex,
+  Blade: "#" + simpleIcons.siLaravel.hex,
+  ".NET / Razor": "#" + simpleIcons.siDotnet.hex,
+  "Laravel / Blade": "#" + simpleIcons.siLaravel.hex,
   // Backend
   Laravel: "#" + simpleIcons.siLaravel.hex,
   Spring: "#" + simpleIcons.siSpring.hex,
   ".NET": "#" + simpleIcons.siDotnet.hex,
-  "REST APIs": "#6366f1", // custom (no icon)
+  "REST APIs": "#6366f1",
   // Mobile
   "React Native": "#" + simpleIcons.siReact.hex,
   Android: "#" + simpleIcons.siAndroid.hex,
@@ -65,7 +67,6 @@ const BRAND_COLOR: Record<string, string> = {
   Blender: "#" + simpleIcons.siBlender.hex,
 };
 
-/* ─── TechBadge — reuses SkillIcons from about/page ─────── */
 function TechBadge({ name }: { name: string }) {
   const icon = SkillIcons[name as keyof typeof SkillIcons];
   return (
@@ -76,19 +77,17 @@ function TechBadge({ name }: { name: string }) {
   );
 }
 
-/* ─── Project data ───────────────────────────────────────── */
-// Replace with your real projects — image can be a path or null
 export interface Project {
   id: string;
   title: string;
   description: string;
-  image?: string; // path to image or null for placeholder
+  image?: string;
   tech: string[];
   github?: string;
   steam?: string;
   itchio?: string;
   live?: string;
-  tag: string; // e.g. "Full-Stack", "Mobile", "Tool"
+  tag: string;
   download?: string;
 }
 
@@ -105,7 +104,7 @@ const PROJECTS: Project[] = [
     tag: "Game",
   },
   {
-    id: "portfolio",
+    id: "Portfolio",
     title: "My Portfolio",
     description:
       "This portfolio — built with Next.js, TypeScript, and CSS Modules. Multi-language support via next-intl, dark and light mode.",
@@ -119,13 +118,43 @@ const PROJECTS: Project[] = [
     title: "Olympic Wave",
     description: "",
     image: undefined,
-    tech: ["React", "CSS3", "Netlify", "VS Code"],
+    tech: ["React", "JavaScript", "CSS3", "Netlify", "VS Code"],
     github: "https://github.com/BenoitTrem/olympic-wave.git",
     live: "https://olympicwave.ca/",
     tag: "Web",
   },
   {
-    id: "lcu-dashboard",
+    id: "Lan Radar",
+    title: "Lan Radar",
+    description:
+      "Local network scanner with ping monitor, speed test, and app browser — built with Electron.",
+    image: undefined,
+    tech: ["Electron", "Next.js", "JavaScript", "VS Code"],
+    github: "https://github.com/BenoitTrem/lan-radar.git",
+    tag: "Tool",
+    download:
+      "https://github.com/BenoitTrem/lan-radar/releases/download/V1.0.0/LAN.Radar.Setup.1.0.0.exe",
+  },
+  {
+    id: "Residence Etudiante",
+    title: "Student Residence",
+    description: "",
+    image: undefined,
+    tech: [
+      ".NET / Razor",
+      "C#",
+      "JavaScript",
+      "CSS3",
+      "Bootstrap",
+      "MySQL",
+      "Azure",
+      "Visual Studio",
+    ],
+    github: "https://github.com/BenoitTrem/residence-etudiante.git",
+    tag: "Full-Stack",
+  },
+  {
+    id: "Lcu Dashboard",
     title: "LoL Client Dashboard",
     description:
       "A fan-made desktop app for interacting with the League of Legends client. Auto-accept, auto ban/pick, lobby management, and more.",
@@ -134,18 +163,19 @@ const PROJECTS: Project[] = [
     github: "https://github.com/BenoitTrem/lol-client-dashboard.git",
     tag: "Tool",
     download:
-      "https://github.com/BenoitTrem/lol-client-dashboard/releases/download/V1.0.0/LoL.Dashboard.Setup.1.0.0.exe",
+      "https://github.com/BenoitTrem/lol-client-dashboard/releases/download/V1.1.0/LoL.Dashboard.Setup.1.1.0.exe",
   },
+
   {
     id: "PHP Project",
     title: "Conference Manager",
     description: "",
     image: undefined,
     tech: [
+      "Laravel / Blade",
       "PHP",
-      "Laravel",
-      "Tailwind CSS",
       "JavaScript",
+      "Tailwind CSS",
       "SQLite",
       "PhpMyAdmin",
       "PhpStorm",
@@ -186,7 +216,7 @@ const PROJECTS: Project[] = [
     title: "Reminders Planner",
     description: "",
     image: undefined,
-    tech: ["React Native", "VS Code"],
+    tech: ["React Native", "TypeScript", "VS Code"],
     github: "https://github.com/BenoitTrem/planificateur-rappels-mobile.git",
     tag: "Mobile",
   },
@@ -195,7 +225,7 @@ const PROJECTS: Project[] = [
     title: "Magician Adventure (Browser)",
     description: "",
     image: undefined,
-    tech: ["PHP", "CSS3", "PhpMyAdmin"],
+    tech: ["PHP", "JavaScript", "HTML5", "CSS3"],
     github: "https://github.com/BenoitTrem/aventure-du-mage.git",
     tag: "Game",
   },
@@ -204,7 +234,7 @@ const PROJECTS: Project[] = [
     title: "Magician Adventure (Console)",
     description: "",
     image: undefined,
-    tech: ["C#", "Visual Studio"],
+    tech: ["C#", ".NET", "Visual Studio"],
     github: "https://github.com/BenoitTrem/aventure-du-magicien-console.git",
     tag: "Game",
     download:
@@ -212,7 +242,6 @@ const PROJECTS: Project[] = [
   },
 ];
 
-/* ─── Project card ───────────────────────────────────────── */
 function ProjectCard({ project }: { project: Project }) {
   return (
     <article className={styles.card}>
@@ -338,10 +367,8 @@ function ProjectCard({ project }: { project: Project }) {
   );
 }
 
-/* ─── Filter bar ─────────────────────────────────────────── */
 const ALL_TAGS = ["All", ...Array.from(new Set(PROJECTS.map((p) => p.tag)))];
 
-/* ─── Page ───────────────────────────────────────────────── */
 export default function Projects() {
   const [activeTag, setActiveTag] = useState("All");
   const filtered =

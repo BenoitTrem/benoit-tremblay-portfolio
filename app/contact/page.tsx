@@ -47,7 +47,6 @@ export default function Contact() {
     const { name, value } = e.target;
     const updated = { ...form, [name]: value };
     setForm(updated);
-    // don't re-validate if already sent
     if (status === "sent") return;
     if (touched[name as keyof FormFields]) {
       const newErrors = validate(updated);
@@ -61,7 +60,6 @@ export default function Contact() {
   const handleBlur = (
     e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    // don't validate if already sent
     if (status === "sent") return;
     const { name } = e.target;
     setTouched((prev) => ({ ...prev, [name]: true }));

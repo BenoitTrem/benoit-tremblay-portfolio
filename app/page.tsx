@@ -68,7 +68,6 @@ export default function Home() {
   const [deleting, setDeleting] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
 
-  // Typewriter
   useEffect(() => {
     const target = ROTATING_WORDS[wordIndex];
     let timeout: ReturnType<typeof setTimeout>;
@@ -89,7 +88,6 @@ export default function Home() {
     return () => clearTimeout(timeout);
   }, [displayed, deleting, wordIndex]);
 
-  // Scroll reveals
   useEffect(() => {
     const els = document.querySelectorAll("[data-reveal]");
     const observer = new IntersectionObserver(

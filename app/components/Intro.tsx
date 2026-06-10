@@ -11,7 +11,6 @@ export default function Intro({ onDone }: { onDone: () => void }) {
   const rafRef = useRef<number>(0);
   const waveRafRef = useRef<number>(0);
 
-  // — Wave background —
   useEffect(() => {
     const svg = svgRef.current!;
     const WAVE_COUNT = 6;

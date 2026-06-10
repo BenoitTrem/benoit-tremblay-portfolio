@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import ClientLayout from "./components/ClientLayout";
 
-// ─── Viewport ────────────────────────────────────────────────────────────────
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
@@ -13,9 +12,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-// ─── Metadata ─────────────────────────────────────────────────────────────────
 export const metadata: Metadata = {
-  // ── Core ──────────────────────────────────────────────────────────────────
   title: {
     default:
       "Benoit Tremblay | Full-Stack Developer & Computer Science Student",
@@ -31,7 +28,6 @@ export const metadata: Metadata = {
   creator: "Benoit Tremblay",
   publisher: "Benoit Tremblay",
 
-  // ── Keywords ───────────────────────────────────────────────────────────────
   keywords: [
     "Benoit Tremblay",
     "portfolio",
@@ -52,13 +48,11 @@ export const metadata: Metadata = {
     "student developer",
   ],
 
-  // ── Canonical & alternates ─────────────────────────────────────────────────
   metadataBase: new URL("https://your-domain.com"),
   alternates: {
     canonical: "/",
   },
 
-  // ── Robots ────────────────────────────────────────────────────────────────
   robots: {
     index: true,
     follow: true,
@@ -73,7 +67,6 @@ export const metadata: Metadata = {
     },
   },
 
-  // ── Open Graph ────────────────────────────────────────────────────────────
   openGraph: {
     type: "website",
     url: "https://your-domain.com",
@@ -94,7 +87,6 @@ export const metadata: Metadata = {
     ],
   },
 
-  // ── Twitter / X ───────────────────────────────────────────────────────────
   twitter: {
     card: "summary_large_image",
     title: "Benoit Tremblay | Full-Stack Developer",
@@ -103,7 +95,6 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
 
-  // ── Icons ─────────────────────────────────────────────────────────────────
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -118,20 +109,16 @@ export const metadata: Metadata = {
     ],
   },
 
-  // ── Manifest ──────────────────────────────────────────────────────────────
   manifest: "/site.webmanifest",
 
-  // ── Site verification ─────────────────────────────────────────────────────
   verification: {
     google: "YOUR_GOOGLE_SITE_VERIFICATION_TOKEN",
   },
 
-  // ── Miscellaneous ─────────────────────────────────────────────────────────
   category: "portfolio",
   classification: "Portfolio, Technology, Software Development",
 };
 
-// ─── Root Layout ──────────────────────────────────────────────────────────────
 export default function RootLayout({
   children,
 }: {

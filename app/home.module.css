@@ -1,12 +1,8 @@
-/* ─── Home ───────────────────────────────────────────────── */
-
 .home {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
-
-/* ─── Hero ───────────────────────────────────────────────── */
 
 .hero {
   position: relative;
@@ -29,7 +25,7 @@
 .heroNoise {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
+  background-color: radial-gradient(
     ellipse 90% 70% at 40% 55%,
     transparent 20%,
     var(--bg) 100%
@@ -68,8 +64,6 @@
   padding-bottom: 10px;
 }
 
-/* ─── Typewriter ─────────────────────────────────────────── */
-
 .typewriterRow {
   display: flex;
   align-items: center;
@@ -103,8 +97,6 @@
   margin: 0 0 32px;
   animation: heroIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
 }
-
-/* ─── Ticker ─────────────────────────────────────────────── */
 
 .ticker {
   position: absolute;
@@ -152,8 +144,6 @@
   opacity: 0.8;
 }
 
-/* ─── Scroll indicator ───────────────────────────────────── */
-
 .heroScroll {
   position: absolute;
   bottom: 32px;
@@ -166,11 +156,9 @@
   display: block;
   width: 1px;
   height: 40px;
-  background: linear-gradient(to bottom, var(--text-muted), transparent);
+  background-color: linear-gradient(to bottom, var(--text-muted), transparent);
   animation: scrollPulse 2s ease-in-out infinite;
 }
-
-/* ─── Explore / Cards ────────────────────────────────────── */
 
 .explore {
   display: flex;
@@ -213,13 +201,13 @@
 .divider_1 {
   flex: 1;
   height: 2px;
-  background: var(--text-muted);
+  background-color: var(--text-muted);
 }
 
 .divider_2 {
   width: 100%;
   height: 3px;
-  background: linear-gradient(
+  background-color: linear-gradient(
     90deg,
     transparent,
     var(--border) 0%,
@@ -228,8 +216,6 @@
   );
   margin-bottom: 30px;
 }
-
-/* ─── Cards ──────────────────────────────────────────────── */
 
 .cardDiv {
   display: flex;
@@ -251,7 +237,7 @@
   text-decoration: none;
   border: 2px solid var(--card-border-bottom);
   box-shadow: 0 0 0 var(--card-border-bottom);
-  background: var(--surface);
+  background-color: var(--surface);
   opacity: 0;
   transform: translateY(20px);
   transition:
@@ -275,7 +261,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  background: var(--surface-2);
+  background-color: var(--surface-2);
   border: 1px solid var(--border-2);
   color: var(--text-secondary);
   transition: transform 0.5s ease-in-out;
@@ -330,7 +316,7 @@
   overflow: hidden;
   display: inline-flex;
   align-items: center;
-  justify-content: center; /* centers text/icon within the fixed width */
+  justify-content: center;
   padding: 13px 28px;
   width: 120px;
   gap: 10px;
@@ -340,7 +326,7 @@
   text-decoration: none;
   border-radius: 8px;
   border: 2px solid var(--card-border-bottom);
-  background: var(--surface);
+  background-color: var(--surface);
   box-shadow: 0 0 0 var(--card-border-bottom);
   z-index: 1;
   transition:
@@ -359,7 +345,7 @@
   .ctaPrimary:hover {
     transform: translateY(-8px);
     box-shadow: 0 8px 0 var(--card-border-bottom);
-    background: var(--surface-2);
+    background-color: var(--surface-2);
   }
 
   .ctaPrimary:active {
@@ -370,7 +356,7 @@
   .splitCardTech:hover,
   .splitCardAbout:hover,
   .splitCardContact:hover {
-    background: var(--surface-2);
+    background-color: var(--surface-2);
     transform: translateY(-10px);
     box-shadow: 0 10px 0 var(--card-border-bottom);
   }
@@ -433,7 +419,7 @@
   .splitCardTech:active,
   .splitCardAbout:active,
   .splitCardContact:active {
-    background: var(--surface-2);
+    background-color: var(--surface-2);
     border-color: var(--text-secondary);
     transform: translateY(-10px);
   }
@@ -462,8 +448,6 @@
     color: var(--text-primary);
   }
 }
-
-/* ─── Animations ─────────────────────────────────────────── */
 
 @keyframes heroIn {
   from {
@@ -507,8 +491,6 @@
   }
 }
 
-/* ─── Responsive ─────────────────────────────────────────── */
-
 @media (max-width: 768px) {
   .hero {
     padding: 110px 24px;
@@ -538,7 +520,7 @@
   .divider_1 {
     flex: 1;
     height: 2px;
-    background: var(--text-muted);
+    background-color: var(--text-muted);
   }
 
   .cardDiv {
@@ -579,7 +561,7 @@
   .divider_2 {
     width: 100%;
     height: 3px;
-    background: linear-gradient(
+    background-color: linear-gradient(
       90deg,
       transparent,
       var(--border) 0%,
@@ -617,12 +599,12 @@
   .divider_1 {
     flex: 1;
     height: 2px;
-    background: var(--text-muted);
+    background-color: var(--text-muted);
   }
   .divider_2 {
     width: 100%;
     height: 3px;
-    background: linear-gradient(
+    background-color: linear-gradient(
       90deg,
       transparent,
       var(--border) 0%,
@@ -654,7 +636,6 @@
     font-size: 12px;
   }
 }
-/* ─── Photo ─────────────────────────────────────────────── */
 
 .heroPhoto {
   display: flex;

@@ -8,9 +8,7 @@ import { getT } from "../lib/translations";
 import * as simpleIcons from "simple-icons";
 import { siReact } from "simple-icons";
 
-/* ─── Inline SVG icons per skill ────────────────────────── */
 export const SkillIcons = {
-  // ── Languages ──
   TypeScript: (
     <svg viewBox="0 0 24 24">
       <path d={simpleIcons.siTypescript.path} fill="currentColor" />
@@ -45,18 +43,15 @@ export const SkillIcons = {
   ),
   "C#": (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-      {/* top half of hexagon */}
       <path
         fill="currentColor"
         d="M115.4 30.7L67.1 2.9c-.8-.5-1.9-.7-3.1-.7-1.2 0-2.3.3-3.1.7l-48 27.9c-1.7 1-2.9 3.5-2.9 5.4v55.7c0 1.1.2 2.4 1 3.5l106.8-62c-.6-1.2-1.5-2.1-2.4-2.7z"
       />
-      {/* bottom half of hexagon (darker shade) */}
       <path
         fill="currentColor"
         opacity="0.7"
         d="M10.7 95.3c.5.8 1.2 1.5 1.9 1.9l48.2 27.9c.8.5 1.9.7 3.1.7 1.2 0 2.3-.3 3.1-.7l48-27.9c1.7-1 2.9-3.5 2.9-5.4V36.1c0-.9-.1-1.9-.6-2.8l-106.6 62z"
       />
-      {/* C letter and # symbol */}
       <path
         fill="var(--csharp-c)"
         d="M85.3 76.1C81.1 83.5 73.1 88.5 64 88.5c-13.5 0-24.5-11-24.5-24.5s11-24.5 24.5-24.5c9.1 0 17.1 5 21.3 12.5l13-7.5c-6.8-11.9-19.6-20-34.3-20-21.8 0-39.5 17.7-39.5 39.5s17.7 39.5 39.5 39.5c14.6 0 27.4-8 34.2-19.8l-12.9-7.6zM97 66.2l.9-4.3h-4.2v-4.7h5.1L100 51h4.9l-1.2 6.1h3.8l1.2-6.1h4.8l-1.2 6.1h2.4v4.7h-3.3l-.9 4.3h4.2v4.7h-5.1l-1.2 6h-4.9l1.2-6h-3.8l-1.2 6h-4.8l1.2-6h-2.4v-4.7H97zm4.8 0h3.8l.9-4.3h-3.8l-.9 4.3z"
@@ -110,11 +105,26 @@ export const SkillIcons = {
     </svg>
   ),
   Blade: (
-    <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M23.111 0L12.555 10.555 2 0H0v.948L11.027 11.97 0 23v.948h2L12.555 13.39 23.109 23.95H25V23l-11.027-11.03L25 .948V0z" />
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siLaravel.path} fill="currentColor" />
+    </svg>
+  ),
+  Razor: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siDotnet.path} fill="currentColor" />
     </svg>
   ),
   // ── Backend ──
+  ".NET / Razor": (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siDotnet.path} fill="currentColor" />
+    </svg>
+  ),
+  "Laravel / Blade": (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siLaravel.path} fill="currentColor" />
+    </svg>
+  ),
   Laravel: (
     <svg viewBox="0 0 24 24">
       <path d={simpleIcons.siLaravel.path} fill="currentColor" />
@@ -133,6 +143,11 @@ export const SkillIcons = {
   "React Native": (
     <svg viewBox="0 0 24 24">
       <path d={siReact.path} fill="currentColor" />
+    </svg>
+  ),
+  Electron: (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siElectron.path} fill="currentColor" />
     </svg>
   ),
   Android: (
@@ -280,7 +295,6 @@ export const SkillIcons = {
   ),
 };
 
-/* ─── Skill categories ───────────────────────────────────── */
 export const skillCategories = [
   {
     label: "Languages",
@@ -302,9 +316,12 @@ export const skillCategories = [
     colorVar: "--cat-frontend",
     skills: [
       { name: "React" },
+      { name: "Electron" },
       { name: "Next.js" },
       { name: "Vue.js" },
       { name: "JQuery" },
+      { name: "Blade" },
+      { name: "Razor" },
       { name: "Tailwind CSS" },
       { name: "Bootstrap" },
     ],
@@ -381,13 +398,10 @@ export const skillCategories = [
   */
 ];
 
-/* ─── GitHub username ────────────────────────────────────── */
 const GITHUB_USER = "BenoitTrem";
 
-/* ─── Types ──────────────────────────────────────────────── */
 type StatKey = "projectsBuilt" | "repos" | "topLang";
 
-/* ─── Component ──────────────────────────────────────────── */
 export default function About() {
   const locale = useLocale();
   const t = getT(locale);
@@ -404,7 +418,6 @@ export default function About() {
     topLangs: { name: string; count: number }[];
   } | null>(null);
 
-  /* ─── GitHub fetch ───────────────────────────────────────── */
   useEffect(() => {
     async function fetchGitHub() {
       try {
@@ -444,7 +457,6 @@ export default function About() {
     fetchGitHub();
   }, []);
 
-  /* ─── Stats config ───────────────────────────────────────── */
   const stats: { key: StatKey; number: string; label: string }[] = [
     {
       key: "projectsBuilt",
@@ -463,7 +475,6 @@ export default function About() {
     },
   ];
 
-  /* ─── Stat panel content ─────────────────────────────────── */
   const statPanelContent: Record<
     StatKey,
     { title: string; body: React.ReactNode }
@@ -522,7 +533,6 @@ export default function About() {
     },
   };
 
-  /* ─── Skill bar intersection animation ──────────────────── */
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
     blockRefs.current.forEach((block) => {
@@ -557,7 +567,6 @@ export default function About() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
-  /* ─── Stat click handler ─────────────────────────────────── */
   const handleStatClick = useCallback(
     (key: StatKey) => {
       if (activeStat === key) {
