@@ -6,6 +6,7 @@ import { Code2, Layers, Mail, ArrowRight, Download } from "lucide-react";
 import { useLocale } from "./lib/LocaleContext";
 import { getT } from "./lib/translations";
 import Image from "next/image";
+import * as simpleIcons from "simple-icons";
 
 const TICKER_ITEMS = [
   "Next.js",
@@ -155,7 +156,10 @@ export default function Home() {
               rel="noopener noreferrer"
               className={styles.ctaPrimary}
             >
-              GitHub <ArrowRight size={13} />
+              <svg viewBox="0 0 24 24">
+                <path d={simpleIcons.siGithub.path} fill="currentColor" />
+              </svg>
+              GitHub
             </a>
           </div>
         </div>

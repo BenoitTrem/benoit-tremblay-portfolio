@@ -63,7 +63,10 @@ export default function Intro({ onDone }: { onDone: () => void }) {
     const animate = () => {
       t++;
       waves.forEach((w, i) => {
-        paths[i].setAttribute("stroke", `rgba(255,255,255,${w.alpha})`);
+        paths[i].setAttribute(
+          "stroke",
+          `rgba(var(--text-primary-rgb), ${w.alpha})`,
+        );
         paths[i].setAttribute("stroke-width", String(w.width));
         paths[i].setAttribute("d", buildPath(w));
       });

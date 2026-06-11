@@ -2,35 +2,35 @@
 
 :root,
 [data-theme="dark"] {
-  --bg: #0c0c0e;
-  --surface: #0a0a0a;
-  --surface-2: #1d1d1d;
-  --surface-3: #272727;
-  --border: #1d1d1d;
-  --border-2: #2a2a2a;
-  --text-primary: #ffffff;
-  --text-secondary: #888888;
-  --text-muted: #555555;
-  --sidebar-bg: #0a0a0a;
-  --topbar-bg: #0a0a0a;
-  --shadow-hover: 0 24px 60px rgba(255, 255, 255, 1);
-  --card-border-bottom: #555555;
+  --bg: #0f1a19;
+  --surface: #0d1817;
+  --surface-2: #1a2e2b;
+  --surface-3: #223c38;
+  --border: #1a2e2b;
+  --border-2: #2a4a46;
+  --text-primary: #f0faf8;
+  --text-secondary: #7ec4ba;
+  --text-muted: #4d8f88;
+  --sidebar-bg: #0d1817;
+  --topbar-bg: #0d1817;
+  --shadow-hover: 0 24px 60px rgba(240, 250, 248, 1);
+  --card-border-bottom: #4d8f88;
 }
 
 [data-theme="light"] {
-  --bg: #ffffff;
-  --surface: #eeeeea;
-  --surface-2: #c8c8c4;
-  --surface-3: #b8b8b4;
-  --border: #d8d8d4;
-  --border-2: #c4c4c0;
-  --text-primary: #0a0a0a;
-  --text-secondary: #555555;
-  --text-muted: #999999;
-  --sidebar-bg: #e8e8e4;
-  --topbar-bg: #e8e8e4;
-  --shadow-hover: 0 24px 60px rgba(0, 0, 0, 1);
-  --card-border-bottom: #8a8a86;
+  --bg: #e8f7f4;
+  --surface: #d4f0ea;
+  --surface-2: #a8d8ce;
+  --surface-3: #92ccc2;
+  --border: #b8e4da;
+  --border-2: #a0d4ca;
+  --text-primary: #040806;
+  --text-secondary: #1a4f4a;
+  --text-muted: #3d7a72;
+  --sidebar-bg: #cceee8;
+  --topbar-bg: #cceee8;
+  --shadow-hover: 0 24px 60px rgba(4, 8, 6, 1);
+  --card-border-bottom: #3d7a72;
 }
 
 html,
@@ -152,6 +152,7 @@ body {
 }
 
 .footer-link {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -160,10 +161,33 @@ body {
   font-size: 14px;
   font-weight: 500;
   transition: color 0.2s ease;
+  width: fit-content;
 }
 
-.footer-link:hover {
-  color: var(--text-primary);
+.footer-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.footer-link:active {
+  color: var(--text-secondary);
+}
+
+@media (hover: hover) {
+  .footer-link:hover {
+    color: var(--text-primary);
+  }
+
+  .footer-link:hover::after {
+    transform: scaleX(1);
+  }
 }
 
 .footer-bottom {
@@ -179,6 +203,7 @@ body {
   left: 0;
   width: 280px;
   height: 100vh;
+  height: 100dvh;
   background-color: var(--sidebar-bg);
   display: flex;
   flex-direction: column;
@@ -193,6 +218,7 @@ body {
     border-color 0.3s ease;
   overflow-x: hidden;
   overflow-y: auto;
+  min-height: 0;
 }
 .sidebar.revealed {
   opacity: 1;
@@ -280,11 +306,12 @@ body {
 .sidebar-link:hover {
   color: var(--text-primary);
   background-color: var(--surface-2);
+  border-left-color: var(--text-primary);
 }
 
 .sidebar-link.active {
   color: var(--text-primary);
-  border-left-color: var(--text-primary);
+  border-left-color: var(--text-secondary);
   background-color: var(--surface-3);
 }
 
@@ -315,8 +342,8 @@ body {
 }
 
 .sidebar-link.active .sidebar-link-icon {
-  background-color: var(--text-primary);
-  border: 1px solid var(--text-primary);
+  background-color: var(--text-secondary);
+  border: 1px solid var(--text-secondary);
   color: var(--bg);
 }
 
@@ -474,7 +501,7 @@ body {
   transform: translateY(0);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (max-height: 500px) and (orientation: landscape) {
   .sidebar {
     display: none;
   }
@@ -521,7 +548,7 @@ body {
 .divider_2 {
   width: 100%;
   height: 1px;
-  background-color: linear-gradient(
+  background: linear-gradient(
     90deg,
     transparent,
     var(--border) 35%,
@@ -533,7 +560,7 @@ body {
 .divider_3 {
   width: 100%;
   height: 3px;
-  background-color: linear-gradient(
+  background: linear-gradient(
     90deg,
     transparent,
     var(--border) 35%,
@@ -546,7 +573,7 @@ body {
   .divider_2 {
     width: 100%;
     height: 1px;
-    background-color: linear-gradient(
+    background: linear-gradient(
       90deg,
       transparent,
       var(--border) 35%,
@@ -643,6 +670,12 @@ body {
   display: flex;
   flex-direction: column;
   margin-bottom: 54px;
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  background-color: var(--sidebar-bg);
+  padding-top: 8px;
+  z-index: 1;
 }
 
 .sidebar-theme-toggle {
