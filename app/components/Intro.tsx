@@ -134,7 +134,7 @@ export default function Intro({ onDone }: { onDone: () => void }) {
         <div
           className={`${styles.namePhase} ${nameVisible ? styles.nameVisible : ""}`}
         >
-          <p className={styles.welcome}>Bienvenue&nbsp;·&nbsp;Welcome</p>
+          <p className={styles.welcome}>Welcome&nbsp;·&nbsp;Bienvenue</p>
           <div className={styles.divider} />
           <h1 className={styles.name} aria-label="Benoit Tremblay">
             {"Benoit Tremblay".split("").map((char, i) => (
@@ -155,7 +155,7 @@ export default function Intro({ onDone }: { onDone: () => void }) {
       </div>
 
       <div className={styles.bottomBar}>
-        <p className={styles.loading}>Chargement · Loading</p>
+        <p className={styles.loading}>Loading · Chargement</p>
         <div className={styles.barTrack}>
           <div className={styles.barFill} style={{ width: `${progress}%` }} />
         </div>

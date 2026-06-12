@@ -146,7 +146,7 @@ export default function Home() {
           <p className={styles.heroSub}>{t.home.sub}</p>
           <div className={styles.ctaDiv}>
             <a href="/cv.pdf" download className={styles.ctaPrimary}>
-              <Download size={15} /> Download CV
+              <Download size={15} /> {t.home.download}
             </a>
 
             <div className={styles.divider_3} />

@@ -169,6 +169,12 @@
   width: 100%;
   margin: 0 auto;
 }
+@media (max-width: 1000px) and (orientation: landscape) {
+  .explore {
+    width: 80%;
+    padding: 96px 32px 128px;
+  }
+}
 
 .exploreHeader {
   width: 100%;
@@ -221,7 +227,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 35px;
+  gap: 25px;
   width: 100%;
 }
 
@@ -316,6 +322,7 @@
   overflow: hidden;
   display: inline-flex;
   align-items: center;
+  white-space: nowrap;
   justify-content: center;
   padding: 13px 28px;
   width: 120px;
@@ -753,5 +760,16 @@
 @media (max-width: 900px) and (orientation: landscape) {
   .heroSub {
     margin-top: 12px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 800px) {
+  .splitCard {
+    width: 100%;
+    gap: 12px;
+    padding: 28px 22px;
+  }
+  .cardDiv {
+    gap: 16px;
   }
 }

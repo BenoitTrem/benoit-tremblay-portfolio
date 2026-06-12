@@ -435,6 +435,8 @@ body {
 .mobile-drawer.open {
   max-height: calc(100vh - 60px);
   opacity: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .mobile-backdrop {
   position: fixed;
@@ -779,4 +781,9 @@ body {
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--card-border-bottom) var(--bg);
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .mobile-link {
+    padding: 8px 20px;
+  }
 }

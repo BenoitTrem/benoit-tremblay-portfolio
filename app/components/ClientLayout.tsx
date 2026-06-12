@@ -63,6 +63,14 @@ export default function ClientLayout({
     );
   }, [dark]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) setOpen(false);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const toggleLang = () => {
     const newLocale = locale === "en" ? "fr" : "en";
     setLocale(newLocale);
