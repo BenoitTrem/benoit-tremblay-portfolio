@@ -76,7 +76,7 @@
   border: 2px solid var(--card-border-bottom);
   box-shadow: 0 0 0 var(--card-border-bottom);
   background-color: var(--surface);
-  color: var(--text-muted);
+  color: var(--text-secondary);
   cursor: pointer;
   font-family: inherit;
   transition:
@@ -86,10 +86,18 @@
     background-color 0.4s;
 }
 
-.filterBtn:hover {
-  background-color: var(--surface-2);
-  transform: translateY(-5px);
-  box-shadow: 0 5px 0 var(--card-border-bottom);
+@media (hover: hover) {
+  .filterBtn:hover {
+    background-color: var(--surface-2);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 0 var(--card-border-bottom);
+    color: var(--text-primary);
+  }
+  .filterBtnActive:hover {
+    background-color: var(--surface-2);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 0 var(--text-primary);
+  }
 }
 
 .filterBtnActive {
@@ -97,11 +105,6 @@
   color: var(--text-primary);
   background-color: var(--surface-2);
   box-shadow: 0 0 0 var(--text-primary);
-}
-.filterBtnActive:hover {
-  background-color: var(--surface-2);
-  transform: translateY(-5px);
-  box-shadow: 0 5px 0 var(--text-primary);
 }
 
 .grid {
@@ -128,10 +131,11 @@
     background-color 0.4s;
 }
 
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 0 var(--card-border-bottom);
-  background-color: var(--surface-2);
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 0 var(--card-border-bottom);
+  }
 }
 
 .cardImage {
@@ -152,8 +156,10 @@
   transition: transform 0.4s ease;
 }
 
-.card:hover .cardImg {
-  transform: scale(1.04);
+@media (hover: hover) {
+  .card:hover .cardImg {
+    transform: scale(1.04);
+  }
 }
 
 .cardImgPlaceholder {
@@ -188,14 +194,21 @@
   background-color: var(--surface);
   color: var(--text-muted);
   backdrop-filter: blur(6px);
+  cursor: pointer;
   transition:
     color 0.2s,
-    border-color 0.2s;
+    border-color 0.2s,
+    transform 0.2s ease;
 }
 
-.card:hover .cardTag {
-  color: var(--text-primary);
-  border-color: var(--text-secondary);
+@media (hover: hover) {
+  .card:hover .cardTag {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+  }
+  .card:hover .cardTag:hover {
+    transform: scale(1.05);
+  }
 }
 
 .cardBody {
@@ -249,11 +262,13 @@
     transform 0.2s;
 }
 
-.techBadge:hover {
-  border-color: var(--text-primary);
-  color: var(--text-primary);
-  background-color: var(--surface-2);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .techBadge:hover {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+    background-color: var(--surface-2);
+    transform: translateY(-1px);
+  }
 }
 
 .techBadgeIcon {
@@ -309,14 +324,14 @@
     background-color 0.2s,
     transform 0.2s;
 }
-
-.cardLink:hover {
-  color: var(--text-primary);
-  border-color: var(--text-primary);
-  background-color: var(--surface-2);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .cardLink:hover {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    background-color: var(--surface-2);
+    transform: translateY(-1px);
+  }
 }
-
 .cardLinkPrimary {
   margin-left: auto;
   display: inline-flex;
@@ -338,13 +353,14 @@
     transform 0.2s;
 }
 
-.cardLinkPrimary:hover {
-  border-color: var(--text-primary);
-  color: var(--text-primary);
-  background-color: var(--surface-2);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .cardLinkPrimary:hover {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+    background-color: var(--surface-2);
+    transform: translateY(-1px);
+  }
 }
-
 .cardHoverArrow {
   position: absolute;
   bottom: 18px;
@@ -364,12 +380,12 @@
     transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   pointer-events: none;
 }
-
-.card:not(:has(.cardFooter .cardLink)):hover .cardHoverArrow {
-  opacity: 1;
-  transform: scale(1) translateY(0);
+@media (hover: hover) {
+  .card:not(:has(.cardFooter .cardLink)):hover .cardHoverArrow {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
-
 .cta {
   display: flex;
   align-items: center;
@@ -385,12 +401,12 @@
   gap: 24px;
   flex-wrap: wrap;
 }
-
-.cta:hover {
-  box-shadow: 0 8px 0 var(--card-border-bottom);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .cta:hover {
+    box-shadow: 0 8px 0 var(--card-border-bottom);
+    transform: translateY(-2px);
+  }
 }
-
 .ctaText {
   font-size: clamp(18px, 2.5vw, 24px);
   font-weight: 800;
@@ -421,10 +437,11 @@
     transform 0.2s;
   white-space: nowrap;
 }
-
-.ctaButton:hover {
-  opacity: 0.82;
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .ctaButton:hover {
+    opacity: 0.82;
+    transform: translateY(-2px);
+  }
 }
 
 @media (max-width: 900px) {

@@ -1,6 +1,6 @@
 "use client";
 import styles from "./contact.module.css";
-import { Mail, MapPin, Send } from "lucide-react";
+import { Mail, MapPin, Send, CheckCircle } from "lucide-react";
 import { useState, useRef } from "react";
 
 type FormFields = { email: string; subject: string; message: string };
@@ -79,7 +79,6 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // touch all fields and validate
     setTouched({ email: true, subject: true, message: true });
     const newErrors = validate(form);
     setErrors(newErrors);
@@ -141,10 +140,10 @@ export default function Contact() {
                 <div>
                   <p className={styles.infoLabel}>Email</p>
                   <a
-                    href="mailto:benoit@example.com"
+                    href="mailto:bentrem2003@gmail.com"
                     className={styles.infoValue}
                   >
-                    benoit@example.com
+                    bentrem2003@gmail.com
                   </a>
                 </div>
               </div>
@@ -229,7 +228,8 @@ export default function Contact() {
               {status === "sent" ? (
                 <div className={styles.sentRow}>
                   <p className={styles.successMsg}>
-                    ✓ Message sent — I'll be in touch soon.
+                    <CheckCircle size={15} /> Message sent — I'll be in touch
+                    soon.
                   </p>
                   <button
                     type="button"

@@ -322,7 +322,7 @@
   gap: 10px;
   font-size: 14px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   text-decoration: none;
   border-radius: 8px;
   border: 2px solid var(--card-border-bottom);
@@ -335,6 +335,7 @@
     transform 0.4s ease,
     box-shadow 0.4s ease;
 }
+
 .ctaPrimary svg {
   width: 18px;
   height: 18px;

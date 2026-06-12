@@ -63,10 +63,7 @@ export default function Intro({ onDone }: { onDone: () => void }) {
     const animate = () => {
       t++;
       waves.forEach((w, i) => {
-        paths[i].setAttribute(
-          "stroke",
-          `rgba(var(--text-primary-rgb), ${w.alpha})`,
-        );
+        paths[i].setAttribute("stroke", `rgba(52, 211, 153, ${w.alpha * 4})`);
         paths[i].setAttribute("stroke-width", String(w.width));
         paths[i].setAttribute("d", buildPath(w));
       });
@@ -137,7 +134,7 @@ export default function Intro({ onDone }: { onDone: () => void }) {
         <div
           className={`${styles.namePhase} ${nameVisible ? styles.nameVisible : ""}`}
         >
-          <p className={styles.welcome}>Welcome&nbsp;·&nbsp;Bienvenue</p>
+          <p className={styles.welcome}>Bienvenue&nbsp;·&nbsp;Welcome</p>
           <div className={styles.divider} />
           <h1 className={styles.name} aria-label="Benoit Tremblay">
             {"Benoit Tremblay".split("").map((char, i) => (
@@ -158,7 +155,7 @@ export default function Intro({ onDone }: { onDone: () => void }) {
       </div>
 
       <div className={styles.bottomBar}>
-        <p className={styles.loading}>Loading · Chargement</p>
+        <p className={styles.loading}>Chargement · Loading</p>
         <div className={styles.barTrack}>
           <div className={styles.barFill} style={{ width: `${progress}%` }} />
         </div>

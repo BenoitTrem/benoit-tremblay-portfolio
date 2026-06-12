@@ -416,22 +416,24 @@
   margin-top: 20px;
   font-size: 13px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   text-decoration: none;
   padding: 9px 18px;
   border-radius: 8px;
   border: 2px solid var(--card-border-bottom);
   background-color: var(--surface);
   transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    background-color 0.3s ease;
+    color 0.4s,
+    background-color 0.4s,
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
 }
 @media (hover: hover) {
   .statPanelLink:hover {
     transform: translateY(-8px);
     box-shadow: 0 8px 0 var(--card-border-bottom);
     background-color: var(--surface-2);
+    color: var(--text-primary);
   }
 }
 
@@ -819,12 +821,15 @@
   justify-content: space-between;
   padding: 36px 40px;
   border: 1.5px solid var(--card-border-bottom);
+  color: var(--text-secondary);
   border-radius: 8px;
   background-color: var(--surface);
   cursor: pointer;
   transition:
-    color 0.3s,
-    transform 0.3s;
+    color 0.4s,
+    background-color 0.4s,
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
   gap: 24px;
   flex-wrap: wrap;
 }
@@ -855,7 +860,7 @@
   gap: 10px;
   font-size: 14px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   text-decoration: none;
   border-radius: 8px;
   border: 2px solid var(--card-border-bottom);
@@ -863,6 +868,7 @@
   box-shadow: 0 0 0 var(--card-border-bottom);
   z-index: 1;
   transition:
+    color 0.4s,
     background-color 0.4s,
     transform 0.4s ease,
     box-shadow 0.4s ease;
@@ -873,6 +879,7 @@
     transform: translateY(-8px);
     box-shadow: 0 8px 0 var(--card-border-bottom);
     background-color: var(--surface-2);
+    color: var(--text-primary);
   }
   .ctaButton:active {
     transform: translateY(2px);

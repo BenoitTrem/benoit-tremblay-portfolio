@@ -2,7 +2,7 @@
 
 :root,
 [data-theme="dark"] {
-  --bg: #0f1a19;
+  --bg: #070f0f;
   --surface: #0d1817;
   --surface-2: #1a2e2b;
   --surface-3: #223c38;
@@ -631,7 +631,7 @@ body {
   padding: 13px 28px;
   font-size: 14px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   text-decoration: none;
   border-radius: 8px;
   border: 2px solid var(--card-border-bottom);
@@ -639,12 +639,15 @@ body {
   box-shadow: 0 0 0 var(--card-border-bottom);
   z-index: 1;
   transition:
+    color 0.4s,
+    background-color 0.4s,
     transform 0.4s ease,
     box-shadow 0.4s ease;
 }
 
 @media (hover: hover) {
   .error-btn:hover {
+    color: var(--text-primary);
     transform: translateY(-8px);
     box-shadow: 0 8px 0 var(--card-border-bottom);
     background-color: var(--surface-2);

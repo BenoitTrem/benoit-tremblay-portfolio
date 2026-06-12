@@ -63,7 +63,7 @@
 
 .barFill {
   height: 100%;
-  background-color: var(--text-primary);
+  background-color: var(--text-secondary);
   border-radius: 99px;
   transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }

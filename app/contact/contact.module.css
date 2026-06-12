@@ -1,16 +1,16 @@
 /* contact.module.css */
 :global(:root) {
-  --input-bg: #f8f8f8;
-  --input-border: rgba(0, 0, 0, 0.1);
-  --input-hover: rgba(0, 0, 0, 0.18);
-  --input-focus: rgba(0, 0, 0, 0.35);
+  --input-bg: #e8f7f4;
+  --input-border: rgba(4, 120, 87, 0.15);
+  --input-hover: rgba(4, 120, 87, 0.3);
+  --input-focus: rgba(4, 120, 87, 0.55);
   --input-bg-error: rgba(239, 68, 68, 0.1);
 }
 :global([data-theme="dark"]) {
-  --input-bg: rgba(255, 255, 255, 0.04);
-  --input-border: rgba(255, 255, 255, 0.1);
-  --input-hover: rgba(255, 255, 255, 0.2);
-  --input-focus: rgba(255, 255, 255, 0.35);
+  --input-bg: rgba(52, 211, 153, 0.04);
+  --input-border: rgba(52, 211, 153, 0.12);
+  --input-hover: rgba(52, 211, 153, 0.22);
+  --input-focus: rgba(52, 211, 153, 0.4);
   --input-bg-error: rgba(239, 68, 68, 0.06);
 }
 
@@ -291,6 +291,9 @@ a.infoValue:hover {
   font-weight: 600;
   color: #10b981;
   margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 .errorMsg {
   font-size: 13px;
@@ -308,7 +311,7 @@ a.infoValue:hover {
   font-size: 14px;
   font-weight: 700;
   font-family: inherit;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   border-radius: 8px;
   border: 2px solid var(--card-border-bottom);
   background-color: var(--surface);
@@ -318,7 +321,7 @@ a.infoValue:hover {
     background-color 0.4s,
     transform 0.4s ease,
     box-shadow 0.4s ease,
-    opacity 0.2s;
+    opacity 0.4s;
   white-space: nowrap;
   margin-left: auto;
 }
@@ -326,6 +329,7 @@ a.infoValue:hover {
 @media (hover: hover) {
   .submitBtn:hover:not(:disabled) {
     transform: translateY(-8px);
+    color: var(--text-primary);
     box-shadow: 0 8px 0 var(--card-border-bottom);
     background-color: var(--surface-2);
   }

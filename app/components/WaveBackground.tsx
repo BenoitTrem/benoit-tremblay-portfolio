@@ -59,13 +59,12 @@ export default function WaveBackground() {
 
     const animate = () => {
       const isLight = getTheme();
-
       t++;
       waves.forEach((w, i) => {
-        const alpha = isLight ? w.alpha * 1.5 : w.alpha;
+        const alpha = isLight ? w.alpha * 2.5 : w.alpha * 1.8;
         const STROKE = isLight
-          ? `rgba(0,0,0,${alpha})`
-          : `rgba(255,255,255,${alpha})`;
+          ? `rgba(0, 180, 100, ${alpha})`
+          : `rgba(52, 211, 153, ${alpha})`;
         paths[i].setAttribute("stroke", STROKE);
         paths[i].setAttribute("d", buildPath(w));
       });
