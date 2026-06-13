@@ -2,7 +2,19 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import styles from "./home.module.css";
-import { Code2, Layers, Mail, ArrowRight, Download } from "lucide-react";
+import {
+  Code2,
+  Layers,
+  Mail,
+  ArrowRight,
+  Download,
+  Monitor,
+  Plug,
+  Gamepad2,
+  Globe,
+  CheckCircle2,
+  ChevronRight,
+} from "lucide-react";
 import { useLocale } from "./lib/LocaleContext";
 import { getT } from "./lib/translations";
 import Image from "next/image";
@@ -58,7 +70,197 @@ const TICKER_ITEMS = [
   "HTML",
   "CSS",
 ];
+
+const LANG_COLORS: Record<string, string> = {
+  JavaScript: "#f1e05a",
+  TypeScript: "#3178c6",
+  Python: "#3572A5",
+  PHP: "#4F5D95",
+  Kotlin: "#A97BFF",
+  Java: "#b07219",
+  "C#": "#178600",
+  HTML: "#e34c26",
+  CSS: "#563d7c",
+  Vue: "#41b883",
+};
+
+type Repo = {
+  name: string;
+  description: string | null;
+  html_url: string;
+  language: string | null;
+  pushed_at: string;
+  fork: boolean;
+};
+
+function timeAgo(dateStr: string): string {
+  const s = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+  if (s < 60) return "just now";
+  if (s < 3600) return `${Math.floor(s / 60)}m ago`;
+  if (s < 86400) return `${Math.floor(s / 3600)}h ago`;
+  if (s < 2592000) return `${Math.floor(s / 86400)}d ago`;
+  return `${Math.floor(s / 2592000)}mo ago`;
+}
+
+const SERVICES = [
+  {
+    id: "web_apps/",
+    icon: <Globe size={14} />,
+    color: "#3178c6",
+    stack: "Next.js · Laravel · .NET · REST · TypeScript",
+    detail:
+      "Full-stack apps from idea to deployment. Clean architecture, proper auth, CI/CD pipelines.",
+  },
+  {
+    id: "apis/",
+    icon: <Plug size={14} />,
+    color: "#1D9E75",
+    stack: "REST · OpenAPI · Auth · Rate limiting · Docs",
+    detail:
+      "APIs built for scale. Versioned, documented, with proper error handling and authentication.",
+  },
+  {
+    id: "desktop_apps/",
+    icon: <Monitor size={14} />,
+    color: "#7F77DD",
+    stack: "Electron · Web tech · Cross-platform · Native feel",
+    detail:
+      "Cross-platform apps that feel native. Web tech, shipped as a real application.",
+  },
+  {
+    id: "game_dev/",
+    icon: <Gamepad2 size={14} />,
+    color: "#D85A30",
+    stack: "Unreal Engine · Unity · C++ · Blueprints",
+    detail:
+      "Games and interactive experiences from prototype to polished release.",
+  },
+];
+
+function Terminal() {
+  const [step, setStep] = useState(0);
+  const [activeIdx, setActiveIdx] = useState<number | null>(null);
+  const [typed, setTyped] = useState("");
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && step === 0) setStep(1);
+      },
+      { threshold: 0.2 },
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [step]);
+
+  useEffect(() => {
+    if (step === 0) return;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    SERVICES.forEach((_, i) => {
+      timers.push(setTimeout(() => setStep(2 + i), 400 + i * 180));
+    });
+    timers.push(
+      setTimeout(() => setStep(10), 400 + SERVICES.length * 180 + 300),
+    );
+    return () => timers.forEach(clearTimeout);
+  }, [step === 1]);
+
+  useEffect(() => {
+    if (step < 10) return;
+    const phrase = "ready --for-new-projects";
+    let i = 0;
+    const t = setInterval(() => {
+      i++;
+      setTyped(phrase.slice(0, i));
+      if (i >= phrase.length) clearInterval(t);
+    }, 60);
+    return () => clearInterval(t);
+  }, [step]);
+
+  return (
+    <div ref={ref} className={styles.termBox}>
+      <div className={styles.termTopbar}>
+        <span className={`${styles.termDot} ${styles.termDotR}`} />
+        <span className={`${styles.termDot} ${styles.termDotY}`} />
+        <span className={`${styles.termDot} ${styles.termDotG}`} />
+        <span className={styles.termTitle}>ben@dev:~/portfolio</span>
+      </div>
+
+      <div className={styles.termBody}>
+        {step >= 1 && (
+          <div className={styles.termLine}>
+            <ChevronRight
+              size={14}
+              className={styles.termPrompt}
+              style={{ flexShrink: 0, marginTop: 5 }}
+            />
+            <span className={styles.termCmd}>ls -la ./services</span>
+          </div>
+        )}
+        {step >= 1 && (
+          <div className={styles.termLine}>
+            <span className={styles.termComment}># scanning modules...</span>
+          </div>
+        )}
+
+        {SERVICES.map(
+          (svc, i) =>
+            step >= 2 + i && (
+              <div
+                key={svc.id}
+                className={`${styles.termService} ${activeIdx === i ? styles.termServiceActive : ""}`}
+                style={{ "--svc-color": svc.color } as React.CSSProperties}
+                onClick={() => setActiveIdx(activeIdx === i ? null : i)}
+              >
+                <span
+                  className={styles.termSvcIcon}
+                  style={{ color: svc.color }}
+                >
+                  {svc.icon}
+                </span>
+                <span className={styles.termSvcName}>{svc.id}</span>
+                <span className={styles.termSvcStack}>{svc.stack}</span>
+                <span
+                  className={`${styles.termSvcDetail} ${activeIdx === i ? styles.termSvcDetailActive : ""}`}
+                >
+                  {svc.detail}
+                </span>
+              </div>
+            ),
+        )}
+
+        {step >= 10 && (
+          <>
+            <div className={styles.termLine}>
+              <CheckCircle2
+                size={14}
+                color="#639922"
+                style={{ flexShrink: 0, marginTop: 5 }}
+              />
+              <span className={styles.termOk}>4 modules loaded</span>
+              <span className={styles.termComment}>
+                &nbsp;— click any to expand
+              </span>
+            </div>
+            <div className={styles.termLine2}>
+              <ChevronRight
+                size={14}
+                className={styles.termPrompt}
+                style={{ flexShrink: 0, marginTop: 5 }}
+              />
+              <span className={styles.termCmd}>{typed}</span>
+              <span className={styles.termCursor} />
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 const GITHUB_USER = "BenoitTrem";
+
 export default function Home() {
   const locale = useLocale();
   const t = getT(locale);
@@ -68,6 +270,19 @@ export default function Home() {
   const [displayed, setDisplayed] = useState("");
   const [deleting, setDeleting] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
+
+  const [repos, setRepos] = useState<Repo[]>([]);
+
+  useEffect(() => {
+    fetch(
+      `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=pushed`,
+    )
+      .then((r) => r.json())
+      .then((data: Repo[]) => {
+        setRepos(data.filter((r) => !r.fork).slice(0, 3));
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const target = ROTATING_WORDS[wordIndex];
@@ -115,52 +330,68 @@ export default function Home() {
         className={styles.hero}
       >
         <div className={styles.heroGrid} aria-hidden="true" />
-
-        <div className={styles.heroContent}>
-          <p className={styles.heroEyebrow}>{t.home.eyebrow}</p>
-          <h1 id="hero-heading" className={styles.heroName}>
-            {t.home.name}
-          </h1>
-          <div className={styles.typewriterRow} aria-live="polite">
-            <span className={styles.typewriterText}>{displayed}</span>
-            <span className={styles.typewriterCursor} aria-hidden="true">
-              |
-            </span>
+        <div className={styles.heroRow}>
+          <div className={styles.heroContent}>
+            <p className={styles.heroEyebrow}>{t.home.eyebrow}</p>
+            <h1 id="hero-heading" className={styles.heroName}>
+              {t.home.name}
+            </h1>
+            <div className={styles.typewriterRow} aria-live="polite">
+              <span className={styles.typewriterText}>{displayed}</span>
+              <span className={styles.typewriterCursor} aria-hidden="true">
+                |
+              </span>
+            </div>
+            <p className={styles.heroSub}>{t.home.sub}</p>
+            <div className={styles.ctaWrapper}>
+              <div className={styles.ctaDiv}>
+                <a href="/cv.pdf" download className={styles.ctaPrimary}>
+                  <Download size={15} /> {t.home.download}
+                </a>
+                <div className={styles.divider_3} />
+                <a href="/contact" className={styles.ctaPrimary}>
+                  {t.home.ctaContact} <ArrowRight size={15} />
+                </a>
+              </div>
+              <div className={styles.ctaSocials}>
+                <a
+                  href={`https://github.com/${GITHUB_USER}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.ctaGhost}
+                >
+                  <svg viewBox="0 0 24 24" width={22} height={22}>
+                    <path d={simpleIcons.siGithub.path} fill="currentColor" />
+                  </svg>
+                </a>
+                <a
+                  href="https://linkedin.com/in/YOUR_USERNAME"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.ctaGhost}
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width={22}
+                    height={22}
+                    fill="currentColor"
+                  >
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
-
-        {/* ── Photo outside heroContent so it centers against full section width ── */}
-        <div className={styles.heroPhoto}>
-          <div className={styles.heroImgWrapper}>
-            <Image
-              src="/images/ProfilIconTest.jpg"
-              alt="Your Name"
-              fill
-              className={styles.heroImg}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.heroContent}>
-          <p className={styles.heroSub}>{t.home.sub}</p>
-          <div className={styles.ctaDiv}>
-            <a href="/cv.pdf" download className={styles.ctaPrimary}>
-              <Download size={15} /> {t.home.download}
-            </a>
-
-            <div className={styles.divider_3} />
-            <a
-              href={`https://github.com/${GITHUB_USER}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.ctaPrimary}
-            >
-              <svg viewBox="0 0 24 24">
-                <path d={simpleIcons.siGithub.path} fill="currentColor" />
-              </svg>
-              GitHub
-            </a>
+          <div className={styles.heroPhoto}>
+            <div className={styles.heroImgWrapper}>
+              <Image
+                src="/images/ProfilIconTest.jpg"
+                alt="Your Name"
+                fill
+                className={styles.heroImg}
+                priority
+              />
+            </div>
           </div>
         </div>
 
@@ -174,6 +405,18 @@ export default function Home() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* ── What I Build ── */}
+      <section aria-labelledby="services-heading" className={styles.services}>
+        <div data-reveal className={styles.servicesHeader}>
+          <h2 id="services-heading" className={styles.sectionHeading}>
+            What I build
+          </h2>
+          <div className={styles.divider_1} />
+        </div>
+
+        <Terminal />
       </section>
 
       {/* ── Cards ── */}
@@ -236,6 +479,83 @@ export default function Home() {
             </div>
             <span className={styles.splitCardArrow}>→</span>
           </Link>
+        </div>
+      </section>
+
+      {/* ── Recently Pushed ── */}
+      <section aria-labelledby="github-heading" className={styles.github}>
+        <div data-reveal className={styles.githubHeader}>
+          <h2 id="github-heading" className={styles.sectionHeading}>
+            Recently pushed
+          </h2>
+          <div className={styles.divider_1} />
+          <span className={styles.githubLive}>
+            <span className={styles.githubPulse} aria-hidden="true" />
+            live from GitHub
+          </span>
+        </div>
+
+        <div data-reveal className={styles.repoTable}>
+          {repos.length === 0
+            ? [0, 1, 2, 3, 4].map((i) => (
+                <div key={i} className={styles.repoSkeletonRow}>
+                  <div className={`${styles.skEl} ${styles.skNum}`} />
+                  <div className={styles.skMain}>
+                    <div className={`${styles.skEl} ${styles.skTitle}`} />
+                    <div className={`${styles.skEl} ${styles.skDesc}`} />
+                  </div>
+                  <div className={`${styles.skEl} ${styles.skMeta}`} />
+                </div>
+              ))
+            : repos.map((repo, i) => (
+                <a
+                  key={repo.name}
+                  href={repo.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.repoRow}
+                >
+                  <span className={styles.repoNum}>0{i + 1}</span>
+                  <div className={styles.repoBody}>
+                    <span className={styles.repoName}>{repo.name}</span>
+                    <span className={styles.repoDesc}>
+                      {repo.description || "No description"}
+                    </span>
+                  </div>
+                  <div className={styles.repoRight}>
+                    {repo.language && (
+                      <span className={styles.repoLang}>
+                        <span
+                          className={styles.langDot}
+                          style={{
+                            background:
+                              LANG_COLORS[repo.language] ?? "var(--text-muted)",
+                          }}
+                        />
+                        {repo.language}
+                      </span>
+                    )}
+                    <span className={styles.repoUpdated}>
+                      {timeAgo(repo.pushed_at)}
+                    </span>
+                  </div>
+                  <span className={styles.repoArrow}>→</span>
+                </a>
+              ))}
+        </div>
+
+        <div data-reveal className={styles.githubFooter}>
+          <a
+            href={`https://github.com/${GITHUB_USER}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.githubLink}
+          >
+            <svg viewBox="0 0 24 24" width={16} height={16}>
+              <path d={simpleIcons.siGithub.path} fill="currentColor" />
+            </svg>
+            View all repositories <ArrowRight size={13} />
+          </a>
         </div>
       </section>
     </main>

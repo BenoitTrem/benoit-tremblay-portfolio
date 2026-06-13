@@ -11,6 +11,9 @@
   --text-primary: #f0faf8;
   --text-secondary: #7ec4ba;
   --text-muted: #4d8f88;
+  --accent-green: #2dd4aa;
+  --accent-green-2: #1a9e7a;
+  --accent-green-3: #0d6b52;
   --sidebar-bg: #0d1817;
   --topbar-bg: #0d1817;
   --shadow-hover: 0 24px 60px rgba(240, 250, 248, 1);
@@ -27,6 +30,9 @@
   --text-primary: #040806;
   --text-secondary: #1a4f4a;
   --text-muted: #3d7a72;
+  --accent-green: #1aab85;
+  --accent-green-2: #138a68;
+  --accent-green-3: #0a6b4e;
   --sidebar-bg: #cceee8;
   --topbar-bg: #cceee8;
   --shadow-hover: 0 24px 60px rgba(4, 8, 6, 1);

@@ -9,6 +9,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
   padding: 100px 64px;
   overflow: hidden;
 }
@@ -37,8 +38,7 @@
 .heroContent {
   position: relative;
   z-index: 2;
-  max-width: 1100px;
-  width: 100%;
+  flex: 1;
   animation: heroIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
@@ -53,7 +53,7 @@
 }
 
 .heroName {
-  font-size: clamp(64px, 10vw, 140px);
+  font-size: 80px;
   font-weight: 800;
   color: var(--text-primary);
   letter-spacing: -5px;
@@ -62,6 +62,7 @@
   animation: heroIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
   margin-top: 40px;
   padding-bottom: 10px;
+  white-space: nowrap;
 }
 
 .typewriterRow {
@@ -86,6 +87,19 @@
   color: var(--text-muted);
   animation: blink 1s step-end infinite;
   line-height: 1;
+}
+
+.heroRow {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1000px;
+  animation: heroIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .heroSub {
@@ -169,12 +183,6 @@
   width: 100%;
   margin: 0 auto;
 }
-@media (max-width: 1000px) and (orientation: landscape) {
-  .explore {
-    width: 80%;
-    padding: 96px 32px 128px;
-  }
-}
 
 .exploreHeader {
   width: 100%;
@@ -247,7 +255,7 @@
   opacity: 0;
   transform: translateY(20px);
   transition:
-    opacity 0.2s ease,
+    opacity 0.4s ease,
     transform 0.4s ease,
     box-shadow 0.4s ease,
     background-color 0.4s;
@@ -508,12 +516,16 @@
 }
 
 @media (max-width: 768px) {
+  .typewriterRow {
+    height: 2px;
+    margin: 0 0 44px;
+  }
   .hero {
-    padding: 110px 24px;
+    padding: 102px 34px;
   }
 
   .heroName {
-    font-size: clamp(48px, 12vw, 80px);
+    font-size: 50px;
     letter-spacing: -3px;
     margin-top: 20px;
     padding-bottom: 0px;
@@ -521,12 +533,6 @@
 
   .ticker {
     bottom: 15px;
-  }
-
-  .explore {
-    padding: 70px 24px 100px;
-    max-width: 100%;
-    box-sizing: border-box;
   }
 
   .exploreHeader {
@@ -590,22 +596,20 @@
 
 @media (max-width: 900px) and (orientation: landscape) {
   .hero {
-    padding: 120px 32px;
+    padding: 82px 34px;
   }
   .ticker {
     bottom: 15px;
   }
 
   .heroName {
-    font-size: clamp(40px, 8vw, 72px);
+    font-size: 72px;
     margin-top: 20px;
     padding-bottom: 0px;
   }
-
-  .explore {
-    padding: 78px 24px 80px;
-    max-width: 640px;
-    box-sizing: border-box;
+  .typewriterRow {
+    height: 2px;
+    margin: 0 0 44px;
   }
 
   .exploreHeader {
@@ -656,11 +660,10 @@
 .heroPhoto {
   display: flex;
   justify-content: center;
-  width: 100%;
-  margin: 40px 0;
-  animation: photoIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+  flex-shrink: 0;
   position: relative;
   z-index: 2;
+  animation: photoIn 1s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
 }
 
 .heroImgWrapper {
@@ -734,13 +737,15 @@
     font-weight: 700;
   }
 
+  .heroRow {
+    align-self: flex-start;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
   .heroPhoto {
-    position: static;
-    left: auto;
-    transform: none;
-    width: 100%;
-    margin: 28px 0;
-    justify-content: center;
+    order: -1;
   }
 
   .heroImgWrapper {
@@ -759,6 +764,7 @@
 }
 @media (max-width: 900px) and (orientation: landscape) {
   .heroSub {
+    text-align: start;
     margin-top: 12px;
   }
 }
@@ -771,5 +777,781 @@
   }
   .cardDiv {
     gap: 16px;
+  }
+}
+.ctaGhost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-left: 10px;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.ctaSocials {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  margin-top: 25px;
+}
+
+@media (max-width: 768px) {
+  .ctaGhost {
+    margin-left: 20px;
+  }
+  .ctaSocials {
+    justify-content: start;
+    gap: 6px;
+  }
+}
+@media (max-width: 900px) and (orientation: landscape) {
+  .ctaWrapper {
+    align-items: flex-start;
+  }
+
+  .ctaDiv {
+    justify-content: flex-start;
+  }
+  .heroRow {
+    align-self: flex-start;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 24px;
+  }
+
+  .heroImgWrapper {
+    width: 180px;
+    height: 180px;
+  }
+  .ctaSocials {
+    margin-top: 30px;
+    justify-content: flex-start;
+    gap: 6px;
+  }
+}
+
+@media (hover: hover) {
+  .ctaGhost:hover {
+    color: var(--text-primary);
+    transform: translateY(-1px) scale(1.2);
+  }
+}
+
+.ctaGhost:active {
+  color: var(--text-secondary);
+}
+
+.services {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 96px 48px 64px;
+  max-width: 820px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.servicesHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 35px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.servicesHeader.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s ease 0.1s,
+    transform 0.6s ease 0.1s;
+}
+
+.servicesGrid.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* ── Terminal ── */
+.termBox {
+  width: 100%;
+  border: 2px solid var(--card-border-bottom);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--surface);
+  font-family: monospace;
+}
+
+.termTopbar {
+  background-color: var(--surface-2);
+  border-bottom: 2px solid var(--card-border-bottom);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.termDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.termDotR {
+  background: var(--accent-green-3);
+}
+.termDotY {
+  background: var(--accent-green-2);
+}
+.termDotG {
+  background: var(--accent-green);
+}
+
+.termTitle {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  margin: 0 auto;
+}
+
+.termBody {
+  padding: 20px 22px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.termLine {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--text-muted);
+  animation: termFadeIn 0.2s ease both;
+}
+.termLine2 {
+  display: flex;
+  margin-top: 10px;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--text-muted);
+  animation: termFadeIn 0.2s ease both;
+}
+
+.termPrompt {
+  color: #3178c6;
+  flex-shrink: 0;
+}
+
+.termCmd {
+  color: var(--text-primary);
+}
+
+.termComment {
+  color: var(--text-muted);
+}
+
+.termOk {
+  color: #639922;
+  font-weight: 500;
+}
+
+.termService {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 4px 10px;
+  align-items: start;
+  margin: 4px 0 4px 20px;
+  padding: 10px 14px;
+  border-left: 2px solid var(--card-border-bottom);
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  animation: termSlideIn 0.25s ease both;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.termService:hover {
+  background-color: var(--surface-2);
+}
+
+.termServiceActive {
+  border-left-color: var(--svc-color);
+  background-color: var(--surface-2);
+}
+
+.termSvcIcon {
+  font-size: 14px;
+  margin-top: 3px;
+  grid-row: 1;
+}
+
+.termSvcName {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  grid-column: 2;
+}
+
+.termSvcStack {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.3px;
+  grid-column: 2;
+  line-height: 1.5;
+}
+
+.termSvcDetail {
+  font-size: 12px;
+  color: var(--text-secondary);
+  grid-column: 2;
+  line-height: 1.65;
+  margin-top: 4px;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height 0.4s ease,
+    opacity 0.3s ease,
+    margin-top 0.3s ease;
+}
+.termSvcDetailActive {
+  max-height: 80px;
+  opacity: 1;
+  margin-top: 4px;
+}
+.termCursor {
+  display: inline-block;
+  width: 7px;
+  height: 13px;
+  background-color: var(--text-primary);
+  position: relative;
+  top: 5px;
+  margin-left: 2px;
+  animation: termBlink 1s step-end infinite;
+}
+
+.termStatusBar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 8px 14px;
+  border-top: 2px solid var(--card-border-bottom);
+  background-color: var(--surface-2);
+  font-size: 11px;
+  font-family: monospace;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.termStatusDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 5px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.termVersion {
+  margin-left: auto;
+  opacity: 0.5;
+}
+
+@keyframes termFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes termSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes termBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.github {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 48px 96px;
+  max-width: 820px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.githubHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 35px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.githubHeader.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.githubLive {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.githubPulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4caf50;
+  flex-shrink: 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.repoTable {
+  width: 100%;
+  border-top: 2px solid var(--card-border-bottom);
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s ease 0.1s,
+    transform 0.6s ease 0.1s;
+}
+
+.repoTable.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.repoRow {
+  display: grid;
+  grid-template-columns: 36px 1fr auto 24px;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 8px;
+  border-bottom: 2px solid var(--card-border-bottom);
+  text-decoration: none;
+  transition:
+    padding-left 0.25s ease,
+    background-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+@media (hover: hover) {
+  .repoRow:hover {
+    padding-left: 18px;
+    background-color: var(--surface);
+    transform: translateX(2px);
+  }
+
+  .repoRow:hover .repoName {
+    color: var(--text-primary);
+  }
+
+  .repoRow:hover .repoArrow {
+    transform: translateX(4px);
+    color: var(--text-primary);
+  }
+}
+
+@media (hover: none) {
+  .repoRow:active {
+    background-color: var(--surface);
+    padding-left: 18px;
+  }
+}
+
+.repoNum {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.repoBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.repoName {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.25s ease;
+}
+
+.repoDesc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.repoRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.repoLang {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.langDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.repoUpdated {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.repoArrow {
+  font-size: 16px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition:
+    transform 0.25s ease,
+    color 0.25s ease;
+}
+
+.repoSkeletonRow {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 8px;
+  border-bottom: 2px solid var(--card-border-bottom);
+}
+
+.skMain {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skEl {
+  border-radius: 3px;
+  background-color: var(--surface);
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.skNum {
+  width: 20px;
+  height: 11px;
+}
+.skTitle {
+  width: 45%;
+  height: 14px;
+}
+.skDesc {
+  width: 70%;
+  height: 11px;
+}
+.skMeta {
+  width: 60px;
+  height: 11px;
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.githubFooter {
+  width: 100%;
+  margin-top: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s ease 0.2s,
+    transform 0.6s ease 0.2s;
+}
+
+.githubFooter.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.githubLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+@media (hover: hover) {
+  .githubLink:hover {
+    color: var(--text-primary);
+  }
+}
+
+@media (max-width: 768px) {
+  .services {
+    padding: 70px 24px 48px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .github {
+    padding: 24px 24px 70px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .servicesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .githubHeader {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .explore,
+  .services,
+  .github {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .explore,
+  .services,
+  .github {
+    max-width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .explore,
+  .services,
+  .github {
+    padding-left: 24px;
+    padding-right: 24px;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .explore {
+    padding-top: 70px;
+    padding-bottom: 48px;
+  }
+
+  .services {
+    padding-top: 70px;
+    padding-bottom: 48px;
+  }
+
+  .github {
+    padding-top: 24px;
+    padding-bottom: 70px;
+  }
+
+  .servicesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .githubHeader {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .serviceCard {
+    padding: 18px 16px;
+    gap: 10px;
+  }
+
+  .serviceTitle {
+    font-size: 14px;
+  }
+
+  .serviceDesc {
+    font-size: 12px;
+  }
+
+  .serviceIcon {
+    width: 36px;
+    height: 36px;
+  }
+  .repoNum {
+    font-size: 11px;
+  }
+
+  .repoRow {
+    gap: 10px;
+    padding: 18px 4px;
+  }
+
+  .repoCard {
+    padding: 14px 16px;
+  }
+
+  .repoName {
+    font-size: 15px;
+  }
+
+  .repoDesc {
+    font-size: 12px;
+  }
+  .termBody {
+    padding: 14px 14px;
+    min-height: 260px;
+  }
+
+  .termService {
+    margin-left: 10px;
+    padding: 8px 10px;
+  }
+
+  .termLine {
+    font-size: 12px;
+  }
+  .termLine2 {
+    font-size: 12px;
+  }
+  .termSvcName {
+    font-size: 12px;
+  }
+
+  .termSvcStack {
+    font-size: 10px;
+  }
+
+  .termStatusBar {
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .termBody {
+    min-height: 240px;
+  }
+  .explore,
+  .services,
+  .github {
+    max-width: 840px;
+    padding-left: 24px;
+    padding-right: 24px;
+    box-sizing: border-box;
+  }
+
+  .explore {
+    padding-top: 78px;
+    padding-bottom: 80px;
+  }
+
+  .services {
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  .github {
+    padding-top: 24px;
+    padding-bottom: 60px;
+  }
+
+  .servicesGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .repoCard {
+    padding: 12px 16px;
   }
 }

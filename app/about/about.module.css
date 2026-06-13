@@ -421,6 +421,7 @@
   padding: 9px 18px;
   border-radius: 8px;
   border: 2px solid var(--card-border-bottom);
+  box-shadow: 0 0 0 var(--card-border-bottom);
   background-color: var(--surface);
   transition:
     color 0.4s,
@@ -432,6 +433,7 @@
   .statPanelLink:hover {
     transform: translateY(-8px);
     box-shadow: 0 8px 0 var(--card-border-bottom);
+    border-color: var(--card-border-bottom);
     background-color: var(--surface-2);
     color: var(--text-primary);
   }
