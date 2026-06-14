@@ -2,7 +2,7 @@
 import styles from "./projects.module.css";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocale } from "../lib/LocaleContext";
 import { getT } from "../lib/translations";
 import * as simpleIcons from "simple-icons";
@@ -53,6 +53,7 @@ const BRAND_COLOR: Record<string, string> = {
   GitLab: "#" + simpleIcons.siGitlab.hex,
   GitKraken: "#" + simpleIcons.siGitkraken.hex,
   // IDEs
+  "QT Designer": "#" + simpleIcons.siQt.hex,
   "VS Code": "#007ACC",
   "Visual Studio": "#5C2D91",
   "IntelliJ IDEA": "#" + simpleIcons.siIntellijidea.hex,
@@ -81,7 +82,7 @@ export interface Project {
   id: string;
   title: string;
   description: string;
-  image?: string;
+  images?: string[];
   tech: string[];
   github?: string;
   steam?: string;
@@ -93,11 +94,19 @@ export interface Project {
 
 const PROJECTS: Project[] = [
   {
-    id: "Video Game",
+    id: "The Last Wait",
     title: "The Last Wait",
     description:
       "A solo-developed psychological horror game with a deep, narrative-driven story. Built in Unreal Engine with immersive audio design.",
-    image: undefined,
+    images: [
+      "/images/TheLastWait/the-last-wait-spash-screen.png",
+      "/images/TheLastWait/the-last-wait-gameplay.png",
+      "/images/TheLastWait/the-last-wait-gameplay-security-office.png",
+      "/images/TheLastWait/the-last-wait-gameplay-tv-open.png",
+      "/images/TheLastWait/the-last-wait-gameplay-in-water.png",
+      "/images/TheLastWait/the-last-wait-gameplay-jumpscare.png",
+      "/images/TheLastWait/the-last-wait-gameplay-outside.png",
+    ],
     tech: ["Unreal Engine", "Blender"],
     steam: "https://store.steampowered.com/app/4165280/The_Last_Wait/",
     itchio: "https://beanutts.itch.io/the-last-wait",
@@ -108,16 +117,22 @@ const PROJECTS: Project[] = [
     title: "My Portfolio",
     description:
       "This portfolio — built with Next.js, TypeScript, and CSS Modules. Multi-language support via next-intl, dark and light mode.",
-    image: undefined,
+    images: [
+      "/images/TheLastWait/TheLastWait_1.png",
+      "/images/TheLastWait/Screenshot (123).png",
+    ],
     tech: ["Next.js", "TypeScript", "CSS3", "Vercel", "VS Code"],
     github: "https://github.com/BenoitTrem/benoit-tremblay-portfolio.git",
     tag: "Web",
   },
   {
-    id: "OlympicWave Project",
+    id: "OlympicWave Site",
     title: "Olympic Wave",
     description: "",
-    image: undefined,
+    images: [
+      "/images/OlympicWave/olympic-wave-home-screen.png",
+      "/images/OlympicWave/olympic-wave-services-page.png",
+    ],
     tech: ["React", "JavaScript", "CSS3", "Netlify", "VS Code"],
     github: "https://github.com/BenoitTrem/olympic-wave.git",
     live: "https://olympicwave.ca/",
@@ -128,18 +143,30 @@ const PROJECTS: Project[] = [
     title: "Lan Radar",
     description:
       "Local network scanner with ping monitor, speed test, and app browser — built with Electron.",
-    image: undefined,
+    images: [
+      "/images/LanRadar/lan-radar-splash-screen.png",
+      "/images/LanRadar/lan-radar-speed-test.png",
+      "/images/LanRadar/lan-radar-ping.png",
+      "/images/LanRadar/lan-radar-about.png",
+    ],
     tech: ["Electron", "Next.js", "JavaScript", "VS Code"],
     github: "https://github.com/BenoitTrem/lan-radar.git",
-    tag: "Tool",
+    tag: "Software",
     download:
       "https://github.com/BenoitTrem/lan-radar/releases/download/V1.0.0/LAN.Radar.Setup.1.0.0.exe",
   },
   {
-    id: "Residence Etudiante",
+    id: "Student Residence",
     title: "Student Residence",
     description: "",
-    image: undefined,
+    images: [
+      "/images/StudentResidence/student-residence-home-page.png",
+      "/images/StudentResidence/student-residence-connexion-page.png",
+      "/images/StudentResidence/student-residence-residence-page.png",
+      "/images/StudentResidence/student-residence-details.png",
+      "/images/StudentResidence/student-residence-add-unite.png",
+      "/images/StudentResidence/student-residence-account-page.png",
+    ],
     tech: [
       ".NET / Razor",
       "C#",
@@ -158,10 +185,13 @@ const PROJECTS: Project[] = [
     title: "LoL Client Dashboard",
     description:
       "A fan-made desktop app for interacting with the League of Legends client. Auto-accept, auto ban/pick, lobby management, and more.",
-    image: undefined,
+    images: [
+      "/images/LolClient/lol-client-home-page.png",
+      "/images/LolClient/lol-client-guide.png",
+    ],
     tech: ["Electron", "Next.js", "TypeScript", "VS Code"],
     github: "https://github.com/BenoitTrem/lol-client-dashboard.git",
-    tag: "Tool",
+    tag: "Software",
     download:
       "https://github.com/BenoitTrem/lol-client-dashboard/releases/download/V1.1.0/LoL.Dashboard.Setup.1.1.0.exe",
   },
@@ -170,7 +200,14 @@ const PROJECTS: Project[] = [
     id: "PHP Project",
     title: "Conference Manager",
     description: "",
-    image: undefined,
+    images: [
+      "/images/ConferenceManager/conference-manager-home-page.png",
+      "/images/ConferenceManager/conference-manager-home-page-connected.png",
+      "/images/ConferenceManager/conference-manager-calendar.png",
+      "/images/ConferenceManager/conference-manager-locals.png",
+      "/images/ConferenceManager/conference-manager-connexion-page.png",
+      "/images/ConferenceManager/conference-manager-local-modif.png",
+    ],
     tech: [
       "Laravel / Blade",
       "PHP",
@@ -187,16 +224,26 @@ const PROJECTS: Project[] = [
     id: "JSP Project",
     title: "File Managers",
     description: "",
-    image: undefined,
+    images: [
+      "/images/FileManager/file-manager-shared-file.png",
+      "/images/FileManager/file-manager-connexion.png",
+      "/images/FileManager/file-manager.png",
+      "/images/FileManager/file-manager-account.png",
+      "/images/FileManager/file-manager-file-comments.png",
+      "/images/FileManager/file-manager-users-page.png",
+    ],
     tech: ["Java", "Spring", "SQLite", "PostgreSQL", "AWS", "IntelliJ IDEA"],
     github: "https://github.com/BenoitTrem/gestionnaire-de-fichiers.git",
-    tag: "Backend",
+    tag: "Full-Stack",
   },
   {
     id: "Client/Server Project",
     title: "Client/Server Task Manager",
     description: "",
-    image: undefined,
+    images: [
+      "/images/ClientServerTaskManager/client-vue.png",
+      "/images/ClientServerTaskManager/server-vue.png",
+    ],
     tech: ["Java", "IntelliJ IDEA"],
     github:
       "https://github.com/BenoitTrem/gestionnaire-taches-client-serveur.git",
@@ -206,7 +253,12 @@ const PROJECTS: Project[] = [
     id: "Mobile app #1",
     title: "Team Manager For A Store",
     description: "",
-    image: undefined,
+    images: [
+      "/images/TeamManagerStore/team-manager-home-page.png",
+      "/images/TeamManagerStore/team-manager-employe-edit.png",
+      "/images/TeamManagerStore/team-manager-department-page.png",
+      "/images/TeamManagerStore/team-manager-department-employe.png",
+    ],
     tech: ["Kotlin", "Android", "Android Studio"],
     github: "https://github.com/BenoitTrem/gestionnaire-equipes-magasin.git",
     tag: "Mobile",
@@ -215,7 +267,12 @@ const PROJECTS: Project[] = [
     id: "Mobile app #2",
     title: "Reminders Planner",
     description: "",
-    image: undefined,
+    images: [
+      "/images/RemindersPlanner/reminder-planner-reminders-list.png",
+      "/images/RemindersPlanner/reminder-planner-create-reminder-page.png",
+      "/images/RemindersPlanner/reminder-planner-notif.png",
+      "/images/RemindersPlanner/reminder-planner-edit-page.png",
+    ],
     tech: ["React Native", "TypeScript", "VS Code"],
     github: "https://github.com/BenoitTrem/planificateur-rappels-mobile.git",
     tag: "Mobile",
@@ -224,7 +281,10 @@ const PROJECTS: Project[] = [
     id: "PHP Game",
     title: "Magician Adventure (Browser)",
     description: "",
-    image: undefined,
+    images: [
+      "/images/MagicianAdventureBrowser/magician-adventure-home-page.png",
+      "/images/MagicianAdventureBrowser/magician-adventure-game-page.png",
+    ],
     tech: ["PHP", "JavaScript", "HTML5", "CSS3"],
     github: "https://github.com/BenoitTrem/aventure-du-mage.git",
     tag: "Game",
@@ -233,32 +293,85 @@ const PROJECTS: Project[] = [
     id: "C# Game",
     title: "Magician Adventure (Console)",
     description: "",
-    image: undefined,
+    images: [
+      "/images/MagicianAdventureConsole/magician-adventure-menu.png",
+      "/images/MagicianAdventureConsole/magician-adventure-battle.png",
+      "/images/MagicianAdventureConsole/magician-adventure-game-over.png",
+    ],
     tech: ["C#", ".NET", "Visual Studio"],
     github: "https://github.com/BenoitTrem/aventure-du-magicien-console.git",
     tag: "Game",
     download:
       "https://github.com/BenoitTrem/aventure-du-magicien-console/releases/download/V.1.0.0/AventureDuMagicien.exe",
   },
+  {
+    id: "Vehicule Location",
+    title: "Vehicule Location",
+    description: "",
+    images: [
+      "/images/VehiculeLocation/vehicule-location-client.png",
+      "/images/VehiculeLocation/vehicule-location-employe.png",
+    ],
+    tech: ["C#", "QT Designer", "Visual Studio"],
+    github: "https://github.com/BenoitTrem/location-de-vehicule.git",
+    tag: "Software",
+    download:
+      "https://github.com/BenoitTrem/aventure-du-magicien-console/releases/download/V.1.0.0/AventureDuMagicien.exe",
+  },
 ];
+
+function Carousel({ images }: { images: string[] }) {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrent((i) => (i + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  return (
+    <div className={styles.carousel}>
+      {images.map((src, i) => (
+        <img
+          key={src}
+          src={src}
+          alt=""
+          className={`${styles.carouselImg} ${i === current ? styles.carouselImgActive : ""}`}
+        />
+      ))}
+      {images.length > 1 && (
+        <div className={styles.carouselDots}>
+          {images.map((_, i) => (
+            <button
+              key={i}
+              className={`${styles.carouselDot} ${i === current ? styles.carouselDotActive : ""}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrent(i);
+              }}
+              aria-label={`Image ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function ProjectCard({ project }: { project: Project }) {
   return (
     <article className={styles.card}>
       {/* Image / placeholder */}
       <div className={styles.cardImage}>
-        {project.image ? (
-          <img
-            src={project.image}
-            alt={project.title}
-            className={styles.cardImg}
-          />
+        {project.images && project.images.length > 0 ? (
+          <Carousel images={project.images} />
         ) : (
           <div className={styles.cardImgPlaceholder}>
             <span className={styles.cardImgLabel}>Preview coming soon</span>
           </div>
         )}
-        {/* Tag pill */}
         <span className={styles.cardTag}>{project.tag}</span>
       </div>
 

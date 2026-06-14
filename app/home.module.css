@@ -17,10 +17,28 @@
 .heroGrid {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+  background-image: radial-gradient(
+    circle,
+    var(--card-border-bottom) 1px,
+    transparent 1px
+  );
   background-size: 36px 36px;
-  opacity: 0.4;
   pointer-events: none;
+  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  animation: gridGlow 5s ease-in-out infinite;
+}
+
+@keyframes gridGlow {
+  0%,
+  100% {
+    opacity: 0.05;
+    filter: blur(0px) brightness(1);
+  }
+  50% {
+    opacity: 0.3;
+    filter: blur(0.4px) brightness(2);
+  }
 }
 
 .heroNoise {
@@ -516,6 +534,9 @@
 }
 
 @media (max-width: 768px) {
+  .heroGrid {
+    background-size: 32px 32px;
+  }
   .typewriterRow {
     height: 2px;
     margin: 0 0 44px;
@@ -892,7 +913,7 @@
   opacity: 1;
   transform: translateY(0);
 }
-/* ── Terminal ── */
+
 .termBox {
   width: 100%;
   border: 2px solid var(--card-border-bottom);
@@ -1524,6 +1545,21 @@
     flex-wrap: wrap;
     font-size: 10px;
   }
+  .servicesHeader,
+  .exploreHeader,
+  .githubHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .servicesHeader .divider_1,
+  .exploreHeader .divider_1,
+  .githubHeader .divider_1 {
+    width: 100%;
+    flex: none;
+    height: 2px;
+  }
 }
 
 @media (max-width: 900px) and (orientation: landscape) {
@@ -1561,17 +1597,24 @@
   .repoCard {
     padding: 12px 16px;
   }
+  .termLine,
+  .termLine2 {
+    font-size: 12px;
+  }
+
+  .termSvcName {
+    font-size: 12px;
+  }
+
+  .termSvcStack {
+    font-size: 10px;
+  }
 }
 @media (max-width: 680px) and (orientation: landscape) {
   .heroName {
     font-size: 38px;
     letter-spacing: -2px;
     margin-top: 10px;
-  }
-
-  .heroImgWrapper {
-    width: 110px;
-    height: 110px;
   }
 
   .heroSub {
@@ -1586,17 +1629,10 @@
     width: auto;
   }
 
-  .hero {
-    padding: 70px 24px 80px;
-  }
-
   .typewriterText {
     font-size: 14px;
   }
-  .heroSub {
-    max-width: 350px;
-    margin: 0 0 32px;
-  }
+
   .hero {
     position: relative;
     display: flex;
@@ -1605,5 +1641,95 @@
     align-items: flex-start;
     padding: 90px 42px;
     overflow: hidden;
+  }
+  .ctaWrapper {
+    align-items: flex-start;
+  }
+
+  .ctaDiv {
+    justify-content: flex-start;
+  }
+  .heroRow {
+    align-self: flex-start;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 24px;
+    gap: 20px;
+  }
+  .heroPhoto {
+    order: 0;
+  }
+  .heroImgWrapper {
+    width: 180px;
+    height: 180px;
+  }
+  .ctaSocials {
+    margin-top: 30px;
+    justify-content: flex-start;
+    gap: 6px;
+  }
+  .splitCard {
+    height: 100px;
+  }
+  .termBody {
+    min-height: 240px;
+  }
+  .explore,
+  .services,
+  .github {
+    max-width: 840px;
+    padding-left: 24px;
+    padding-right: 24px;
+    box-sizing: border-box;
+  }
+
+  .explore {
+    padding-top: 24px;
+    padding-bottom: 80px;
+  }
+
+  .services {
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  .github {
+    padding-top: 24px;
+    padding-bottom: 60px;
+  }
+
+  .servicesGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .repoCard {
+    padding: 12px 16px;
+  }
+
+  .termLine {
+    font-size: 13px;
+    line-height: 1.9;
+  }
+  .termLine2 {
+    font-size: 13px;
+    line-height: 1.9;
+  }
+
+  .termSvcIcon {
+    font-size: 14px;
+  }
+
+  .termSvcName {
+    font-size: 13px;
+  }
+
+  .termSvcStack {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .termSvcDetail {
+    font-size: 12px;
+    line-height: 1.65;
   }
 }
