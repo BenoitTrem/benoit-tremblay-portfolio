@@ -43,6 +43,50 @@
       }
     }
   },
+  "services": {
+    "heading": "Ce que je construis",
+    "terminal": {
+      "scanning": "# chargement des modules...",
+      "loaded": "4 modules chargés",
+      "expand": "— cliquez pour développer",
+      "phrase": "prêt --pour-nouveaux-projets"
+    },
+    "items": {
+      "web_apps": {
+        "id": "apps_web/",
+        "stack": "Laravel · ASP.NET · REST · JSP · TypeScript · Next.js",
+        "detail": "Applications full-stack de l'idée au déploiement. Architecture propre, authentification, pipelines CI/CD."
+      },
+      "apis": {
+        "id": "mobile/",
+        "stack": "Java · Kotlin · React Native · Android · iOS",
+        "detail": "Applications mobiles natives et multiplateformes. D'Android à iOS, conçues pour offrir des performances optimales et une expérience utilisateur fidèle."
+      },
+      "desktop_apps": {
+        "id": "desktop_apps/",
+        "stack": "JavaScript · Python · Electron · Next.js · Qt · Multi-plateforme",
+        "detail": "Applications de bureau développées avec Electron et Python. Distribuées sous forme d'exécutables autonomes pour Windows, macOS et Linux."
+      },
+      "game_dev": {
+        "id": "developpement_jeux/",
+        "stack": "C# · Blueprints · Unreal Engine · Unity",
+        "detail": "Jeux et expériences interactives du prototype à la version finale peaufinée."
+      }
+    }
+  },
+  "github": {
+    "heading": "Récemment poussé",
+    "live": "en direct depuis GitHub",
+    "noDescription": "Aucune description",
+    "viewAll": "Voir tous les dépôts",
+    "timeAgo": {
+      "justNow": "à l'instant",
+      "m": "min",
+      "h": "h",
+      "d": "j",
+      "mo": "mois"
+    }
+  },
   "rotatingWords": [
     "Développeur Full-Stack",
     "Étudiant en informatique",

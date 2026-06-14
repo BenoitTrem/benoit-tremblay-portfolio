@@ -43,6 +43,50 @@
       }
     }
   },
+  "services": {
+    "heading": "What I build",
+    "terminal": {
+      "scanning": "# scanning modules...",
+      "loaded": "4 modules loaded",
+      "expand": "— click any to expand",
+      "phrase": "ready --for-new-projects"
+    },
+    "items": {
+      "web_apps": {
+        "id": "web_apps/",
+        "stack": "Laravel · ASP.NET · REST · JSP · TypeScript · Next.js",
+        "detail": "Full-stack apps from idea to deployment. Clean architecture, proper auth, CI/CD pipelines."
+      },
+      "apis": {
+        "id": "mobile/",
+        "stack": "Java · Kotlin · React Native · Android · iOS",
+        "detail": "Native and cross-platform mobile apps. From Android to iOS, built for performance and real device feel."
+      },
+      "desktop_apps": {
+        "id": "desktop_apps/",
+        "stack": "JavaScript · Python · Electron · Next.js · Qt · Cross-platform",
+        "detail": "Desktop applications built with Electron and Python. Packaged as standalone executables for Windows, macOS and Linux."
+      },
+      "game_dev": {
+        "id": "game_dev/",
+        "stack": "C# · Blueprints · Unreal Engine · Unity",
+        "detail": "Games and interactive experiences from prototype to polished release."
+      }
+    }
+  },
+  "github": {
+    "heading": "Recently pushed",
+    "live": "live from GitHub",
+    "noDescription": "No description",
+    "viewAll": "View all repositories",
+    "timeAgo": {
+      "justNow": "just now",
+      "m": "m ago",
+      "h": "h ago",
+      "d": "d ago",
+      "mo": "mo ago"
+    }
+  },
   "rotatingWords": [
     "Full-Stack Developer",
     "Computer Science Student",

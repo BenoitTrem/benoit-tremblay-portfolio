@@ -3,13 +3,13 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import styles from "./home.module.css";
 import {
-  Code2,
-  Layers,
-  Mail,
+  Smartphone,
+  Contact,
+  FolderClosed,
+  Send,
   ArrowRight,
   Download,
   Monitor,
-  Plug,
   Gamepad2,
   Globe,
   CheckCircle2,
@@ -93,51 +93,36 @@ type Repo = {
   fork: boolean;
 };
 
-function timeAgo(dateStr: string): string {
+function timeAgo(
+  dateStr: string,
+  labels: { justNow: string; m: string; h: string; d: string; mo: string },
+): string {
   const s = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
-  if (s < 60) return "just now";
-  if (s < 3600) return `${Math.floor(s / 60)}m ago`;
-  if (s < 86400) return `${Math.floor(s / 3600)}h ago`;
-  if (s < 2592000) return `${Math.floor(s / 86400)}d ago`;
-  return `${Math.floor(s / 2592000)}mo ago`;
+  if (s < 60) return labels.justNow;
+  if (s < 3600) return `${Math.floor(s / 60)}${labels.m}`;
+  if (s < 86400) return `${Math.floor(s / 3600)}${labels.h}`;
+  if (s < 2592000) return `${Math.floor(s / 86400)}${labels.d}`;
+  return `${Math.floor(s / 2592000)}${labels.mo}`;
 }
-
-const SERVICES = [
-  {
-    id: "web_apps/",
-    icon: <Globe size={14} />,
-    color: "#3178c6",
-    stack: "Next.js · Laravel · .NET · REST · TypeScript",
-    detail:
-      "Full-stack apps from idea to deployment. Clean architecture, proper auth, CI/CD pipelines.",
-  },
-  {
-    id: "apis/",
-    icon: <Plug size={14} />,
-    color: "#1D9E75",
-    stack: "REST · OpenAPI · Auth · Rate limiting · Docs",
-    detail:
-      "APIs built for scale. Versioned, documented, with proper error handling and authentication.",
-  },
-  {
-    id: "desktop_apps/",
-    icon: <Monitor size={14} />,
-    color: "#7F77DD",
-    stack: "Electron · Web tech · Cross-platform · Native feel",
-    detail:
-      "Cross-platform apps that feel native. Web tech, shipped as a real application.",
-  },
-  {
-    id: "game_dev/",
-    icon: <Gamepad2 size={14} />,
-    color: "#D85A30",
-    stack: "Unreal Engine · Unity · C++ · Blueprints",
-    detail:
-      "Games and interactive experiences from prototype to polished release.",
-  },
-];
-
-function Terminal() {
+type Service = {
+  id: string;
+  icon: React.ReactNode;
+  color: string;
+  stack: string;
+  detail: string;
+};
+function Terminal({
+  services,
+  terminal,
+}: {
+  services: Service[];
+  terminal: {
+    scanning: string;
+    loaded: string;
+    expand: string;
+    phrase: string;
+  };
+}) {
   const [step, setStep] = useState(0);
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
   const [typed, setTyped] = useState("");
@@ -157,18 +142,19 @@ function Terminal() {
   useEffect(() => {
     if (step === 0) return;
     const timers: ReturnType<typeof setTimeout>[] = [];
-    SERVICES.forEach((_, i) => {
+    services.forEach((_, i) => {
       timers.push(setTimeout(() => setStep(2 + i), 400 + i * 180));
     });
     timers.push(
-      setTimeout(() => setStep(10), 400 + SERVICES.length * 180 + 300),
+      setTimeout(() => setStep(10), 400 + services.length * 180 + 300),
     );
     return () => timers.forEach(clearTimeout);
   }, [step === 1]);
 
   useEffect(() => {
     if (step < 10) return;
-    const phrase = "ready --for-new-projects";
+    setTyped("");
+    const phrase = terminal.phrase;
     let i = 0;
     const t = setInterval(() => {
       i++;
@@ -176,7 +162,7 @@ function Terminal() {
       if (i >= phrase.length) clearInterval(t);
     }, 60);
     return () => clearInterval(t);
-  }, [step]);
+  }, [step, terminal.phrase]);
 
   return (
     <div ref={ref} className={styles.termBox}>
@@ -200,11 +186,11 @@ function Terminal() {
         )}
         {step >= 1 && (
           <div className={styles.termLine}>
-            <span className={styles.termComment}># scanning modules...</span>
+            <span className={styles.termComment}>{terminal.scanning}</span>
           </div>
         )}
 
-        {SERVICES.map(
+        {services.map(
           (svc, i) =>
             step >= 2 + i && (
               <div
@@ -238,9 +224,9 @@ function Terminal() {
                 color="#639922"
                 style={{ flexShrink: 0, marginTop: 5 }}
               />
-              <span className={styles.termOk}>4 modules loaded</span>
+              <span className={styles.termOk}>{terminal.loaded}</span>
               <span className={styles.termComment}>
-                &nbsp;— click any to expand
+                &nbsp;{terminal.expand}
               </span>
             </div>
             <div className={styles.termLine2}>
@@ -265,6 +251,37 @@ export default function Home() {
   const locale = useLocale();
   const t = getT(locale);
   const ROTATING_WORDS = t.rotatingWords;
+
+  const SERVICES = [
+    {
+      id: t.services.items.web_apps.id,
+      icon: <Globe size={14} />,
+      color: "#3178c6",
+      stack: t.services.items.web_apps.stack,
+      detail: t.services.items.web_apps.detail,
+    },
+    {
+      id: t.services.items.desktop_apps.id,
+      icon: <Monitor size={14} />,
+      color: "#7F77DD",
+      stack: t.services.items.desktop_apps.stack,
+      detail: t.services.items.desktop_apps.detail,
+    },
+    {
+      id: t.services.items.apis.id,
+      icon: <Smartphone size={14} />,
+      color: "#1D9E75",
+      stack: t.services.items.apis.stack,
+      detail: t.services.items.apis.detail,
+    },
+    {
+      id: t.services.items.game_dev.id,
+      icon: <Gamepad2 size={14} />,
+      color: "#D85A30",
+      stack: t.services.items.game_dev.stack,
+      detail: t.services.items.game_dev.detail,
+    },
+  ];
 
   const [wordIndex, setWordIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
@@ -411,12 +428,12 @@ export default function Home() {
       <section aria-labelledby="services-heading" className={styles.services}>
         <div data-reveal className={styles.servicesHeader}>
           <h2 id="services-heading" className={styles.sectionHeading}>
-            What I build
+            {t.services.heading}
           </h2>
           <div className={styles.divider_1} />
         </div>
 
-        <Terminal />
+        <Terminal services={SERVICES} terminal={t.services.terminal} />
       </section>
 
       {/* ── Cards ── */}
@@ -436,7 +453,7 @@ export default function Home() {
             style={{ "--delay": "0ms" } as React.CSSProperties}
           >
             <div className={styles.splitCardIcon}>
-              <Layers size={22} strokeWidth={1.5} />
+              <Contact size={22} strokeWidth={1.5} />
             </div>
             <div className={styles.splitCardBody}>
               <p className={styles.splitCardTag}>{t.home.aboutTag}</p>
@@ -453,7 +470,7 @@ export default function Home() {
             style={{ "--delay": "100ms" } as React.CSSProperties}
           >
             <div className={styles.splitCardIcon}>
-              <Code2 size={22} strokeWidth={1.5} />
+              <FolderClosed size={22} strokeWidth={1.5} />
             </div>
             <div className={styles.splitCardBody}>
               <p className={styles.splitCardTag}>{t.home.techTag}</p>
@@ -470,7 +487,7 @@ export default function Home() {
             style={{ "--delay": "200ms" } as React.CSSProperties}
           >
             <div className={styles.splitCardIcon}>
-              <Mail size={22} strokeWidth={1.5} />
+              <Send size={22} strokeWidth={1.5} />
             </div>
             <div className={styles.splitCardBody}>
               <p className={styles.splitCardTag}>{t.home.contactTag}</p>
@@ -486,12 +503,12 @@ export default function Home() {
       <section aria-labelledby="github-heading" className={styles.github}>
         <div data-reveal className={styles.githubHeader}>
           <h2 id="github-heading" className={styles.sectionHeading}>
-            Recently pushed
+            {t.github.heading}
           </h2>
           <div className={styles.divider_1} />
           <span className={styles.githubLive}>
             <span className={styles.githubPulse} aria-hidden="true" />
-            live from GitHub
+            {t.github.live}
           </span>
         </div>
 
@@ -536,7 +553,7 @@ export default function Home() {
                       </span>
                     )}
                     <span className={styles.repoUpdated}>
-                      {timeAgo(repo.pushed_at)}
+                      {timeAgo(repo.pushed_at, t.github.timeAgo)}
                     </span>
                   </div>
                   <span className={styles.repoArrow}>→</span>
@@ -554,7 +571,7 @@ export default function Home() {
             <svg viewBox="0 0 24 24" width={16} height={16}>
               <path d={simpleIcons.siGithub.path} fill="currentColor" />
             </svg>
-            View all repositories <ArrowRight size={13} />
+            {t.github.viewAll} <ArrowRight size={13} />
           </a>
         </div>
       </section>
