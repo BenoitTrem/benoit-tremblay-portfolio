@@ -14,14 +14,13 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default:
-      "Benoit Tremblay | Full-Stack Developer & Computer Science Student",
+    default: "Benoit Tremblay | Developer & CS Student",
     template: "%s | Benoit Tremblay",
   },
   description:
-    "Benoit Tremblay is a computer science developer showcasing software projects " +
-    "and technical skills in full-stack development, algorithms, and modern web technologies. " +
-    "Explore work built with React, Next.js, TypeScript, Python, and more.",
+    "Benoit Tremblay is a computer science student showcasing software projects " +
+    "in full-stack development, desktop applications, and game development. " +
+    "Explore work built with React, Next.js, TypeScript, Java, C# and more.",
 
   applicationName: "Benoit Tremblay Portfolio",
   authors: [{ name: "Benoit Tremblay", url: "https://your-domain.com" }],
@@ -38,14 +37,20 @@ export const metadata: Metadata = {
     "frontend developer",
     "backend developer",
     "web development",
+    "desktop application",
+    "electron",
+    "game development",
     "react",
     "next.js",
     "typescript",
     "python",
-    "algorithms",
-    "data structures",
+    "java",
+    "c#",
+    "spring boot",
     "open source",
     "student developer",
+    "québec",
+    "canada",
   ],
 
   metadataBase: new URL("https://your-domain.com"),
@@ -72,8 +77,8 @@ export const metadata: Metadata = {
     url: "https://your-domain.com",
     title: "Benoit Tremblay | Full-Stack Developer Portfolio",
     description:
-      "Explore Benoit Tremblay's developer portfolio — software projects, technical skills, " +
-      "and computer science work in full-stack web development.",
+      "Explore Benoit Tremblay's developer portfolio — full-stack apps, desktop software, " +
+      "games, and more built with modern technologies.",
     siteName: "Benoit Tremblay Portfolio",
     locale: "en_US",
     images: [
@@ -91,7 +96,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Benoit Tremblay | Full-Stack Developer",
     description:
-      "CS developer & software engineer — projects, skills, and open source work.",
+      "Full-stack apps, desktop software, and games — built with modern technologies.",
     images: ["/og-image.png"],
   },
 
