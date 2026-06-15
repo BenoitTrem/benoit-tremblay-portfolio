@@ -9,6 +9,7 @@
   --border: #1a2e2b;
   --border-2: #2a4a46;
   --text-primary: #f0faf8;
+  --text-primary-reversed: #040806;
   --text-secondary: #7ec4ba;
   --text-muted: #4d8f88;
   --accent-green: #2dd4aa;
@@ -28,6 +29,7 @@
   --border: #b8e4da;
   --border-2: #a0d4ca;
   --text-primary: #040806;
+  --text-primary-reversed: #f0faf8;
   --text-secondary: #1a4f4a;
   --text-muted: #3d7a72;
   --accent-green: #1aab85;

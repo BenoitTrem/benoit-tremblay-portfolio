@@ -143,7 +143,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   aspect-ratio: 4 / 3;
-  height: 240px;
+  height: 270px;
   overflow: hidden;
   background-color: var(--surface-2);
   border-bottom: 2px solid var(--card-border-bottom);
@@ -501,6 +501,8 @@
   position: relative;
   width: 100%;
   height: 100%;
+  background-color: var(--bg);
+  cursor: zoom-in;
 }
 
 .carouselImg {
@@ -546,4 +548,327 @@
   opacity: 1;
   background-color: var(--text-primary);
   transform: scale(1.3);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+  backdrop-filter: blur(12px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalInner {
+  position: relative;
+  width: 90vw;
+  max-width: 1100px;
+  height: 80vh;
+  width: fit-content;
+  height: fit-content;
+  border: 2px solid var(--card-border-bottom);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalImg {
+  display: none;
+  width: 90vw;
+  max-width: 1100px;
+  height: auto;
+  max-height: 85vh;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  aspect-ratio: auto;
+}
+
+.modalImgActive {
+  display: block;
+  opacity: 1;
+}
+
+.modalImgWrapper {
+  position: relative;
+  max-width: 90vw;
+  max-height: 85vh;
+  background-color: transparent;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalClose {
+  position: absolute;
+  top: 0px;
+  right: -70px;
+  background: none;
+  background-color: var(--surface);
+  border: 2px solid var(--card-border-bottom);
+  color: var(--text-secondary);
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  cursor: pointer;
+  line-height: 1;
+  opacity: 1;
+  z-index: 10;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+@media (hover: hover) {
+  .modalClose:hover {
+    background-color: var(--surface-2);
+    color: var(--text-primary);
+    transform: scale(1.1);
+  }
+}
+.modalClose:active {
+  transform: scale(1.2);
+}
+
+.modalNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  width: 52px;
+  height: 52px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 2px solid var(--card-border-bottom);
+  background-color: var(--surface);
+  box-shadow: 0 0 0 var(--card-border-bottom);
+  color: var(--text-secondary);
+  transition:
+    color 0.4s,
+    background-color 0.4s,
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+  z-index: 2;
+  padding: 0;
+  line-height: 1;
+}
+
+.modalNavPrev {
+  left: -70px;
+}
+
+@media (hover: hover) {
+  .modalNavPrev:hover {
+    transform: translateY(-50%) translateX(-6px);
+    box-shadow: 6px 0 0 var(--card-border-bottom);
+    background-color: var(--surface-2);
+    color: var(--text-primary);
+  }
+
+  .modalNavPrev:active {
+    transform: translateY(-50%) translateX(0px);
+    box-shadow: none;
+  }
+
+  .modalNavNext:hover {
+    transform: translateY(-50%) translateX(6px);
+    box-shadow: -6px 0 0 var(--card-border-bottom);
+    background-color: var(--surface-2);
+    color: var(--text-primary);
+  }
+
+  .modalNavNext:active {
+    transform: translateY(-50%) translateX(0px);
+    box-shadow: none;
+  }
+}
+
+@media (hover: none) {
+  .modalNavPrev:active {
+    background-color: var(--surface-2);
+  }
+
+  .modalNavNext:active {
+    background-color: var(--surface-2);
+  }
+}
+
+.modalNavNext {
+  right: -70px;
+}
+
+.modalDots {
+  position: absolute;
+  bottom: -36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.modalCounter {
+  position: absolute;
+  top: -35px;
+  left: 0;
+  font-size: 16px;
+  color: var(--text-primary);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.modalNavDesktop {
+  display: flex;
+}
+
+.modalNavRow {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .modalInner {
+    width: fit-content;
+    height: fit-content;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    border: none;
+    margin-top: 25px;
+  }
+
+  .modalImgWrapper {
+    border: 2px solid var(--card-border-bottom);
+    border-radius: 8px;
+    max-width: 90vw;
+    max-height: 60vh;
+    overflow: hidden;
+  }
+
+  .modalImg {
+    width: 90vw;
+    max-width: 90vw;
+    max-height: 60vh;
+  }
+
+  .modalDots {
+    position: relative;
+    bottom: unset;
+    left: unset;
+    transform: none;
+    justify-content: center;
+  }
+
+  .modalNavDesktop {
+    display: none;
+  }
+
+  .modalNavRow {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .modalNav {
+    position: relative;
+    top: unset;
+    transform: none;
+    width: 36px;
+    height: 36px;
+  }
+
+  .modalNavPrev,
+  .modalNavNext {
+    left: unset;
+    right: unset;
+  }
+
+  .modalClose {
+    position: absolute;
+    top: -48px;
+    right: 0px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .modalCounter {
+    position: absolute;
+    top: -48px;
+    left: 0;
+    font-size: 12px;
+    background-color: var(--surface);
+    border: 2px solid var(--card-border-bottom);
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .modalImg {
+    width: auto;
+    max-width: 70vw;
+    max-height: 75vh;
+  }
+
+  .modalImgWrapper {
+    max-width: 70vw;
+    max-height: 55vh;
+  }
+
+  .modalInner {
+    margin-top: 75px;
+    width: fit-content;
+    height: fit-content;
+  }
+
+  .modalNavPrev {
+    left: -48px;
+  }
+
+  .modalNavNext {
+    right: -48px;
+  }
+
+  .modalNav {
+    width: 36px;
+    height: 36px;
+    opacity: 0.85;
+  }
+
+  .modalClose {
+    top: -48px;
+    right: 0px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .modalCounter {
+    top: -48px;
+    left: 0;
+    font-size: 12px;
+    background-color: var(--surface);
+    border: 2px solid var(--card-border-bottom);
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+
+  .modalDots {
+    bottom: -24px;
+  }
 }

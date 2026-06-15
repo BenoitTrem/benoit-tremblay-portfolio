@@ -1,8 +1,15 @@
 "use client";
 import styles from "./projects.module.css";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import {
+  ArrowRight,
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useLocale } from "../lib/LocaleContext";
 import { getT } from "../lib/translations";
 import * as simpleIcons from "simple-icons";
@@ -83,6 +90,8 @@ export interface Project {
   title: string;
   description: string;
   images?: string[];
+  imageFit?: "cover" | "contain";
+  imageScale?: number;
   tech: string[];
   github?: string;
   steam?: string;
@@ -93,68 +102,6 @@ export interface Project {
 }
 
 const PROJECTS: Project[] = [
-  {
-    id: "The Last Wait",
-    title: "The Last Wait",
-    description:
-      "A solo-developed psychological horror game with a deep, narrative-driven story. Built in Unreal Engine with immersive audio design.",
-    images: [
-      "/images/TheLastWait/the-last-wait-spash-screen.png",
-      "/images/TheLastWait/the-last-wait-gameplay.png",
-      "/images/TheLastWait/the-last-wait-gameplay-security-office.png",
-      "/images/TheLastWait/the-last-wait-gameplay-tv-open.png",
-      "/images/TheLastWait/the-last-wait-gameplay-in-water.png",
-      "/images/TheLastWait/the-last-wait-gameplay-jumpscare.png",
-      "/images/TheLastWait/the-last-wait-gameplay-outside.png",
-    ],
-    tech: ["Unreal Engine", "Blender"],
-    steam: "https://store.steampowered.com/app/4165280/The_Last_Wait/",
-    itchio: "https://beanutts.itch.io/the-last-wait",
-    tag: "Game",
-  },
-  {
-    id: "Portfolio",
-    title: "My Portfolio",
-    description:
-      "This portfolio — built with Next.js, TypeScript, and CSS Modules. Multi-language support via next-intl, dark and light mode.",
-    images: [
-      "/images/TheLastWait/TheLastWait_1.png",
-      "/images/TheLastWait/Screenshot (123).png",
-    ],
-    tech: ["Next.js", "TypeScript", "CSS3", "Vercel", "VS Code"],
-    github: "https://github.com/BenoitTrem/benoit-tremblay-portfolio.git",
-    tag: "Web",
-  },
-  {
-    id: "OlympicWave Site",
-    title: "Olympic Wave",
-    description: "",
-    images: [
-      "/images/OlympicWave/olympic-wave-home-screen.png",
-      "/images/OlympicWave/olympic-wave-services-page.png",
-    ],
-    tech: ["React", "JavaScript", "CSS3", "Netlify", "VS Code"],
-    github: "https://github.com/BenoitTrem/olympic-wave.git",
-    live: "https://olympicwave.ca/",
-    tag: "Web",
-  },
-  {
-    id: "Lan Radar",
-    title: "Lan Radar",
-    description:
-      "Local network scanner with ping monitor, speed test, and app browser — built with Electron.",
-    images: [
-      "/images/LanRadar/lan-radar-splash-screen.png",
-      "/images/LanRadar/lan-radar-speed-test.png",
-      "/images/LanRadar/lan-radar-ping.png",
-      "/images/LanRadar/lan-radar-about.png",
-    ],
-    tech: ["Electron", "Next.js", "JavaScript", "VS Code"],
-    github: "https://github.com/BenoitTrem/lan-radar.git",
-    tag: "Software",
-    download:
-      "https://github.com/BenoitTrem/lan-radar/releases/download/V1.0.0/LAN.Radar.Setup.1.0.0.exe",
-  },
   {
     id: "Student Residence",
     title: "Student Residence",
@@ -180,22 +127,6 @@ const PROJECTS: Project[] = [
     github: "https://github.com/BenoitTrem/residence-etudiante.git",
     tag: "Full-Stack",
   },
-  {
-    id: "Lcu Dashboard",
-    title: "LoL Client Dashboard",
-    description:
-      "A fan-made desktop app for interacting with the League of Legends client. Auto-accept, auto ban/pick, lobby management, and more.",
-    images: [
-      "/images/LolClient/lol-client-home-page.png",
-      "/images/LolClient/lol-client-guide.png",
-    ],
-    tech: ["Electron", "Next.js", "TypeScript", "VS Code"],
-    github: "https://github.com/BenoitTrem/lol-client-dashboard.git",
-    tag: "Software",
-    download:
-      "https://github.com/BenoitTrem/lol-client-dashboard/releases/download/V1.1.0/LoL.Dashboard.Setup.1.1.0.exe",
-  },
-
   {
     id: "PHP Project",
     title: "Conference Manager",
@@ -237,21 +168,97 @@ const PROJECTS: Project[] = [
     tag: "Full-Stack",
   },
   {
-    id: "Client/Server Project",
-    title: "Client/Server Task Manager",
+    id: "Portfolio",
+    title: "My Portfolio",
+    description:
+      "This portfolio — built with Next.js, TypeScript, and CSS Modules. Multi-language support via next-intl, dark and light mode.",
+    images: ["/images/OlympicWave/olympic-wave-home-screen.png"],
+    tech: ["Next.js", "TypeScript", "CSS3", "Vercel", "VS Code"],
+    github: "https://github.com/BenoitTrem/benoit-tremblay-portfolio.git",
+    tag: "Web",
+  },
+  {
+    id: "OlympicWave Site",
+    title: "Olympic Wave",
     description: "",
     images: [
-      "/images/ClientServerTaskManager/client-vue.png",
-      "/images/ClientServerTaskManager/server-vue.png",
+      "/images/OlympicWave/olympic-wave-home-screen.png",
+      "/images/OlympicWave/olympic-wave-services-page.png",
     ],
-    tech: ["Java", "IntelliJ IDEA"],
-    github:
-      "https://github.com/BenoitTrem/gestionnaire-taches-client-serveur.git",
-    tag: "Systems",
+    tech: ["React", "JavaScript", "CSS3", "Netlify", "VS Code"],
+    github: "https://github.com/BenoitTrem/olympic-wave.git",
+    live: "https://olympicwave.ca/",
+    tag: "Web",
+  },
+  {
+    id: "Lan Radar",
+    title: "Lan Radar",
+    imageFit: "contain",
+    description:
+      "Local network scanner with ping monitor, speed test, and app browser — built with Electron.",
+    images: [
+      "/images/LanRadar/lan-radar-splash-screen.png",
+      "/images/LanRadar/lan-radar-speed-test.png",
+      "/images/LanRadar/lan-radar-ping.png",
+      "/images/LanRadar/lan-radar-about.png",
+    ],
+    tech: ["Electron", "Next.js", "JavaScript", "VS Code"],
+    github: "https://github.com/BenoitTrem/lan-radar.git",
+    tag: "Software",
+    download:
+      "https://github.com/BenoitTrem/lan-radar/releases/download/V1.0.0/LAN.Radar.Setup.1.0.0.exe",
+  },
+
+  {
+    id: "Lcu Dashboard",
+    title: "LoL Client Dashboard",
+    description:
+      "A fan-made desktop app for interacting with the League of Legends client. Auto-accept, auto ban/pick, lobby management, and more.",
+    images: [
+      "/images/LolClient/lol-client-home-page.png",
+      "/images/LolClient/lol-client-guide.png",
+    ],
+    tech: ["Electron", "Next.js", "TypeScript", "VS Code"],
+    github: "https://github.com/BenoitTrem/lol-client-dashboard.git",
+    tag: "Software",
+    download:
+      "https://github.com/BenoitTrem/lol-client-dashboard/releases/download/V1.1.0/LoL.Dashboard.Setup.1.1.0.exe",
+  },
+  {
+    id: "The Last Wait",
+    title: "The Last Wait",
+    description:
+      "A solo-developed psychological horror game with a deep, narrative-driven story. Built in Unreal Engine with immersive audio design.",
+    images: [
+      "/images/TheLastWait/the-last-wait-spash-screen.png",
+      "/images/TheLastWait/the-last-wait-gameplay.png",
+      "/images/TheLastWait/the-last-wait-gameplay-security-office.png",
+      "/images/TheLastWait/the-last-wait-gameplay-tv-open.png",
+      "/images/TheLastWait/the-last-wait-gameplay-in-water.png",
+      "/images/TheLastWait/the-last-wait-gameplay-jumpscare.png",
+      "/images/TheLastWait/the-last-wait-gameplay-outside.png",
+    ],
+    tech: ["Unreal Engine", "Blender"],
+    steam: "https://store.steampowered.com/app/4165280/The_Last_Wait/",
+    itchio: "https://beanutts.itch.io/the-last-wait",
+    tag: "Game",
+  },
+  {
+    id: "PHP Game",
+    title: "Magician Adventure (Browser)",
+    description: "",
+    images: [
+      "/images/MagicianAdventureBrowser/magician-adventure-home-page.png",
+      "/images/MagicianAdventureBrowser/magician-adventure-game-page.png",
+    ],
+    tech: ["PHP", "JavaScript", "HTML5", "CSS3"],
+    github: "https://github.com/BenoitTrem/aventure-du-mage.git",
+    tag: "Game",
   },
   {
     id: "Mobile app #1",
     title: "Team Manager For A Store",
+    imageFit: "contain",
     description: "",
     images: [
       "/images/TeamManagerStore/team-manager-home-page.png",
@@ -266,6 +273,7 @@ const PROJECTS: Project[] = [
   {
     id: "Mobile app #2",
     title: "Reminders Planner",
+    imageFit: "contain",
     description: "",
     images: [
       "/images/RemindersPlanner/reminder-planner-reminders-list.png",
@@ -278,16 +286,17 @@ const PROJECTS: Project[] = [
     tag: "Mobile",
   },
   {
-    id: "PHP Game",
-    title: "Magician Adventure (Browser)",
+    id: "Client/Server Project",
+    title: "Client/Server Task Manager",
     description: "",
     images: [
-      "/images/MagicianAdventureBrowser/magician-adventure-home-page.png",
-      "/images/MagicianAdventureBrowser/magician-adventure-game-page.png",
+      "/images/ClientServerTaskManager/client-vue.png",
+      "/images/ClientServerTaskManager/server-vue.png",
     ],
-    tech: ["PHP", "JavaScript", "HTML5", "CSS3"],
-    github: "https://github.com/BenoitTrem/aventure-du-mage.git",
-    tag: "Game",
+    tech: ["Java", "IntelliJ IDEA"],
+    github:
+      "https://github.com/BenoitTrem/gestionnaire-taches-client-serveur.git",
+    tag: "Systems",
   },
   {
     id: "C# Game",
@@ -320,7 +329,116 @@ const PROJECTS: Project[] = [
   },
 ];
 
-function Carousel({ images }: { images: string[] }) {
+function Modal({
+  images,
+  startIndex,
+  imageFit = "cover",
+  imageScale = 1,
+  onClose,
+}: {
+  images: string[];
+  startIndex: number;
+  imageFit?: "cover" | "contain";
+  imageScale?: number;
+  onClose: () => void;
+}) {
+  const [current, setCurrent] = useState(startIndex);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight") setCurrent((i) => (i + 1) % images.length);
+      if (e.key === "ArrowLeft")
+        setCurrent((i) => (i - 1 + images.length) % images.length);
+    };
+    window.addEventListener("keydown", handleKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  return createPortal(
+    <div className={styles.modal} onClick={onClose}>
+      <div className={styles.modalInner} onClick={(e) => e.stopPropagation()}>
+        <button className={styles.modalClose} onClick={onClose}>
+          <X size={22} />
+        </button>
+
+        <div className={styles.modalImgWrapper}>
+          {images.map((src, i) => (
+            <img
+              key={src}
+              src={src}
+              alt=""
+              className={`${styles.modalImg} ${i === current ? styles.modalImgActive : ""}`}
+            />
+          ))}
+        </div>
+
+        {images.length > 1 && (
+          <>
+            <button
+              className={`${styles.modalNav} ${styles.modalNavPrev} ${styles.modalNavDesktop}`}
+              onClick={() =>
+                setCurrent((i) => (i - 1 + images.length) % images.length)
+              }
+            >
+              <ChevronLeft size={22} strokeWidth={2.5} />
+            </button>
+            <button
+              className={`${styles.modalNav} ${styles.modalNavNext} ${styles.modalNavDesktop}`}
+              onClick={() => setCurrent((i) => (i + 1) % images.length)}
+            >
+              <ChevronRight size={22} strokeWidth={2.5} />
+            </button>
+
+            <div className={styles.modalDots}>
+              {images.map((_, i) => (
+                <button
+                  key={i}
+                  className={`${styles.carouselDot} ${i === current ? styles.carouselDotActive : ""}`}
+                  onClick={() => setCurrent(i)}
+                />
+              ))}
+            </div>
+
+            <div className={styles.modalNavRow}>
+              <button
+                className={`${styles.modalNav} ${styles.modalNavPrev}`}
+                onClick={() =>
+                  setCurrent((i) => (i - 1 + images.length) % images.length)
+                }
+              >
+                <ChevronLeft size={22} strokeWidth={2.5} />
+              </button>
+              <button
+                className={`${styles.modalNav} ${styles.modalNavNext}`}
+                onClick={() => setCurrent((i) => (i + 1) % images.length)}
+              >
+                <ChevronRight size={22} strokeWidth={2.5} />
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
+function Carousel({
+  images,
+  imageFit = "cover",
+  imageScale = 1,
+  onImageClick,
+}: {
+  images: string[];
+  imageFit?: "cover" | "contain";
+  imageScale?: number;
+  onImageClick: (index: number) => void;
+}) {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -339,6 +457,12 @@ function Carousel({ images }: { images: string[] }) {
           src={src}
           alt=""
           className={`${styles.carouselImg} ${i === current ? styles.carouselImgActive : ""}`}
+          style={{
+            objectFit: imageFit,
+            transform:
+              imageFit === "contain" ? `scale(${imageScale})` : undefined,
+          }}
+          onClick={() => onImageClick(i)}
         />
       ))}
       {images.length > 1 && (
@@ -361,12 +485,18 @@ function Carousel({ images }: { images: string[] }) {
 }
 
 function ProjectCard({ project }: { project: Project }) {
+  const [modalIndex, setModalIndex] = useState<number | null>(null);
+
   return (
     <article className={styles.card}>
-      {/* Image / placeholder */}
       <div className={styles.cardImage}>
         {project.images && project.images.length > 0 ? (
-          <Carousel images={project.images} />
+          <Carousel
+            images={project.images}
+            imageFit={project.imageFit}
+            imageScale={project.imageScale}
+            onImageClick={(i) => setModalIndex(i)}
+          />
         ) : (
           <div className={styles.cardImgPlaceholder}>
             <span className={styles.cardImgLabel}>Preview coming soon</span>
@@ -476,6 +606,16 @@ function ProjectCard({ project }: { project: Project }) {
       <div className={styles.cardHoverArrow} aria-hidden>
         <ArrowRight size={18} />
       </div>
+
+      {modalIndex !== null && project.images && (
+        <Modal
+          images={project.images}
+          startIndex={modalIndex}
+          imageFit={project.imageFit}
+          imageScale={project.imageScale}
+          onClose={() => setModalIndex(null)}
+        />
+      )}
     </article>
   );
 }
