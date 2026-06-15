@@ -38,8 +38,8 @@ export default function Footer() {
           <h4 className="footer-title">Get in Touch</h4>
           <ul className="footer-list">
             <li>
-              <a href="mailto:benoit@email.com" className="footer-link">
-                <Mail size={14} /> benoit@email.com
+              <a href="mailto:bentrem2003@gmail.com" className="footer-link">
+                <Mail size={14} /> bentrem2003@gmail.com
               </a>
             </li>
             <li>

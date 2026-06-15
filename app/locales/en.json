@@ -99,17 +99,17 @@
     "stats": {
       "projectsBuilt": "Projects Built",
       "publicRepos": "Public Repos",
-      "topLanguage": "Top Language"
+      "topLanguage": "Top Languages"
     },
     "statPanels": {
       "projectsBuilt": {
         "title": "Projects Built",
-        "body": "Full-stack apps, REST APIs, portfolio projects, and experimental tools — all built with modern web technologies and real users in mind.",
+        "body": "Most of my projects — full-stack apps, REST APIs, desktop applications, and games — built with modern technologies and real users in mind.",
         "cta": "View all projects"
       },
       "repos": {
         "title": "Projects & Repositories",
-        "body": "public repositories on GitHub — ranging from full-stack web apps to algorithms and personal experiments. Each one is a snapshot of something I was learning or building at the time.",
+        "body": "Public repositories on GitHub — ranging from full-stack web apps to desktop applications and personal experiments. Each one is a snapshot of something I was learning or building at the time.",
         "cta": "Browse repos"
       },
       "topLang": {
@@ -159,19 +159,19 @@
     "items": {
       "studentResidence": {
         "title": "Student Residence",
-        "description": "A web platform to manage student housing units, tenants, and accounts — with role-based access for admins and residents."
+        "description": "A web application built with ASP.NET Core MVC to manage student residences, housing applications, and user accounts — with three access levels: student, manager, and administrator."
       },
       "conferenceManager": {
-        "title": "Conference Manager",
-        "description": "A workshop and conference scheduling tool with a calendar view, local management, and user authentication."
+        "title": "Workshop Manager",
+        "description": "A Laravel web application for scheduling and managing workshops during the Humanities Week event — handling facilitators, rooms, and scheduling conflicts, with a public-facing schedule and a participant registration system."
       },
       "fileManagers": {
         "title": "File Managers",
-        "description": "A client-server file sharing app with comments, user management, and shared file access."
+        "description": "A JSP web application built with Spring Boot and a JWT-secured REST API — featuring user management, file uploading, and a comment system with moderation."
       },
       "portfolio": {
         "title": "My Portfolio",
-        "description": "This portfolio — built with Next.js, TypeScript, and CSS Modules. Multi-language support via next-intl, dark and light mode."
+        "description": "A personal portfolio website built with Next.js and TypeScript — showcasing my projects and skills, with multilingual support and dark/light mode."
       },
       "olympicWave": {
         "title": "Olympic Wave",
@@ -179,11 +179,11 @@
       },
       "lanRadar": {
         "title": "Lan Radar",
-        "description": "Local network scanner with ping monitor, speed test, and app browser — built with Electron."
+        "description": "A desktop application built with Next.js and Electron to monitor your local network — see connected devices, ping them in real time, run speed tests, and browse installed applications on your machine."
       },
       "lolDashboard": {
         "title": "LoL Client Dashboard",
-        "description": "A fan-made desktop app for interacting with the League of Legends client. Auto-accept, auto ban/pick, lobby management, and more."
+        "description": "An open-source desktop application built with Next.js and Electron to interact with the League of Legends client via the LCU API — manage lobbies, automate champion select, auto-accept matches, and invite friends, all from a single interface."
       },
       "theLastWait": {
         "title": "The Last Wait",
@@ -207,7 +207,7 @@
       },
       "magicianConsole": {
         "title": "Magician Adventure (Console)",
-        "description": "A turn-based console RPG built in C# with battle mechanics and a game over screen."
+        "description": "A turn-based console RPG built in C# — battle enemies, unlock stronger spells, and see how long you can survive."
       },
       "vehiculeLocation": {
         "title": "Vehicule Location",

@@ -477,7 +477,7 @@ export default function About() {
   }, []);
 
   const stats: { key: StatKey; number: string; label: string }[] = [
-    { key: "projectsBuilt", number: "12", label: a.stats.projectsBuilt },
+    { key: "projectsBuilt", number: "15", label: a.stats.projectsBuilt },
     {
       key: "repos",
       number: githubStats ? `${githubStats.repos}` : "—",

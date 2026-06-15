@@ -99,17 +99,17 @@
     "stats": {
       "projectsBuilt": "Projets Réalisés",
       "publicRepos": "Dépôts Publics",
-      "topLanguage": "Langage Principal"
+      "topLanguage": "Langages Principaux"
     },
     "statPanels": {
       "projectsBuilt": {
         "title": "Projets Réalisés",
-        "body": "Applications full-stack, APIs REST, projets portfolio et outils expérimentaux — tous construits avec des technologies web modernes et de vrais utilisateurs en tête.",
+        "body": "La plupart de mes projets — applications web, APIs REST, applications de bureau et jeux — développés avec des technologies modernes et l'expérience utilisateur en tête.",
         "cta": "Voir tous les projets"
       },
       "repos": {
         "title": "Projets & Dépôts",
-        "body": "dépôts publics sur GitHub — allant d'applications web full-stack à des algorithmes et expérimentations personnelles. Chacun est un instantané de ce que j'apprenais ou construisais à ce moment-là.",
+        "body": "Dépôts publics sur GitHub — allant d'applications web full-stack à des applications de bureau et expérimentations personnelles. Chacun est un instantané de ce que j'apprenais ou construisais à ce moment-là.",
         "cta": "Parcourir les dépôts"
       },
       "topLang": {
@@ -159,19 +159,19 @@
     "items": {
       "studentResidence": {
         "title": "Résidence Étudiante",
-        "description": "Une plateforme web pour gérer les logements étudiants, les locataires et les comptes — avec accès basé sur les rôles pour les admins et les résidents."
+        "description": "Application web développée en ASP.NET Core MVC pour gérer les résidences étudiantes, les demandes de logement et les comptes utilisateurs — avec trois niveaux d'accès : étudiant, gestionnaire et administrateur."
       },
       "conferenceManager": {
-        "title": "Gestionnaire de Conférences",
-        "description": "Un outil de planification d'ateliers et de conférences avec vue calendrier, gestion des locaux et authentification."
+        "title": "Gestionnaire d'ateliers",
+        "description": "Application web développée en Laravel pour planifier et gérer les ateliers de la Semaine des Sciences Humaines — incluant la gestion des animateurs, des locaux et des conflits d'horaires, avec une page publique d'affichage et un système d'inscription."
       },
       "fileManagers": {
         "title": "Gestionnaire de Fichiers",
-        "description": "Une application client-serveur de partage de fichiers avec commentaires, gestion des utilisateurs et accès aux fichiers partagés."
+        "description": "Application web JSP développée avec Spring Boot et une API REST sécurisée par JWT — permettant la gestion des utilisateurs, le téléversement de fichiers et un système de commentaires avec modération."
       },
       "portfolio": {
         "title": "Mon Portfolio",
-        "description": "Ce portfolio — construit avec Next.js, TypeScript et CSS Modules. Support multilingue, mode sombre et clair."
+        "description": "Site portfolio personnel développé avec Next.js et TypeScript — présentant mes projets et compétences, avec support multilingue et mode sombre/clair."
       },
       "olympicWave": {
         "title": "Olympic Wave",
@@ -179,11 +179,11 @@
       },
       "lanRadar": {
         "title": "Lan Radar",
-        "description": "Scanner de réseau local avec moniteur de ping, test de vitesse et navigateur d'applications — construit avec Electron."
+        "description": "Application desktop développée avec Next.js et Electron pour surveiller son réseau local — visualisez les appareils connectés, pingez-les en temps réel, testez la vitesse de votre connexion et explorez les applications installées sur votre machine."
       },
       "lolDashboard": {
         "title": "Tableau de Bord Client LoL",
-        "description": "Une application bureau non officielle pour interagir avec le client League of Legends. Auto-acceptation, ban/pick automatique, gestion du lobby et plus encore."
+        "description": "Application desktop open-source développée avec Next.js et Electron pour interagir avec le client League of Legends via l'API LCU — gérez vos lobbies, automatisez la sélection de champions, acceptez les parties automatiquement et invitez vos amis, le tout sans quitter l'application."
       },
       "theLastWait": {
         "title": "The Last Wait",
@@ -207,7 +207,7 @@
       },
       "magicianConsole": {
         "title": "Aventure du Magicien (Console)",
-        "description": "Un RPG console au tour par tour en C# avec des mécaniques de combat et un écran de game over."
+        "description": "Un RPG en tour par tour développé en C# jouable dans la console — affrontez des ennemis, améliorez vos sorts et survivez le plus longtemps possible."
       },
       "vehiculeLocation": {
         "title": "Location de Véhicules",
