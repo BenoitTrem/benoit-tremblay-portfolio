@@ -2,31 +2,37 @@
 import styles from "./contact.module.css";
 import { Mail, MapPin, Send, CheckCircle } from "lucide-react";
 import { useState, useRef } from "react";
+import { useLocale } from "../lib/LocaleContext";
+import { getT } from "../lib/translations";
 
 type FormFields = { email: string; subject: string; message: string };
 type FormErrors = Partial<Record<keyof FormFields, string>>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function validate(form: FormFields): FormErrors {
-  const errors: FormErrors = {};
-  if (!form.email.trim()) {
-    errors.email = "Email is required.";
-  } else if (!EMAIL_RE.test(form.email.trim())) {
-    errors.email = "Please enter a valid email address.";
-  }
-  if (!form.subject.trim()) {
-    errors.subject = "Subject is required.";
-  }
-  if (!form.message.trim()) {
-    errors.message = "Message is required.";
-  } else if (form.message.trim().length < 5) {
-    errors.message = "Message must be at least 5 characters.";
-  }
-  return errors;
-}
-
 export default function Contact() {
+  const locale = useLocale();
+  const t = getT(locale);
+  const c = t.contact;
+
+  function validate(form: FormFields): FormErrors {
+    const errors: FormErrors = {};
+    if (!form.email.trim()) {
+      errors.email = c.validation.emailRequired;
+    } else if (!EMAIL_RE.test(form.email.trim())) {
+      errors.email = c.validation.emailInvalid;
+    }
+    if (!form.subject.trim()) {
+      errors.subject = c.validation.subjectRequired;
+    }
+    if (!form.message.trim()) {
+      errors.message = c.validation.messageRequired;
+    } else if (form.message.trim().length < 5) {
+      errors.message = c.validation.messageTooShort;
+    }
+    return errors;
+  }
+
   const [form, setForm] = useState<FormFields>({
     email: "",
     subject: "",
@@ -83,7 +89,6 @@ export default function Contact() {
     const newErrors = validate(form);
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
-
     setStatus("sending");
     try {
       const res = await fetch("/api/contact", {
@@ -118,27 +123,21 @@ export default function Contact() {
   return (
     <main className={styles.page}>
       <div className={styles.container}>
-        {/* ── Hero ── */}
         <div className={styles.hero}>
-          <h1 className={styles.title}>Contact</h1>
-          <p className={styles.subtitle}>
-            Have a project in mind, a question, or just want to say hello? Fill
-            out the form and I'll get back to you as soon as possible.
-          </p>
+          <h1 className={styles.title}>{c.pageTitle}</h1>
+          <p className={styles.subtitle}>{c.pageSubtitle}</p>
         </div>
 
-        {/* ── Grid ── */}
         <div className={styles.grid}>
-          {/* ── Info column ── */}
           <div className={styles.infoCol}>
-            <p className={styles.sectionHeading}>Direct</p>
+            <p className={styles.sectionHeading}>{c.direct}</p>
             <div className={styles.infoCard}>
               <div className={styles.infoItem}>
                 <span className={styles.infoIcon}>
                   <Mail size={16} />
                 </span>
                 <div>
-                  <p className={styles.infoLabel}>Email</p>
+                  <p className={styles.infoLabel}>{c.email}</p>
                   <a
                     href="mailto:bentrem2003@gmail.com"
                     className={styles.infoValue}
@@ -153,14 +152,13 @@ export default function Contact() {
                   <MapPin size={16} />
                 </span>
                 <div>
-                  <p className={styles.infoLabel}>Location</p>
-                  <p className={styles.infoValue}>Gatineau, QC, Canada</p>
+                  <p className={styles.infoLabel}>{c.location}</p>
+                  <p className={styles.infoValue}>{c.locationValue}</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* ── Form ── */}
           <form
             ref={formRef}
             onSubmit={handleSubmit}
@@ -169,13 +167,13 @@ export default function Contact() {
           >
             <div className={styles.fieldGroup}>
               <label className={styles.label} htmlFor="email">
-                Email
+                {c.form.email}
               </label>
               <input
                 id="email"
                 type="email"
                 required
-                placeholder="you@example.com"
+                placeholder={c.form.emailPlaceholder}
                 {...field("email")}
                 disabled={status === "sent"}
               />
@@ -186,13 +184,13 @@ export default function Contact() {
 
             <div className={styles.fieldGroup}>
               <label className={styles.label} htmlFor="subject">
-                Subject
+                {c.form.subject}
               </label>
               <input
                 id="subject"
                 type="text"
                 required
-                placeholder="Project inquiry, collaboration…"
+                placeholder={c.form.subjectPlaceholder}
                 {...field("subject")}
                 disabled={status === "sent"}
               />
@@ -203,13 +201,13 @@ export default function Contact() {
 
             <div className={styles.fieldGroup}>
               <label className={styles.label} htmlFor="message">
-                Message
+                {c.form.message}
               </label>
               <textarea
                 id="message"
                 required
                 rows={7}
-                placeholder="Tell me about your project or idea…"
+                placeholder={c.form.messagePlaceholder}
                 {...field("message")}
                 className={`${styles.textarea} ${errors.message ? styles.inputError : ""}`}
                 disabled={status === "sent"}
@@ -221,22 +219,19 @@ export default function Contact() {
 
             <div className={styles.formFooter}>
               {status === "error" && (
-                <p className={styles.errorMsg}>
-                  Something went wrong. Please try again.
-                </p>
+                <p className={styles.errorMsg}>{c.form.error}</p>
               )}
               {status === "sent" ? (
                 <div className={styles.sentRow}>
                   <p className={styles.successMsg}>
-                    <CheckCircle size={15} /> Message sent — I'll be in touch
-                    soon.
+                    <CheckCircle size={15} /> {c.form.sent}
                   </p>
                   <button
                     type="button"
                     className={styles.resetBtn}
                     onClick={handleReset}
                   >
-                    Send another
+                    {c.form.sendAnother}
                   </button>
                 </div>
               ) : (
@@ -249,8 +244,7 @@ export default function Contact() {
                     <span className={styles.spinner} />
                   ) : (
                     <>
-                      {" "}
-                      Send message <Send size={15} />{" "}
+                      {c.form.send} <Send size={15} />
                     </>
                   )}
                 </button>

@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useLocale } from "../lib/LocaleContext";
-import { getT } from "../lib/translations";
+import { getT, Translations } from "../lib/translations";
 import * as simpleIcons from "simple-icons";
 import { SkillIcons } from "../about/page";
 
@@ -30,6 +30,7 @@ const BRAND_COLOR: Record<string, string> = {
   React: "#" + simpleIcons.siReact.hex,
   "Next.js": "#" + simpleIcons.siNextdotjs.hex,
   "Vue.js": "#" + simpleIcons.siVuedotjs.hex,
+  "Vite.js": "#" + simpleIcons.siVite.hex,
   JQuery: "#" + simpleIcons.siJquery.hex,
   "Tailwind CSS": "#" + simpleIcons.siTailwindcss.hex,
   Bootstrap: "#" + simpleIcons.siBootstrap.hex,
@@ -87,8 +88,7 @@ function TechBadge({ name }: { name: string }) {
 
 export interface Project {
   id: string;
-  title: string;
-  description: string;
+  tKey: string;
   images?: string[];
   imageFit?: "cover" | "contain";
   imageScale?: number;
@@ -104,8 +104,7 @@ export interface Project {
 const PROJECTS: Project[] = [
   {
     id: "Student Residence",
-    title: "Student Residence",
-    description: "",
+    tKey: "studentResidence",
     images: [
       "/images/StudentResidence/student-residence-home-page.png",
       "/images/StudentResidence/student-residence-connexion-page.png",
@@ -129,8 +128,7 @@ const PROJECTS: Project[] = [
   },
   {
     id: "PHP Project",
-    title: "Conference Manager",
-    description: "",
+    tKey: "conferenceManager",
     images: [
       "/images/ConferenceManager/conference-manager-home-page.png",
       "/images/ConferenceManager/conference-manager-home-page-connected.png",
@@ -143,6 +141,7 @@ const PROJECTS: Project[] = [
       "Laravel / Blade",
       "PHP",
       "JavaScript",
+      "Vite.js",
       "Tailwind CSS",
       "SQLite",
       "PhpMyAdmin",
@@ -153,8 +152,7 @@ const PROJECTS: Project[] = [
   },
   {
     id: "JSP Project",
-    title: "File Managers",
-    description: "",
+    tKey: "fileManagers",
     images: [
       "/images/FileManager/file-manager-shared-file.png",
       "/images/FileManager/file-manager-connexion.png",
@@ -169,9 +167,7 @@ const PROJECTS: Project[] = [
   },
   {
     id: "Portfolio",
-    title: "My Portfolio",
-    description:
-      "This portfolio — built with Next.js, TypeScript, and CSS Modules. Multi-language support via next-intl, dark and light mode.",
+    tKey: "portfolio",
     images: ["/images/OlympicWave/olympic-wave-home-screen.png"],
     tech: ["Next.js", "TypeScript", "CSS3", "Vercel", "VS Code"],
     github: "https://github.com/BenoitTrem/benoit-tremblay-portfolio.git",
@@ -179,8 +175,7 @@ const PROJECTS: Project[] = [
   },
   {
     id: "OlympicWave Site",
-    title: "Olympic Wave",
-    description: "",
+    tKey: "olympicWave",
     images: [
       "/images/OlympicWave/olympic-wave-home-screen.png",
       "/images/OlympicWave/olympic-wave-services-page.png",
@@ -192,10 +187,7 @@ const PROJECTS: Project[] = [
   },
   {
     id: "Lan Radar",
-    title: "Lan Radar",
-    imageFit: "contain",
-    description:
-      "Local network scanner with ping monitor, speed test, and app browser — built with Electron.",
+    tKey: "lanRadar",
     images: [
       "/images/LanRadar/lan-radar-splash-screen.png",
       "/images/LanRadar/lan-radar-speed-test.png",
@@ -208,12 +200,9 @@ const PROJECTS: Project[] = [
     download:
       "https://github.com/BenoitTrem/lan-radar/releases/download/V1.0.0/LAN.Radar.Setup.1.0.0.exe",
   },
-
   {
     id: "Lcu Dashboard",
-    title: "LoL Client Dashboard",
-    description:
-      "A fan-made desktop app for interacting with the League of Legends client. Auto-accept, auto ban/pick, lobby management, and more.",
+    tKey: "lolDashboard",
     images: [
       "/images/LolClient/lol-client-home-page.png",
       "/images/LolClient/lol-client-guide.png",
@@ -226,9 +215,7 @@ const PROJECTS: Project[] = [
   },
   {
     id: "The Last Wait",
-    title: "The Last Wait",
-    description:
-      "A solo-developed psychological horror game with a deep, narrative-driven story. Built in Unreal Engine with immersive audio design.",
+    tKey: "theLastWait",
     images: [
       "/images/TheLastWait/the-last-wait-spash-screen.png",
       "/images/TheLastWait/the-last-wait-gameplay.png",
@@ -245,8 +232,7 @@ const PROJECTS: Project[] = [
   },
   {
     id: "PHP Game",
-    title: "Magician Adventure (Browser)",
-    description: "",
+    tKey: "magicianBrowser",
     images: [
       "/images/MagicianAdventureBrowser/magician-adventure-home-page.png",
       "/images/MagicianAdventureBrowser/magician-adventure-game-page.png",
@@ -257,9 +243,8 @@ const PROJECTS: Project[] = [
   },
   {
     id: "Mobile app #1",
-    title: "Team Manager For A Store",
+    tKey: "teamManager",
     imageFit: "contain",
-    description: "",
     images: [
       "/images/TeamManagerStore/team-manager-home-page.png",
       "/images/TeamManagerStore/team-manager-employe-edit.png",
@@ -272,9 +257,8 @@ const PROJECTS: Project[] = [
   },
   {
     id: "Mobile app #2",
-    title: "Reminders Planner",
+    tKey: "remindersPlanner",
     imageFit: "contain",
-    description: "",
     images: [
       "/images/RemindersPlanner/reminder-planner-reminders-list.png",
       "/images/RemindersPlanner/reminder-planner-create-reminder-page.png",
@@ -287,8 +271,8 @@ const PROJECTS: Project[] = [
   },
   {
     id: "Client/Server Project",
-    title: "Client/Server Task Manager",
-    description: "",
+    tKey: "taskManager",
+    imageFit: "contain",
     images: [
       "/images/ClientServerTaskManager/client-vue.png",
       "/images/ClientServerTaskManager/server-vue.png",
@@ -300,8 +284,8 @@ const PROJECTS: Project[] = [
   },
   {
     id: "C# Game",
-    title: "Magician Adventure (Console)",
-    description: "",
+    tKey: "magicianConsole",
+    imageFit: "contain",
     images: [
       "/images/MagicianAdventureConsole/magician-adventure-menu.png",
       "/images/MagicianAdventureConsole/magician-adventure-battle.png",
@@ -315,8 +299,7 @@ const PROJECTS: Project[] = [
   },
   {
     id: "Vehicule Location",
-    title: "Vehicule Location",
-    description: "",
+    tKey: "vehiculeLocation",
     images: [
       "/images/VehiculeLocation/vehicule-location-client.png",
       "/images/VehiculeLocation/vehicule-location-employe.png",
@@ -328,6 +311,11 @@ const PROJECTS: Project[] = [
       "https://github.com/BenoitTrem/aventure-du-magicien-console/releases/download/V.1.0.0/AventureDuMagicien.exe",
   },
 ];
+
+function isDesktop() {
+  if (typeof window === "undefined") return false;
+  return window.innerWidth >= 1024;
+}
 
 function Modal({
   images,
@@ -355,6 +343,29 @@ function Modal({
     document.body.style.overflow = "hidden";
     return () => {
       window.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight") setCurrent((i) => (i + 1) % images.length);
+      if (e.key === "ArrowLeft")
+        setCurrent((i) => (i - 1 + images.length) % images.length);
+    };
+
+    const handleResize = () => {
+      if (window.innerWidth < 1024) onClose();
+    };
+
+    window.addEventListener("keydown", handleKey);
+    window.addEventListener("resize", handleResize);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      window.removeEventListener("resize", handleResize);
       document.body.style.overflow = "";
     };
   }, []);
@@ -484,8 +495,12 @@ function Carousel({
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project, t }: { project: Project; t: Translations }) {
   const [modalIndex, setModalIndex] = useState<number | null>(null);
+  const item = t.projects.items[project.tKey as keyof typeof t.projects.items];
+  const title = item.title;
+  const description = item.description;
+  const tagLabel = t.projects.tags[project.tag as keyof typeof t.projects.tags];
 
   return (
     <article className={styles.card}>
@@ -495,22 +510,23 @@ function ProjectCard({ project }: { project: Project }) {
             images={project.images}
             imageFit={project.imageFit}
             imageScale={project.imageScale}
-            onImageClick={(i) => setModalIndex(i)}
+            onImageClick={(i) => {
+              if (isDesktop()) setModalIndex(i);
+            }}
           />
         ) : (
           <div className={styles.cardImgPlaceholder}>
-            <span className={styles.cardImgLabel}>Preview coming soon</span>
+            <span className={styles.cardImgLabel}>
+              {t.projects.previewComingSoon}
+            </span>
           </div>
         )}
-        <span className={styles.cardTag}>{project.tag}</span>
+        <span className={styles.cardTag}>{tagLabel}</span>
       </div>
 
-      {/* Body */}
       <div className={styles.cardBody}>
-        <h2 className={styles.cardTitle}>{project.title}</h2>
-        <p className={styles.cardDesc}>{project.description}</p>
-
-        {/* Tech badges */}
+        <h2 className={styles.cardTitle}>{title}</h2>
+        <p className={styles.cardDesc}>{description}</p>
         <div className={styles.cardTech}>
           {project.tech.map((name) => (
             <TechBadge key={name} name={name} />
@@ -518,7 +534,6 @@ function ProjectCard({ project }: { project: Project }) {
         </div>
       </div>
 
-      {/* Footer links */}
       <div className={styles.cardFooter}>
         {project.github && (
           <a
@@ -536,7 +551,7 @@ function ProjectCard({ project }: { project: Project }) {
             >
               <path d={simpleIcons.siGithub.path} />
             </svg>
-            GitHub
+            {t.projects.links.github}
           </a>
         )}
         {project.steam && (
@@ -555,7 +570,7 @@ function ProjectCard({ project }: { project: Project }) {
             >
               <path d={simpleIcons.siSteam.path} />
             </svg>
-            Steam
+            {t.projects.links.steam}
           </a>
         )}
         {project.itchio && (
@@ -585,7 +600,7 @@ function ProjectCard({ project }: { project: Project }) {
             className={`${styles.cardLink} ${styles.cardLinkPrimary}`}
           >
             <ExternalLink size={14} />
-            Live
+            {t.projects.links.live}
           </a>
         )}
         {project.download && (
@@ -597,12 +612,11 @@ function ProjectCard({ project }: { project: Project }) {
             <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
               <path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z" />
             </svg>
-            Download
+            {t.projects.links.download}
           </a>
         )}
       </div>
 
-      {/* Hover arrow overlay */}
       <div className={styles.cardHoverArrow} aria-hidden>
         <ArrowRight size={18} />
       </div>
@@ -623,7 +637,11 @@ function ProjectCard({ project }: { project: Project }) {
 const ALL_TAGS = ["All", ...Array.from(new Set(PROJECTS.map((p) => p.tag)))];
 
 export default function Projects() {
+  const locale = useLocale();
+  const t = getT(locale);
   const [activeTag, setActiveTag] = useState("All");
+
+  const ALL_TAGS = ["All", ...Array.from(new Set(PROJECTS.map((p) => p.tag)))];
   const filtered =
     activeTag === "All"
       ? PROJECTS
@@ -632,16 +650,11 @@ export default function Projects() {
   return (
     <main className={styles.page}>
       <div className={styles.container}>
-        {/* ── Hero ── */}
         <section className={styles.hero}>
-          <h1 className={styles.title}>Projects</h1>
-          <p className={styles.subtitle}>
-            A selection of things I&apos;ve built — full-stack apps, games,
-            website, and experiments.
-          </p>
+          <h1 className={styles.title}>{t.projects.pageTitle}</h1>
+          <p className={styles.subtitle}>{t.projects.pageSubtitle}</p>
         </section>
 
-        {/* ── Filter ── */}
         <div className={styles.filters}>
           {ALL_TAGS.map((tag) => (
             <button
@@ -649,15 +662,14 @@ export default function Projects() {
               className={`${styles.filterBtn} ${activeTag === tag ? styles.filterBtnActive : ""}`}
               onClick={() => setActiveTag(tag)}
             >
-              {tag}
+              {t.projects.tags[tag as keyof typeof t.projects.tags] ?? tag}
             </button>
           ))}
         </div>
 
-        {/* ── Grid ── */}
         <div className={styles.grid}>
           {filtered.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <ProjectCard key={project.id} project={project} t={t} />
           ))}
         </div>
       </div>

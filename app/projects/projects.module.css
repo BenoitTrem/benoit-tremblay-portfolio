@@ -470,6 +470,9 @@
     align-items: flex-start;
     padding: 28px 24px;
   }
+  .cardImage {
+    height: 180px;
+  }
 }
 @media (max-width: 900px) {
   .title {

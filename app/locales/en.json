@@ -26,23 +26,6 @@
     "contactTitle": "Let's Connect",
     "contactDesc": "Open to opportunities, collabs, and questions."
   },
-  "about": {
-    "stats": {
-      "yearsCoding": "Years Coding",
-      "projectsBuilt": "Projects Built"
-    },
-    "statPanels": {
-      "yearsCoding": {
-        "title": "Years Coding",
-        "body": "I started programming at age 7 and have been writing code consistently ever since — from small scripts to full-stack applications, always pushing to learn the next thing."
-      },
-      "projectsBuilt": {
-        "title": "Projects Built",
-        "body": "Full-stack apps, REST APIs, portfolio projects, and experimental tools — all built with modern web technologies and real users in mind.",
-        "cta": "View all projects"
-      }
-    }
-  },
   "services": {
     "heading": "What I build",
     "terminal": {
@@ -103,5 +86,175 @@
     "Android Developer",
     "Database Designer",
     "Unreal Engine Developer"
-  ]
+  ],
+  "about": {
+    "hero": "About me",
+    "bio": {
+      "sidebarLabel": "My Story",
+      "p1": "I started gymnastics at age <highlight>3</highlight>, drawn to the combination of strength, precision, and artistry the sport demands. Over the years I've competed across six events and learned that the mental discipline required in the gym translates directly to every other area of life.",
+      "p2": "When I'm not training, I'm building. My interest in <highlight>computer science</highlight> grew from a curiosity about how things work under the hood. I started with small scripts, moved into web development, and now build full-stack applications with real users in mind.",
+      "p3": "The overlap between both worlds is what drives me — <highlight>iteration, feedback, and mastery</highlight>. Whether it's perfecting a vault or refactoring an API, the process is the same.",
+      "photoSoon": "Photo coming soon"
+    },
+    "stats": {
+      "projectsBuilt": "Projects Built",
+      "publicRepos": "Public Repos",
+      "topLanguage": "Top Language"
+    },
+    "statPanels": {
+      "projectsBuilt": {
+        "title": "Projects Built",
+        "body": "Full-stack apps, REST APIs, portfolio projects, and experimental tools — all built with modern web technologies and real users in mind.",
+        "cta": "View all projects"
+      },
+      "repos": {
+        "title": "Projects & Repositories",
+        "body": "public repositories on GitHub — ranging from full-stack web apps to algorithms and personal experiments. Each one is a snapshot of something I was learning or building at the time.",
+        "cta": "Browse repos"
+      },
+      "topLang": {
+        "title": "Top Languages",
+        "body": "Languages I use most across my public repositories."
+      }
+    },
+    "skills": {
+      "heading": "Technical skills",
+      "legend": "Technologies, frameworks and tools I've learned, worked with and use in projects.",
+      "categories": {
+        "Languages": "Languages",
+        "Frontend": "Frontend",
+        "Backend & APIs": "Backend & APIs",
+        "Mobile Development": "Mobile Development",
+        "Databases": "Databases",
+        "Cloud & Deployment": "Cloud & Deployment",
+        "Versioning & Collaboration": "Versioning & Collaboration",
+        "IDEs & Editors": "IDEs & Editors",
+        "Game Development": "Game Development"
+      }
+    },
+    "cta": {
+      "text": "Want to work together?",
+      "button": "Get in touch"
+    }
+  },
+  "projects": {
+    "pageTitle": "Projects",
+    "pageSubtitle": "A selection of things I've built — full-stack apps, games, websites, and experiments.",
+    "previewComingSoon": "Preview coming soon",
+    "tags": {
+      "All": "All",
+      "Full-Stack": "Full-Stack",
+      "Web": "Web",
+      "Software": "Software",
+      "Game": "Game",
+      "Mobile": "Mobile",
+      "Systems": "Systems"
+    },
+    "links": {
+      "github": "GitHub",
+      "steam": "Steam",
+      "live": "Live",
+      "download": "Download"
+    },
+    "items": {
+      "studentResidence": {
+        "title": "Student Residence",
+        "description": "A web platform to manage student housing units, tenants, and accounts — with role-based access for admins and residents."
+      },
+      "conferenceManager": {
+        "title": "Conference Manager",
+        "description": "A workshop and conference scheduling tool with a calendar view, local management, and user authentication."
+      },
+      "fileManagers": {
+        "title": "File Managers",
+        "description": "A client-server file sharing app with comments, user management, and shared file access."
+      },
+      "portfolio": {
+        "title": "My Portfolio",
+        "description": "This portfolio — built with Next.js, TypeScript, and CSS Modules. Multi-language support via next-intl, dark and light mode."
+      },
+      "olympicWave": {
+        "title": "Olympic Wave",
+        "description": "A marketing website for a sports coaching service, built with React and deployed on Netlify."
+      },
+      "lanRadar": {
+        "title": "Lan Radar",
+        "description": "Local network scanner with ping monitor, speed test, and app browser — built with Electron."
+      },
+      "lolDashboard": {
+        "title": "LoL Client Dashboard",
+        "description": "A fan-made desktop app for interacting with the League of Legends client. Auto-accept, auto ban/pick, lobby management, and more."
+      },
+      "theLastWait": {
+        "title": "The Last Wait",
+        "description": "A solo-developed psychological horror game with a deep, narrative-driven story. Built in Unreal Engine with immersive audio design."
+      },
+      "magicianBrowser": {
+        "title": "Magician Adventure (Browser)",
+        "description": "A browser-based RPG adventure game built with PHP and JavaScript."
+      },
+      "teamManager": {
+        "title": "Team Manager For A Store",
+        "description": "An Android app to manage store employees and departments."
+      },
+      "remindersPlanner": {
+        "title": "Reminders Planner",
+        "description": "A cross-platform mobile app to create, edit, and receive notifications for personal reminders."
+      },
+      "taskManager": {
+        "title": "Client/Server Task Manager",
+        "description": "A Java client-server app for managing tasks across a network connection."
+      },
+      "magicianConsole": {
+        "title": "Magician Adventure (Console)",
+        "description": "A turn-based console RPG built in C# with battle mechanics and a game over screen."
+      },
+      "vehiculeLocation": {
+        "title": "Vehicule Location",
+        "description": "A desktop app for managing vehicle rentals, with separate client and employee views."
+      }
+    }
+  },
+  "contact": {
+    "pageTitle": "Contact",
+    "pageSubtitle": "Have a project in mind, a question, or just want to say hello? Fill out the form and I'll get back to you as soon as possible.",
+    "direct": "Direct",
+    "email": "Email",
+    "location": "Location",
+    "locationValue": "Gatineau, QC, Canada",
+    "form": {
+      "email": "Email",
+      "emailPlaceholder": "you@example.com",
+      "subject": "Subject",
+      "subjectPlaceholder": "Project inquiry, collaboration…",
+      "message": "Message",
+      "messagePlaceholder": "Tell me about your project or idea…",
+      "send": "Send message",
+      "sending": "",
+      "sent": "Message sent — I'll be in touch soon.",
+      "sendAnother": "Send another",
+      "error": "Something went wrong. Please try again."
+    },
+    "validation": {
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Please enter a valid email address.",
+      "subjectRequired": "Subject is required.",
+      "messageRequired": "Message is required.",
+      "messageTooShort": "Message must be at least 5 characters."
+    }
+  },
+  "error": {
+    "500": {
+      "code": "500",
+      "title": "Something went wrong",
+      "sub": "An unexpected error occurred. Try going back home.",
+      "back": "Back to home"
+    }
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page not found",
+    "sub": "This page doesn't exist or was moved. Head back home.",
+    "back": "Back to home"
+  }
 }

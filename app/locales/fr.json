@@ -26,23 +26,6 @@
     "contactTitle": "Connectons-nous",
     "contactDesc": "Ouvert aux opportunités, collaborations et questions."
   },
-  "about": {
-    "stats": {
-      "yearsCoding": "Ans de code",
-      "projectsBuilt": "Projets réalisés"
-    },
-    "statPanels": {
-      "yearsCoding": {
-        "title": "Ans de code",
-        "body": "J'ai commencé à programmer à 7 ans et j'écris du code de façon continue depuis — des petits scripts aux applications full-stack, toujours en cherchant à apprendre la prochaine chose."
-      },
-      "projectsBuilt": {
-        "title": "Projets réalisés",
-        "body": "Applications full-stack, APIs REST, projets de portfolio et outils expérimentaux — tous construits avec des technologies web modernes et de vrais utilisateurs en tête.",
-        "cta": "Voir tous les projets"
-      }
-    }
-  },
   "services": {
     "heading": "Ce que je construis",
     "terminal": {
@@ -63,7 +46,7 @@
         "detail": "Applications mobiles natives et multiplateformes. D'Android à iOS, conçues pour offrir des performances optimales et une expérience utilisateur fidèle."
       },
       "desktop_apps": {
-        "id": "desktop_apps/",
+        "id": "apps_bureau/",
         "stack": "JavaScript · Python · Electron · Next.js · Qt · Multi-plateforme",
         "detail": "Applications de bureau développées avec Electron et Python. Distribuées sous forme d'exécutables autonomes pour Windows, macOS et Linux."
       },
@@ -103,5 +86,175 @@
     "Développeur Android",
     "Concepteur de bases de données",
     "Développeur Unreal Engine"
-  ]
+  ],
+  "about": {
+    "hero": "À propos",
+    "bio": {
+      "sidebarLabel": "Mon Parcours",
+      "p1": "J'ai commencé la gymnastique à <highlight>3</highlight> ans, attiré par la combinaison de force, de précision et d'artistisme que ce sport exige. Au fil des années, j'ai concouru dans six agrès et appris que la discipline mentale acquise à la salle se transpose directement dans tous les autres domaines de la vie.",
+      "p2": "Quand je ne m'entraîne pas, je construis. Mon intérêt pour <highlight>l'informatique</highlight> est né d'une curiosité sur le fonctionnement des choses en coulisses. J'ai commencé par de petits scripts, puis le développement web, et je crée maintenant des applications full-stack pensées pour de vrais utilisateurs.",
+      "p3": "C'est le lien entre ces deux mondes qui me motive — <highlight>l'itération, le feedback et la maîtrise</highlight>. Que ce soit perfectionner un saut ou refactoriser une API, le processus est le même.",
+      "photoSoon": "Photo à venir"
+    },
+    "stats": {
+      "projectsBuilt": "Projets Réalisés",
+      "publicRepos": "Dépôts Publics",
+      "topLanguage": "Langage Principal"
+    },
+    "statPanels": {
+      "projectsBuilt": {
+        "title": "Projets Réalisés",
+        "body": "Applications full-stack, APIs REST, projets portfolio et outils expérimentaux — tous construits avec des technologies web modernes et de vrais utilisateurs en tête.",
+        "cta": "Voir tous les projets"
+      },
+      "repos": {
+        "title": "Projets & Dépôts",
+        "body": "dépôts publics sur GitHub — allant d'applications web full-stack à des algorithmes et expérimentations personnelles. Chacun est un instantané de ce que j'apprenais ou construisais à ce moment-là.",
+        "cta": "Parcourir les dépôts"
+      },
+      "topLang": {
+        "title": "Langages Principaux",
+        "body": "Les langages que j'utilise le plus dans mes dépôts publics."
+      }
+    },
+    "skills": {
+      "heading": "Compétences techniques",
+      "legend": "Technologies, frameworks et outils que j'ai appris, utilisés et que j'emploie dans mes projets.",
+      "categories": {
+        "Languages": "Langages",
+        "Frontend": "Frontend",
+        "Backend & APIs": "Backend & APIs",
+        "Mobile Development": "Développement Mobile",
+        "Databases": "Bases de Données",
+        "Cloud & Deployment": "Cloud & Déploiement",
+        "Versioning & Collaboration": "Versionnage & Collaboration",
+        "IDEs & Editors": "IDEs & Éditeurs",
+        "Game Development": "Développement de Jeux"
+      }
+    },
+    "cta": {
+      "text": "Vous voulez travailler ensemble ?",
+      "button": "Me contacter"
+    }
+  },
+  "projects": {
+    "pageTitle": "Projets",
+    "pageSubtitle": "Une sélection de ce que j'ai construit — applications full-stack, jeux, sites web et expérimentations.",
+    "previewComingSoon": "Aperçu bientôt disponible",
+    "tags": {
+      "All": "Tous",
+      "Full-Stack": "Full-Stack",
+      "Web": "Web",
+      "Software": "Logiciel",
+      "Game": "Jeu",
+      "Mobile": "Mobile",
+      "Systems": "Systèmes"
+    },
+    "links": {
+      "github": "GitHub",
+      "steam": "Steam",
+      "live": "En ligne",
+      "download": "Télécharger"
+    },
+    "items": {
+      "studentResidence": {
+        "title": "Résidence Étudiante",
+        "description": "Une plateforme web pour gérer les logements étudiants, les locataires et les comptes — avec accès basé sur les rôles pour les admins et les résidents."
+      },
+      "conferenceManager": {
+        "title": "Gestionnaire de Conférences",
+        "description": "Un outil de planification d'ateliers et de conférences avec vue calendrier, gestion des locaux et authentification."
+      },
+      "fileManagers": {
+        "title": "Gestionnaire de Fichiers",
+        "description": "Une application client-serveur de partage de fichiers avec commentaires, gestion des utilisateurs et accès aux fichiers partagés."
+      },
+      "portfolio": {
+        "title": "Mon Portfolio",
+        "description": "Ce portfolio — construit avec Next.js, TypeScript et CSS Modules. Support multilingue, mode sombre et clair."
+      },
+      "olympicWave": {
+        "title": "Olympic Wave",
+        "description": "Un site marketing pour un service de coaching sportif, construit avec React et déployé sur Netlify."
+      },
+      "lanRadar": {
+        "title": "Lan Radar",
+        "description": "Scanner de réseau local avec moniteur de ping, test de vitesse et navigateur d'applications — construit avec Electron."
+      },
+      "lolDashboard": {
+        "title": "Tableau de Bord Client LoL",
+        "description": "Une application bureau non officielle pour interagir avec le client League of Legends. Auto-acceptation, ban/pick automatique, gestion du lobby et plus encore."
+      },
+      "theLastWait": {
+        "title": "The Last Wait",
+        "description": "Un jeu d'horreur psychologique développé en solo avec une histoire narrative profonde. Construit dans Unreal Engine avec un design audio immersif."
+      },
+      "magicianBrowser": {
+        "title": "Aventure du Mage (Navigateur)",
+        "description": "Un jeu RPG d'aventure en navigateur construit avec PHP et JavaScript."
+      },
+      "teamManager": {
+        "title": "Gestionnaire d'Équipes pour Magasin",
+        "description": "Une application Android pour gérer les employés et les départements d'un magasin."
+      },
+      "remindersPlanner": {
+        "title": "Planificateur de Rappels",
+        "description": "Une application mobile multiplateforme pour créer, modifier et recevoir des notifications de rappels personnels."
+      },
+      "taskManager": {
+        "title": "Gestionnaire de Tâches Client/Serveur",
+        "description": "Une application client-serveur Java pour gérer des tâches via une connexion réseau."
+      },
+      "magicianConsole": {
+        "title": "Aventure du Magicien (Console)",
+        "description": "Un RPG console au tour par tour en C# avec des mécaniques de combat et un écran de game over."
+      },
+      "vehiculeLocation": {
+        "title": "Location de Véhicules",
+        "description": "Une application bureau pour gérer les locations de véhicules, avec des vues séparées pour les clients et les employés."
+      }
+    }
+  },
+  "contact": {
+    "pageTitle": "Contact",
+    "pageSubtitle": "Un projet en tête, une question, ou juste envie de dire bonjour ? Remplissez le formulaire et je vous répondrai dans les plus brefs délais.",
+    "direct": "Direct",
+    "email": "Courriel",
+    "location": "Localisation",
+    "locationValue": "Gatineau, QC, Canada",
+    "form": {
+      "email": "Courriel",
+      "emailPlaceholder": "vous@exemple.com",
+      "subject": "Sujet",
+      "subjectPlaceholder": "Demande de projet, collaboration…",
+      "message": "Message",
+      "messagePlaceholder": "Parlez-moi de votre projet ou idée…",
+      "send": "Envoyer le message",
+      "sending": "",
+      "sent": "Message envoyé — je vous répondrai bientôt.",
+      "sendAnother": "Envoyer un autre",
+      "error": "Une erreur est survenue. Veuillez réessayer."
+    },
+    "validation": {
+      "emailRequired": "Le courriel est requis.",
+      "emailInvalid": "Veuillez entrer une adresse courriel valide.",
+      "subjectRequired": "Le sujet est requis.",
+      "messageRequired": "Le message est requis.",
+      "messageTooShort": "Le message doit contenir au moins 5 caractères."
+    }
+  },
+  "error": {
+    "500": {
+      "code": "500",
+      "title": "Une erreur est survenue",
+      "sub": "Une erreur inattendue s'est produite. Essayez de retourner à l'accueil.",
+      "back": "Retour à l'accueil"
+    }
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page introuvable",
+    "sub": "Cette page n'existe pas ou a été déplacée. Retournez à l'accueil.",
+    "back": "Retour à l'accueil"
+  }
 }

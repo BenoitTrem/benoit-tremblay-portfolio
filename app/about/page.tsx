@@ -94,6 +94,11 @@ export const SkillIcons = {
       <path d={simpleIcons.siVuedotjs.path} fill="currentColor" />
     </svg>
   ),
+  "Vite.js": (
+    <svg viewBox="0 0 24 24">
+      <path d={simpleIcons.siVite.path} fill="currentColor" />
+    </svg>
+  ),
   "Tailwind CSS": (
     <svg viewBox="0 0 24 24" className={styles.skillSvg}>
       <path d={simpleIcons.siTailwindcss.path} fill="currentColor" />
@@ -324,6 +329,7 @@ export const skillCategories = [
       { name: "Electron" },
       { name: "Next.js" },
       { name: "Vue.js" },
+      { name: "Vite.js" },
       { name: "JQuery" },
       { name: "Blade" },
       { name: "Razor" },
@@ -404,6 +410,19 @@ export const skillCategories = [
   */
 ];
 
+function renderBio(text: string) {
+  return text.split(/(<highlight>.*?<\/highlight>)/g).map((part, i) => {
+    const match = part.match(/^<highlight>(.*)<\/highlight>$/);
+    return match ? (
+      <span key={i} className={styles.bioHighlight}>
+        {match[1]}
+      </span>
+    ) : (
+      <span key={i}>{part}</span>
+    );
+  });
+}
+
 const GITHUB_USER = "BenoitTrem";
 
 type StatKey = "projectsBuilt" | "repos" | "topLang";
@@ -411,6 +430,7 @@ type StatKey = "projectsBuilt" | "repos" | "topLang";
 export default function About() {
   const locale = useLocale();
   const t = getT(locale);
+  const a = t.about;
   const blockRefs = useRef<(HTMLDivElement | null)[]>([]);
   const innerRef = useRef<HTMLDivElement | null>(null);
 
@@ -431,29 +451,22 @@ export default function About() {
           `https://api.github.com/users/${GITHUB_USER}`,
         );
         const user = await userRes.json();
-
         const reposRes = await fetch(
           `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=pushed`,
         );
         const repos = await reposRes.json();
-
         const langCount: Record<string, number> = {};
         for (const repo of repos) {
-          if (repo.language) {
+          if (repo.language)
             langCount[repo.language] = (langCount[repo.language] || 0) + 1;
-          }
         }
-
         const sortedLangs = Object.entries(langCount)
           .sort((a, b) => b[1] - a[1])
           .slice(0, 5)
           .map(([name, count]) => ({ name, count }));
-
-        const topLang = sortedLangs[0]?.name ?? "N/A";
-
         setGithubStats({
           repos: user.public_repos,
-          topLang,
+          topLang: sortedLangs[0]?.name ?? "N/A",
           topLangs: sortedLangs,
         });
       } catch (err) {
@@ -464,20 +477,16 @@ export default function About() {
   }, []);
 
   const stats: { key: StatKey; number: string; label: string }[] = [
-    {
-      key: "projectsBuilt",
-      number: "12",
-      label: t.about.stats.projectsBuilt,
-    },
+    { key: "projectsBuilt", number: "12", label: a.stats.projectsBuilt },
     {
       key: "repos",
       number: githubStats ? `${githubStats.repos}` : "—",
-      label: "Public Repos",
+      label: a.stats.publicRepos,
     },
     {
       key: "topLang",
       number: githubStats ? githubStats.topLang : "—",
-      label: "Top Language",
+      label: a.stats.topLanguage,
     },
   ];
 
@@ -486,27 +495,24 @@ export default function About() {
     { title: string; body: React.ReactNode }
   > = {
     projectsBuilt: {
-      title: t.about.statPanels.projectsBuilt.title,
+      title: a.statPanels.projectsBuilt.title,
       body: (
         <>
           <p className={styles.statPanelText}>
-            {t.about.statPanels.projectsBuilt.body}
+            {a.statPanels.projectsBuilt.body}
           </p>
           <Link href="/projects" className={styles.statPanelLink}>
-            {t.about.statPanels.projectsBuilt.cta}
-            <ArrowRight size={13} />
+            {a.statPanels.projectsBuilt.cta} <ArrowRight size={13} />
           </Link>
         </>
       ),
     },
     repos: {
-      title: "Projects & Repositories",
+      title: a.statPanels.repos.title,
       body: (
         <>
           <p className={styles.statPanelText}>
-            {githubStats?.repos} public repositories on GitHub — ranging from
-            full-stack web apps to algorithms and personal experiments. Each one
-            is a snapshot of something I was learning or building at the time.
+            {githubStats?.repos} {a.statPanels.repos.body}
           </p>
           <a
             href={`https://github.com/${GITHUB_USER}?tab=repositories`}
@@ -514,18 +520,16 @@ export default function About() {
             rel="noopener noreferrer"
             className={styles.statPanelLink}
           >
-            Browse repos <ArrowRight size={13} />
+            {a.statPanels.repos.cta} <ArrowRight size={13} />
           </a>
         </>
       ),
     },
     topLang: {
-      title: "Top Languages",
+      title: a.statPanels.topLang.title,
       body: (
         <>
-          <p className={styles.statPanelText}>
-            Languages I use most across my public repositories.
-          </p>
+          <p className={styles.statPanelText}>{a.statPanels.topLang.body}</p>
           <div className={styles.statPanelLangRow}>
             {githubStats?.topLangs?.map((lang, i) => (
               <div key={lang.name} className={styles.statPanelLangItem}>
@@ -606,7 +610,7 @@ export default function About() {
         {/* ── Hero ── */}
         <section className={styles.hero}>
           <div className={styles.heroText}>
-            <h1 className={styles.eyebrow}>About me</h1>
+            <h1 className={styles.eyebrow}>{a.hero}</h1>
           </div>
         </section>
 
@@ -614,45 +618,21 @@ export default function About() {
         <div className={styles.bio}>
           <div className={styles.bioSidebar}>
             <div className={styles.bioSidebarLine} />
-            <span className={styles.bioSidebarLabel}>My Story</span>
+            <span className={styles.bioSidebarLabel}>{a.bio.sidebarLabel}</span>
           </div>
           <div className={styles.bioText}>
-            <p>
-              I started gymnastics at age{" "}
-              <span className={styles.bioHighlight}>7</span>, drawn to the
-              combination of strength, precision, and artistry the sport
-              demands. Over the years I&apos;ve competed across six events and
-              learned that the mental discipline required in the gym translates
-              directly to every other area of life.
-            </p>
-            <p>
-              When I&apos;m not training, I&apos;m building. My interest in
-              <span className={styles.bioHighlight}>
-                {" "}
-                computer science
-              </span>{" "}
-              grew from a curiosity about how things work under the hood. I
-              started with small scripts, moved into web development, and now
-              build full-stack applications with real users in mind.
-            </p>
-            <p>
-              The overlap between both worlds is what drives me —
-              <span className={styles.bioHighlight}>
-                {" "}
-                iteration, feedback, and mastery
-              </span>
-              . Whether it&apos;s perfecting a vault or refactoring an API, the
-              process is the same.
-            </p>
+            <p>{renderBio(a.bio.p1)}</p>
+            <p>{renderBio(a.bio.p2)}</p>
+            <p>{renderBio(a.bio.p3)}</p>
           </div>
           <div className={styles.bioImageCard}>
             <div className={styles.imagePlaceholder}>
-              <span className={styles.imageLabel}>Photo coming soon</span>
+              <span className={styles.imageLabel}>{a.bio.photoSoon}</span>
             </div>
           </div>
         </div>
 
-        {/* ── Stats + inline panel ── */}
+        {/* ── Stats ── */}
         <div className={styles.statsWrapper}>
           <div className={`${styles.stats} ${isOpen ? styles.statsOpen : ""}`}>
             {stats.map((s) => (
@@ -667,7 +647,6 @@ export default function About() {
               </div>
             ))}
           </div>
-
           <div
             className={`${styles.statPanel} ${isOpen ? styles.statPanelOpen : ""}`}
             aria-hidden={!isOpen}
@@ -696,15 +675,11 @@ export default function About() {
         <section className={styles.skillsSection}>
           <div className={styles.skillsHeader}>
             <div className={styles.skillsTitleRow}>
-              <p className={styles.sectionHeading}>Technical skills</p>
+              <p className={styles.sectionHeading}>{a.skills.heading}</p>
               <div className={styles.skillsLine} />
             </div>
-            <p className={styles.skillsLegend}>
-              Technologies, frameworks and tools I&apos;ve learned, worked with
-              and use in projects.
-            </p>
+            <p className={styles.skillsLegend}>{a.skills.legend}</p>
           </div>
-
           <div className={styles.skillCategoriesWrap}>
             {skillCategories.map((cat, catIdx) => (
               <div
@@ -726,10 +701,13 @@ export default function About() {
                     className={styles.skillCatDot}
                     style={{ background: `var(${cat.colorVar})` }}
                   />
-                  <span className={styles.skillCatLabel}>{cat.label}</span>
+                  <span className={styles.skillCatLabel}>
+                    {a.skills.categories[
+                      cat.label as keyof typeof a.skills.categories
+                    ] ?? cat.label}
+                  </span>
                   <span className={styles.skillCatLine} />
                 </div>
-
                 <div className={styles.skillChipsGrid}>
                   {cat.skills.map((skill) => (
                     <div
@@ -762,9 +740,9 @@ export default function About() {
 
         {/* ── CTA ── */}
         <div className={styles.cta}>
-          <p className={styles.ctaText}>Want to work together?</p>
+          <p className={styles.ctaText}>{a.cta.text}</p>
           <Link href="/contact" className={styles.ctaButton}>
-            Get in touch <ArrowRight size={14} />
+            {a.cta.button} <ArrowRight size={14} />
           </Link>
         </div>
       </div>
