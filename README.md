@@ -1,51 +1,44 @@
 # Benoit Tremblay — Portfolio
-
-Mon site portfolio personnel présentant mes projets et compétences en développement. Construit avec **Next.js**, **TypeScript** et **CSS Modules**. Support multilingue et mode sombre/clair inclus.
+My personal portfolio website showcasing my projects and development skills. Built with **Next.js**, **TypeScript** and **CSS Modules**. Multilingual support and dark/light mode included.
 
 ---
 
 ## Technologies
-
-- **Next.js** — Framework React pour le rendu côté serveur et la génération statique
-- **TypeScript** — JavaScript typé pour un code plus robuste
-- **CSS Modules** — Styles scopés par composant
-- **Simple Icons** — Icônes SVG des technologies et marques
-- **Vercel** — Déploiement et hébergement
+- **Next.js** — React framework for server-side rendering and static generation
+- **TypeScript** — Typed JavaScript for more robust code
+- **CSS Modules** — Component-scoped styles
+- **Simple Icons** — SVG icons for technologies and brands
+- **Vercel** — Deployment and hosting
 
 ---
 
 ## Pages
-
-- `/` — Page d'accueil
-- `/about` — À propos, compétences techniques et statistiques GitHub
-- `/projects` — Grille de projets filtrables par catégorie
-- `/contact` — Formulaire de contact
+- `/` — Home page
+- `/about` — About me, technical skills and GitHub statistics
+- `/projects` — Project grid filterable by category
+- `/contact` — Contact form
 
 ---
 
-## Démarrage
+## Getting Started
 
-### Prérequis
+### Prerequisites
+- [Node.js](https://nodejs.org/) v18 or higher
+- npm, yarn, pnpm or bun
 
-- [Node.js](https://nodejs.org/) v18 ou supérieur
-- npm, yarn, pnpm ou bun
-
-### Installation des dépendances
-
+### Install dependencies
 ```bash
 npm install
 ```
 
-### Lancer le serveur de développement
-
+### Run the development server
 ```bash
 npm run dev
 ```
 
-Ouvre [http://localhost:3000](http://localhost:3000) dans ton navigateur pour voir le résultat.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-### Build de production
-
+### Production build
 ```bash
 npm run build
 npm run start
@@ -53,14 +46,12 @@ npm run start
 
 ---
 
-## Déploiement
+## Deployment
+The project is deployed on [Vercel](https://vercel.com). Every push to the main branch triggers an automatic deployment.
 
-Le projet est déployé sur [Vercel](https://vercel.com). Chaque push sur la branche principale déclenche un déploiement automatique.
-
-🌐 **Site en ligne** : [benoit-tremblay-portfolio.vercel.app](https://benoit-tremblay-portfolio.vercel.app/)
+🌐 **Live site**: [benoit-tremblay-portfolio.vercel.app](https://benoit-tremblay-portfolio.vercel.app/)
 
 ---
 
-## Licence
-
-Open source — libre d'utilisation et de modification.
+## License
+Open source — free to use and modify.
