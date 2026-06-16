@@ -4,8 +4,8 @@ import ClientLayout from "./components/ClientLayout";
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: light)", color: "#2dd4aa" },
+    { media: "(prefers-color-scheme: dark)", color: "#070f0f" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -103,14 +103,10 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico" },
-      { url: "/icon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/icon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
     ],
     apple: [
       { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-    ],
-    other: [
-      { rel: "mask-icon", url: "/safari-pinned-tab.svg", color: "#0a0a0a" },
     ],
   },
 
@@ -121,7 +117,8 @@ export const metadata: Metadata = {
   },
 
   category: "portfolio",
-  classification: "Portfolio, Technology, Software Development",
+  classification:
+    "Portfolio, Technology, Software Development, Full-Stack Development, Web Development, Game Development, Desktop Applications, Mobile Development",
 };
 
 export default function RootLayout({

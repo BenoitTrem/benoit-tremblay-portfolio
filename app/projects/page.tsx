@@ -92,6 +92,7 @@ export interface Project {
   images?: string[];
   imageFit?: "cover" | "contain";
   imageScale?: number;
+  imageOrigin?: "center" | "top-left" | "top" | "left";
   tech: string[];
   github?: string;
   steam?: string;
@@ -273,6 +274,8 @@ const PROJECTS: Project[] = [
     id: "Client/Server Project",
     tKey: "taskManager",
     imageFit: "contain",
+    imageScale: 1.5,
+    imageOrigin: "left",
     images: [
       "/images/ClientServerTaskManager/client-vue.png",
       "/images/ClientServerTaskManager/server-vue.png",
@@ -441,11 +444,13 @@ function Carousel({
   images,
   imageFit = "cover",
   imageScale = 1,
+  imageOrigin = "center",
   onImageClick,
 }: {
   images: string[];
   imageFit?: "cover" | "contain";
   imageScale?: number;
+  imageOrigin?: "center" | "top-left" | "top" | "left";
   onImageClick: (index: number) => void;
 }) {
   const [current, setCurrent] = useState(0);
@@ -470,6 +475,7 @@ function Carousel({
             objectFit: imageFit,
             transform:
               imageFit === "contain" ? `scale(${imageScale})` : undefined,
+            transformOrigin: imageOrigin ?? "center",
           }}
           onClick={() => onImageClick(i)}
         />
@@ -508,6 +514,7 @@ function ProjectCard({ project, t }: { project: Project; t: Translations }) {
             images={project.images}
             imageFit={project.imageFit}
             imageScale={project.imageScale}
+            imageOrigin={project.imageOrigin}
             onImageClick={(i) => {
               if (isDesktop()) setModalIndex(i);
             }}

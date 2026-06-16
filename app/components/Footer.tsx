@@ -53,7 +53,7 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="https://linkedin.com/"
+                href="https://linkedin.com/in/benoit-tremblay-635117417"
                 target="_blank"
                 className="footer-link"
               >

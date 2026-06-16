@@ -382,7 +382,7 @@ export default function Home() {
                   </svg>
                 </a>
                 <a
-                  href="https://linkedin.com/in/YOUR_USERNAME"
+                  href="https://linkedin.com/in/benoit-tremblay-635117417"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.ctaGhost}
