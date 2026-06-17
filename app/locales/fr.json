@@ -18,7 +18,7 @@
     "highlightsTitle": "Explorer",
     "techTag": "Mes Projets",
     "techTitle": "Projets & Réalisations",
-    "techDesc": "Applications full-stack, logiciels, jeux et tout ce qui se trouve entre les deux.",
+    "techDesc": "Sites web full-stack, applications de bureau, applications mobiles et jeux.",
     "aboutTag": "Parcours",
     "aboutTitle": "À propos de moi",
     "aboutDesc": "Un peu sur qui je suis, mon parcours et les outils avec lesquels je travaille.",
@@ -76,11 +76,13 @@
     "Développeur Back-End",
     "Développeur Front-End",
     "Développeur Mobile",
+    "Développeur de Jeux",
     "Développeur Next.js",
     "Développeur React",
     "Développeur TypeScript",
     "Développeur Python",
     "Développeur Java",
+    "Développeur Kotlin",
     "Développeur PHP",
     "Développeur C#",
     "Développeur Android",
@@ -145,7 +147,7 @@
       "All": "Tous",
       "Full-Stack": "Full-Stack",
       "Web": "Web",
-      "Software": "Logiciel",
+      "Desktop": "Bureau",
       "Game": "Jeu",
       "Mobile": "Mobile",
       "Systems": "Systèmes"
@@ -211,7 +213,7 @@
       },
       "vehiculeLocation": {
         "title": "Location de Véhicules",
-        "description": "Une application bureau pour gérer les locations de véhicules, avec des vues séparées pour les clients et les employés."
+        "description": "Une application de bureau pour gérer les locations de véhicules, avec des vues séparées pour les clients et les employés."
       }
     }
   },

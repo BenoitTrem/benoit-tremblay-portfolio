@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s | Benoit Tremblay",
   },
   description:
-    "Benoit Tremblay is a computer science student showcasing software projects " +
+    "Benoit Tremblay is a computer science student showcasing projects " +
     "in full-stack development, desktop applications, and game development. " +
     "Explore work built with React, Next.js, TypeScript, Java, C# and more.",
 
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     url: "https://your-domain.com",
     title: "Benoit Tremblay | Full-Stack Developer Portfolio",
     description:
-      "Explore Benoit Tremblay's developer portfolio — full-stack apps, desktop software, " +
+      "Explore Benoit Tremblay's developer portfolio — full-stack websites, desktop apps, mobile apps, " +
       "games, and more built with modern technologies.",
     siteName: "Benoit Tremblay Portfolio",
     locale: "en_US",
@@ -96,7 +96,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Benoit Tremblay | Full-Stack Developer",
     description:
-      "Full-stack apps, desktop software, and games — built with modern technologies.",
+      "Full-stack websites, desktop apps, mobile apps and games — built with modern technologies.",
     images: ["/og-image.png"],
   },
 
@@ -118,7 +118,7 @@ export const metadata: Metadata = {
 
   category: "portfolio",
   classification:
-    "Portfolio, Technology, Software Development, Full-Stack Development, Web Development, Game Development, Desktop Applications, Mobile Development",
+    "Portfolio, Technology, Full-Stack Development, Web Development, Game Development, Desktop Applications, Mobile Development",
 };
 
 export default function RootLayout({

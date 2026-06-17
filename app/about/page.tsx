@@ -1,4 +1,5 @@
 "use client";
+import type { Metadata } from "next";
 import styles from "./about.module.css";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";

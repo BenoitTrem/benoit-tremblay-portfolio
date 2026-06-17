@@ -197,7 +197,7 @@ const PROJECTS: Project[] = [
     ],
     tech: ["Electron", "Next.js", "JavaScript", "VS Code"],
     github: "https://github.com/BenoitTrem/lan-radar.git",
-    tag: "Software",
+    tag: "Desktop",
     download:
       "https://github.com/BenoitTrem/lan-radar/releases/download/V1.0.0/LAN.Radar.Setup.1.0.0.exe",
   },
@@ -210,7 +210,7 @@ const PROJECTS: Project[] = [
     ],
     tech: ["Electron", "Next.js", "TypeScript", "VS Code"],
     github: "https://github.com/BenoitTrem/lol-client-dashboard.git",
-    tag: "Software",
+    tag: "Desktop",
     download:
       "https://github.com/BenoitTrem/lol-client-dashboard/releases/download/V1.1.0/LoL.Dashboard.Setup.1.1.0.exe",
   },
@@ -309,7 +309,7 @@ const PROJECTS: Project[] = [
     ],
     tech: ["C#", "QT Designer", "Visual Studio"],
     github: "https://github.com/BenoitTrem/location-de-vehicule.git",
-    tag: "Software",
+    tag: "Desktop",
   },
 ];
 
