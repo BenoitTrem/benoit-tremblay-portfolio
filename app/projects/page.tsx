@@ -232,6 +232,24 @@ const PROJECTS: Project[] = [
     tag: "Game",
   },
   {
+    id: "Zombie Game",
+    tKey: "zombieGame",
+    images: [
+      "/images/ZombieGame/zombie-game-lab.png",
+      "/images/ZombieGame/zombie-game-shooting.png",
+      "/images/ZombieGame/zombie-game-maps.png",
+      "/images/ZombieGame/zombie-game-zombie-gang.png",
+      "/images/ZombieGame/zombie-game-hallway.png",
+      "/images/ZombieGame/zombie-game-toilet.png",
+      "/images/ZombieGame/zombie-game-upgrade.png",
+      "/images/ZombieGame/zombie-game-warehouse.png",
+      "/images/ZombieGame/zombie-game-shooting-warehouse.png",
+      "/images/ZombieGame/zombie-game-outside.png",
+    ],
+    tech: ["Unreal Engine", "Blender"],
+    tag: "Game",
+  },
+  {
     id: "PHP Game",
     tKey: "magicianBrowser",
     images: [

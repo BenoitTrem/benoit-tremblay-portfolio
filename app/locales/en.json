@@ -191,6 +191,10 @@
         "title": "The Last Wait",
         "description": "A solo-developed psychological horror game with a deep, narrative-driven story. Built in Unreal Engine with immersive audio design."
       },
+      "zombieGame": {
+        "title": "Zombie Game",
+        "description": "A solo-developed..."
+      },
       "magicianBrowser": {
         "title": "Magician Adventure (Browser)",
         "description": "A browser-based RPG adventure game built with PHP and JavaScript."
