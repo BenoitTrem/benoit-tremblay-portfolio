@@ -235,9 +235,9 @@ const PROJECTS: Project[] = [
     id: "Zombie Game",
     tKey: "zombieGame",
     images: [
+      "https://jvq3pnkbt8r7bf90.public.blob.vercel-storage.com/zombie-game-trailer.mp4",
       "/images/ZombieGame/zombie-game-lab.png",
       "/images/ZombieGame/zombie-game-shooting.png",
-      "https://jvq3pnkbt8r7bf90.public.blob.vercel-storage.com/zombie-game-trailer.mp4",
       "/images/ZombieGame/zombie-game-maps.png",
       "/images/ZombieGame/zombie-game-zombie-gang.png",
       "/images/ZombieGame/zombie-game-hallway.png",

@@ -267,5 +267,10 @@
     "title": "Page introuvable",
     "sub": "Cette page n'existe pas ou a été déplacée. Retournez à l'accueil.",
     "back": "Retour à l'accueil"
+  },
+  "footer": {
+    "navigation": "Liens",
+    "getInTouch": "Me rejoindre",
+    "rights": "Tous droits réservés."
   }
 }

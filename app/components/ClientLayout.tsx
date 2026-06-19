@@ -89,7 +89,7 @@ export default function ClientLayout({
         className={`sidebar ${collapsed ? "collapsed" : ""} ${introDone ? "revealed" : ""} `}
       >
         <div className="sidebar-header">
-          <div className="sidebar-logo">My Portfolio</div>
+          <div className="sidebar-logo">B. Tremblay</div>
           <button
             className="sidebar-toggle"
             onClick={() => setCollapsed((c) => !c)}
@@ -139,9 +139,11 @@ export default function ClientLayout({
         </div>
       </aside>
 
-      <div className={`topbar ${introDone ? "revealed" : ""}`}>
+      <div
+        className={`topbar ${introDone ? "revealed" : ""} ${open ? "drawer-open" : ""}`}
+      >
         <Link href="/" className="topbar-logo">
-          My Portfolio
+          B. Tremblay
         </Link>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <button
