@@ -342,6 +342,7 @@ function isDesktop() {
 function isVideoSrc(src: string) {
   return /\.(mp4|webm|mov)$/i.test(src);
 }
+
 function Modal({
   images,
   startIndex,
@@ -356,6 +357,7 @@ function Modal({
   onClose: () => void;
 }) {
   const [current, setCurrent] = useState(startIndex);
+  const [modalVideoLoading, setModalVideoLoading] = useState(true);
   const modalVideoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -364,32 +366,29 @@ function Modal({
 
   useEffect(() => {
     if (isVideoSrc(images[current]) && modalVideoRef.current) {
+      setModalVideoLoading(true);
       modalVideoRef.current.currentTime = 0;
       modalVideoRef.current.play().catch(() => {});
     }
+
+    return () => {
+      if (modalVideoRef.current) {
+        modalVideoRef.current.pause();
+      }
+    };
   }, [current, images]);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowRight") setCurrent((i) => (i + 1) % images.length);
-      if (e.key === "ArrowLeft")
+      if (e.key === "Escape") handleClose();
+      if (e.key === "ArrowRight") {
+        if (modalVideoRef.current) modalVideoRef.current.pause();
+        setCurrent((i) => (i + 1) % images.length);
+      }
+      if (e.key === "ArrowLeft") {
+        if (modalVideoRef.current) modalVideoRef.current.pause();
         setCurrent((i) => (i - 1 + images.length) % images.length);
-    };
-    window.addEventListener("keydown", handleKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", handleKey);
-      document.body.style.overflow = "";
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowRight") setCurrent((i) => (i + 1) % images.length);
-      if (e.key === "ArrowLeft")
-        setCurrent((i) => (i - 1 + images.length) % images.length);
+      }
     };
 
     const handleResize = () => {
@@ -407,25 +406,56 @@ function Modal({
     };
   }, []);
 
+  const handleClose = () => {
+    if (modalVideoRef.current) {
+      modalVideoRef.current.pause();
+    }
+    onClose();
+  };
+
+  const goPrev = () => {
+    if (modalVideoRef.current) modalVideoRef.current.pause();
+    setCurrent((i) => (i - 1 + images.length) % images.length);
+  };
+
+  const goNext = () => {
+    if (modalVideoRef.current) modalVideoRef.current.pause();
+    setCurrent((i) => (i + 1) % images.length);
+  };
+
   return createPortal(
-    <div className={styles.modal} onClick={onClose}>
+    <div className={styles.modal} onClick={handleClose}>
       <div className={styles.modalInner} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.modalClose} onClick={onClose}>
+        <button className={styles.modalClose} onClick={handleClose}>
           <X size={22} />
         </button>
 
         <div className={styles.modalImgWrapper}>
           {images.map((src, i) =>
             isVideoSrc(src) ? (
-              <video
+              <div
                 key={src}
-                ref={i === current ? modalVideoRef : undefined}
-                src={src}
-                controls
-                loop
-                playsInline
                 className={`${styles.modalImg} ${i === current ? styles.modalImgActive : ""}`}
-              />
+                style={{ position: "relative" }}
+              >
+                <video
+                  ref={i === current ? modalVideoRef : undefined}
+                  src={src}
+                  controls
+                  loop
+                  playsInline
+                  onCanPlay={() => i === current && setModalVideoLoading(false)}
+                  onWaiting={() => i === current && setModalVideoLoading(true)}
+                  onPlaying={() => i === current && setModalVideoLoading(false)}
+                  style={{ width: "100%", height: "100%" }}
+                />
+                {i === current && modalVideoLoading && (
+                  <div className={styles.videoLoadingOverlay}>
+                    <div className={styles.videoSpinner} />
+                    <span>Loading video…</span>
+                  </div>
+                )}
+              </div>
             ) : (
               <img
                 key={src}
@@ -441,15 +471,13 @@ function Modal({
           <>
             <button
               className={`${styles.modalNav} ${styles.modalNavPrev} ${styles.modalNavDesktop}`}
-              onClick={() =>
-                setCurrent((i) => (i - 1 + images.length) % images.length)
-              }
+              onClick={goPrev}
             >
               <ChevronLeft size={22} strokeWidth={2.5} />
             </button>
             <button
               className={`${styles.modalNav} ${styles.modalNavNext} ${styles.modalNavDesktop}`}
-              onClick={() => setCurrent((i) => (i + 1) % images.length)}
+              onClick={goNext}
             >
               <ChevronRight size={22} strokeWidth={2.5} />
             </button>
@@ -459,7 +487,10 @@ function Modal({
                 <button
                   key={i}
                   className={`${styles.carouselDot} ${i === current ? styles.carouselDotActive : ""}`}
-                  onClick={() => setCurrent(i)}
+                  onClick={() => {
+                    if (modalVideoRef.current) modalVideoRef.current.pause();
+                    setCurrent(i);
+                  }}
                 />
               ))}
             </div>
@@ -467,15 +498,13 @@ function Modal({
             <div className={styles.modalNavRow}>
               <button
                 className={`${styles.modalNav} ${styles.modalNavPrev}`}
-                onClick={() =>
-                  setCurrent((i) => (i - 1 + images.length) % images.length)
-                }
+                onClick={goPrev}
               >
                 <ChevronLeft size={22} strokeWidth={2.5} />
               </button>
               <button
                 className={`${styles.modalNav} ${styles.modalNavNext}`}
-                onClick={() => setCurrent((i) => (i + 1) % images.length)}
+                onClick={goNext}
               >
                 <ChevronRight size={22} strokeWidth={2.5} />
               </button>
@@ -487,6 +516,7 @@ function Modal({
     document.body,
   );
 }
+
 function Carousel({
   images,
   imageFit = "cover",
@@ -501,6 +531,7 @@ function Carousel({
   onImageClick: (index: number) => void;
 }) {
   const [current, setCurrent] = useState(0);
+  const [videoLoading, setVideoLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const advance = () => {
@@ -517,6 +548,7 @@ function Carousel({
 
   useEffect(() => {
     if (isVideoSrc(images[current]) && videoRef.current) {
+      setVideoLoading(true);
       videoRef.current.currentTime = 0;
       videoRef.current.play().catch(() => {});
     }
@@ -526,24 +558,37 @@ function Carousel({
     <div className={styles.carousel}>
       {images.map((src, i) =>
         isVideoSrc(src) ? (
-          <video
+          <div
             key={src}
-            ref={i === current ? videoRef : undefined}
-            src={src}
-            autoPlay
-            muted
-            playsInline
-            onEnded={i === current ? advance : undefined}
-            className={`${styles.carouselImg} ${i === current ? styles.carouselImgActive : ""}`}
-            style={{
-              objectFit: imageFit,
-              transform:
-                imageFit === "contain" ? `scale(${imageScale})` : undefined,
-              transformOrigin: imageOrigin ?? "center",
-              pointerEvents: i === current ? "auto" : "none",
-            }}
-            onClick={i === current ? () => onImageClick(i) : undefined}
-          />
+            style={{ position: "relative", width: "100%", height: "100%" }}
+          >
+            <video
+              ref={i === current ? videoRef : undefined}
+              src={src}
+              autoPlay
+              muted
+              playsInline
+              onCanPlay={() => i === current && setVideoLoading(false)}
+              onWaiting={() => i === current && setVideoLoading(true)}
+              onPlaying={() => i === current && setVideoLoading(false)}
+              onEnded={i === current ? advance : undefined}
+              className={`${styles.carouselImg} ${i === current ? styles.carouselImgActive : ""}`}
+              style={{
+                objectFit: imageFit,
+                transform:
+                  imageFit === "contain" ? `scale(${imageScale})` : undefined,
+                transformOrigin: imageOrigin ?? "center",
+                pointerEvents: i === current ? "auto" : "none",
+              }}
+              onClick={i === current ? () => onImageClick(i) : undefined}
+            />
+            {i === current && videoLoading && (
+              <div className={styles.videoLoadingOverlay}>
+                <div className={styles.videoSpinner} />
+                <span>Loading preview…</span>
+              </div>
+            )}
+          </div>
         ) : (
           <img
             key={src}
