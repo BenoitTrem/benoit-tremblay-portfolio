@@ -8,7 +8,7 @@ import {
   X,
 } from "lucide-react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useLocale } from "../lib/LocaleContext";
 import { getT, Translations } from "../lib/translations";
@@ -237,6 +237,7 @@ const PROJECTS: Project[] = [
     images: [
       "/images/ZombieGame/zombie-game-lab.png",
       "/images/ZombieGame/zombie-game-shooting.png",
+      "/videos/zombie-game-trailer.mp4",
       "/images/ZombieGame/zombie-game-maps.png",
       "/images/ZombieGame/zombie-game-zombie-gang.png",
       "/images/ZombieGame/zombie-game-hallway.png",
@@ -248,6 +249,8 @@ const PROJECTS: Project[] = [
     ],
     tech: ["Unreal Engine", "Blender"],
     tag: "Game",
+    download:
+      "https://drive.google.com/drive/folders/1ocmIc-1fCEjOtcoluvhzHZDd-2_cJCQQ?usp=sharing",
   },
   {
     id: "PHP Game",
@@ -336,6 +339,9 @@ function isDesktop() {
   return window.innerWidth >= 1024;
 }
 
+function isVideoSrc(src: string) {
+  return /\.(mp4|webm|mov)$/i.test(src);
+}
 function Modal({
   images,
   startIndex,
@@ -350,6 +356,18 @@ function Modal({
   onClose: () => void;
 }) {
   const [current, setCurrent] = useState(startIndex);
+  const modalVideoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    setCurrent(startIndex);
+  }, [startIndex]);
+
+  useEffect(() => {
+    if (isVideoSrc(images[current]) && modalVideoRef.current) {
+      modalVideoRef.current.currentTime = 0;
+      modalVideoRef.current.play().catch(() => {});
+    }
+  }, [current, images]);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -397,14 +415,26 @@ function Modal({
         </button>
 
         <div className={styles.modalImgWrapper}>
-          {images.map((src, i) => (
-            <img
-              key={src}
-              src={src}
-              alt=""
-              className={`${styles.modalImg} ${i === current ? styles.modalImgActive : ""}`}
-            />
-          ))}
+          {images.map((src, i) =>
+            isVideoSrc(src) ? (
+              <video
+                key={src}
+                ref={i === current ? modalVideoRef : undefined}
+                src={src}
+                controls
+                loop
+                playsInline
+                className={`${styles.modalImg} ${i === current ? styles.modalImgActive : ""}`}
+              />
+            ) : (
+              <img
+                key={src}
+                src={src}
+                alt=""
+                className={`${styles.modalImg} ${i === current ? styles.modalImgActive : ""}`}
+              />
+            ),
+          )}
         </div>
 
         {images.length > 1 && (
@@ -457,7 +487,6 @@ function Modal({
     document.body,
   );
 }
-
 function Carousel({
   images,
   imageFit = "cover",
@@ -472,32 +501,66 @@ function Carousel({
   onImageClick: (index: number) => void;
 }) {
   const [current, setCurrent] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const advance = () => {
+    setCurrent((i) => (i + 1) % images.length);
+  };
 
   useEffect(() => {
     if (images.length <= 1) return;
-    const interval = setInterval(() => {
-      setCurrent((i) => (i + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [images.length]);
+    if (isVideoSrc(images[current])) return;
+
+    const timer = setTimeout(advance, 3000);
+    return () => clearTimeout(timer);
+  }, [current, images]);
+
+  useEffect(() => {
+    if (isVideoSrc(images[current]) && videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {});
+    }
+  }, [current, images]);
 
   return (
     <div className={styles.carousel}>
-      {images.map((src, i) => (
-        <img
-          key={src}
-          src={src}
-          alt=""
-          className={`${styles.carouselImg} ${i === current ? styles.carouselImgActive : ""}`}
-          style={{
-            objectFit: imageFit,
-            transform:
-              imageFit === "contain" ? `scale(${imageScale})` : undefined,
-            transformOrigin: imageOrigin ?? "center",
-          }}
-          onClick={() => onImageClick(i)}
-        />
-      ))}
+      {images.map((src, i) =>
+        isVideoSrc(src) ? (
+          <video
+            key={src}
+            ref={i === current ? videoRef : undefined}
+            src={src}
+            autoPlay
+            muted
+            playsInline
+            onEnded={i === current ? advance : undefined}
+            className={`${styles.carouselImg} ${i === current ? styles.carouselImgActive : ""}`}
+            style={{
+              objectFit: imageFit,
+              transform:
+                imageFit === "contain" ? `scale(${imageScale})` : undefined,
+              transformOrigin: imageOrigin ?? "center",
+              pointerEvents: i === current ? "auto" : "none",
+            }}
+            onClick={i === current ? () => onImageClick(i) : undefined}
+          />
+        ) : (
+          <img
+            key={src}
+            src={src}
+            alt=""
+            className={`${styles.carouselImg} ${i === current ? styles.carouselImgActive : ""}`}
+            style={{
+              objectFit: imageFit,
+              transform:
+                imageFit === "contain" ? `scale(${imageScale})` : undefined,
+              transformOrigin: imageOrigin ?? "center",
+              pointerEvents: i === current ? "auto" : "none",
+            }}
+            onClick={i === current ? () => onImageClick(i) : undefined}
+          />
+        ),
+      )}
       {images.length > 1 && (
         <div className={styles.carouselDots}>
           {images.map((_, i) => (
@@ -629,7 +692,8 @@ function ProjectCard({ project, t }: { project: Project; t: Translations }) {
         {project.download && (
           <a
             href={project.download}
-            download
+            target="_blank"
+            rel="noopener noreferrer"
             className={`${styles.cardLink} ${styles.cardLinkPrimary}`}
           >
             <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
@@ -646,6 +710,7 @@ function ProjectCard({ project, t }: { project: Project; t: Translations }) {
 
       {modalIndex !== null && project.images && (
         <Modal
+          key={modalIndex}
           images={project.images}
           startIndex={modalIndex}
           imageFit={project.imageFit}
