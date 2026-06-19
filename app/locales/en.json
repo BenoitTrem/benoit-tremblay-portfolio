@@ -158,6 +158,8 @@
       "live": "Live",
       "download": "Download"
     },
+    "loadingPreview": "Loading...",
+    "loadingVideo": "Loading...",
     "items": {
       "studentResidence": {
         "title": "Student Residence",
@@ -189,11 +191,11 @@
       },
       "theLastWait": {
         "title": "The Last Wait",
-        "description": "A solo-developed psychological horror game with a deep, narrative-driven story. Built in Unreal Engine with immersive audio design."
+        "description": "A solo-developed psychological horror game with a deep, narrative-driven story, set in the fading mind of an elderly man confined to a hospital bed, where reality and nightmare blur as he waits for his daughter. Features immersive audio design."
       },
       "zombieGame": {
         "title": "Zombie Game",
-        "description": "A solo-developed..."
+        "description": "A solo-developed round-based zombie survival shooter inspired by COD Zombies, with increasing difficulty, a boss, multiple weapons, and light RPG-style stat upgrades. Still a work in progress with known bugs."
       },
       "magicianBrowser": {
         "title": "Magician Adventure (Browser)",

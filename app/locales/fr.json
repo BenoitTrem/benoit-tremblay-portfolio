@@ -158,6 +158,8 @@
       "live": "En ligne",
       "download": "Télécharger"
     },
+    "loadingPreview": "Chargement...",
+    "loadingVideo": "Chargement...",
     "items": {
       "studentResidence": {
         "title": "Résidence Étudiante",
@@ -189,11 +191,11 @@
       },
       "theLastWait": {
         "title": "The Last Wait",
-        "description": "Un jeu d'horreur psychologique développé en solo avec une histoire narrative profonde. Construit dans Unreal Engine avec un design audio immersif."
+        "description": "Un jeu d'horreur psychologique développé en solo, avec une histoire riche et narrative, plongeant dans l'esprit déclinant d'un homme âgé confiné à un lit d'hôpital, où la réalité et le cauchemar se confondent alors qu'il attend sa fille. Propose un design audio immersif."
       },
       "zombieGame": {
-        "title": "jeu de zombies",
-        "description": "Un développement solo..."
+        "title": "Zombie Game",
+        "description": "Un jeu de survie zombie par vagues développé en solo, inspiré de COD Zombies, avec une difficulté croissante, un boss, plusieurs armes et des améliorations de statistiques façon RPG. Toujours en développement, avec quelques bugs connus."
       },
       "magicianBrowser": {
         "title": "Aventure du Mage (Navigateur)",

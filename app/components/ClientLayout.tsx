@@ -86,7 +86,7 @@ export default function ClientLayout({
       <ParticleMesh />
 
       <aside
-        className={`sidebar ${collapsed ? "collapsed" : ""} ${introDone ? "revealed" : ""}`}
+        className={`sidebar ${collapsed ? "collapsed" : ""} ${introDone ? "revealed" : ""} `}
       >
         <div className="sidebar-header">
           <div className="sidebar-logo">My Portfolio</div>

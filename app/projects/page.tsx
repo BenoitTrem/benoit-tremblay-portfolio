@@ -334,11 +334,6 @@ const PROJECTS: Project[] = [
   },
 ];
 
-function isDesktop() {
-  if (typeof window === "undefined") return false;
-  return window.innerWidth >= 1024;
-}
-
 function isVideoSrc(src: string) {
   return /\.(mp4|webm|mov)$/i.test(src);
 }
@@ -349,12 +344,14 @@ function Modal({
   imageFit = "cover",
   imageScale = 1,
   onClose,
+  t,
 }: {
   images: string[];
   startIndex: number;
   imageFit?: "cover" | "contain";
   imageScale?: number;
   onClose: () => void;
+  t: Translations;
 }) {
   const [current, setCurrent] = useState(startIndex);
   const [modalVideoLoading, setModalVideoLoading] = useState(true);
@@ -391,20 +388,26 @@ function Modal({
       }
     };
 
-    const handleResize = () => {
-      if (window.innerWidth < 1024) onClose();
-    };
-
     window.addEventListener("keydown", handleKey);
-    window.addEventListener("resize", handleResize);
     document.body.style.overflow = "hidden";
 
     return () => {
       window.removeEventListener("keydown", handleKey);
-      window.removeEventListener("resize", handleResize);
       document.body.style.overflow = "";
     };
   }, []);
+
+  useEffect(() => {
+    return () => {
+      if (waitingTimeoutRef.current) clearTimeout(waitingTimeoutRef.current);
+    };
+  }, [current]);
+
+  useEffect(() => {
+    if (!isVideoSrc(images[current])) return;
+    const timeout = setTimeout(() => setModalVideoLoading(false), 6000);
+    return () => clearTimeout(timeout);
+  }, [current, images]);
 
   const handleClose = () => {
     if (modalVideoRef.current) {
@@ -412,6 +415,8 @@ function Modal({
     }
     onClose();
   };
+
+  const waitingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const goPrev = () => {
     if (modalVideoRef.current) modalVideoRef.current.pause();
@@ -445,14 +450,25 @@ function Modal({
                   loop
                   playsInline
                   onCanPlay={() => i === current && setModalVideoLoading(false)}
-                  onWaiting={() => i === current && setModalVideoLoading(true)}
-                  onPlaying={() => i === current && setModalVideoLoading(false)}
-                  style={{ width: "100%", height: "100%" }}
+                  onWaiting={() => {
+                    if (i !== current) return;
+                    waitingTimeoutRef.current = setTimeout(
+                      () => setModalVideoLoading(true),
+                      300,
+                    );
+                  }}
+                  onPlaying={() => {
+                    if (i !== current) return;
+                    if (waitingTimeoutRef.current)
+                      clearTimeout(waitingTimeoutRef.current);
+                    setModalVideoLoading(false);
+                  }}
+                  className={styles.modalVideo}
                 />
                 {i === current && modalVideoLoading && (
                   <div className={styles.videoLoadingOverlay}>
                     <div className={styles.videoSpinner} />
-                    <span>Loading video…</span>
+                    <span>{t.projects.loadingVideo}</span>
                   </div>
                 )}
               </div>
@@ -523,16 +539,21 @@ function Carousel({
   imageScale = 1,
   imageOrigin = "center",
   onImageClick,
+  isModalOpen,
+  t,
 }: {
   images: string[];
   imageFit?: "cover" | "contain";
   imageScale?: number;
   imageOrigin?: "center" | "top-left" | "top" | "left";
   onImageClick: (index: number) => void;
+  isModalOpen: boolean;
+  t: Translations;
 }) {
   const [current, setCurrent] = useState(0);
   const [videoLoading, setVideoLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const waitingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const advance = () => {
     setCurrent((i) => (i + 1) % images.length);
@@ -549,10 +570,39 @@ function Carousel({
   useEffect(() => {
     if (isVideoSrc(images[current]) && videoRef.current) {
       setVideoLoading(true);
+      videoRef.current.muted = true;
       videoRef.current.currentTime = 0;
-      videoRef.current.play().catch(() => {});
+      const playPromise = videoRef.current.play();
+      if (playPromise) {
+        playPromise.catch(() => {
+          setVideoLoading(false);
+          advance();
+        });
+      }
     }
   }, [current, images]);
+
+  useEffect(() => {
+    if (!isVideoSrc(images[current])) return;
+    const timeout = setTimeout(() => setVideoLoading(false), 6000);
+    return () => clearTimeout(timeout);
+  }, [current, images]);
+
+  useEffect(() => {
+    return () => {
+      if (waitingTimeoutRef.current) clearTimeout(waitingTimeoutRef.current);
+    };
+  }, [current]);
+
+  useEffect(() => {
+    if (!isVideoSrc(images[current]) || !videoRef.current) return;
+
+    if (isModalOpen) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play().catch(() => {});
+    }
+  }, [isModalOpen, current, images]);
 
   return (
     <div className={styles.carousel}>
@@ -569,8 +619,19 @@ function Carousel({
               muted
               playsInline
               onCanPlay={() => i === current && setVideoLoading(false)}
-              onWaiting={() => i === current && setVideoLoading(true)}
-              onPlaying={() => i === current && setVideoLoading(false)}
+              onWaiting={() => {
+                if (i !== current) return;
+                waitingTimeoutRef.current = setTimeout(
+                  () => setVideoLoading(true),
+                  300,
+                );
+              }}
+              onPlaying={() => {
+                if (i !== current) return;
+                if (waitingTimeoutRef.current)
+                  clearTimeout(waitingTimeoutRef.current);
+                setVideoLoading(false);
+              }}
               onEnded={i === current ? advance : undefined}
               className={`${styles.carouselImg} ${i === current ? styles.carouselImgActive : ""}`}
               style={{
@@ -585,7 +646,7 @@ function Carousel({
             {i === current && videoLoading && (
               <div className={styles.videoLoadingOverlay}>
                 <div className={styles.videoSpinner} />
-                <span>Loading preview…</span>
+                <span>{t.projects.loadingPreview}</span>
               </div>
             )}
           </div>
@@ -641,9 +702,9 @@ function ProjectCard({ project, t }: { project: Project; t: Translations }) {
             imageFit={project.imageFit}
             imageScale={project.imageScale}
             imageOrigin={project.imageOrigin}
-            onImageClick={(i) => {
-              if (isDesktop()) setModalIndex(i);
-            }}
+            onImageClick={(i) => setModalIndex(i)}
+            isModalOpen={modalIndex !== null}
+            t={t}
           />
         ) : (
           <div className={styles.cardImgPlaceholder}>
@@ -761,6 +822,7 @@ function ProjectCard({ project, t }: { project: Project; t: Translations }) {
           imageFit={project.imageFit}
           imageScale={project.imageScale}
           onClose={() => setModalIndex(null)}
+          t={t}
         />
       )}
     </article>
