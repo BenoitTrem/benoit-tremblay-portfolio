@@ -1,12 +1,17 @@
 import Link from "next/link";
 import { Home, User, Briefcase, Mail } from "lucide-react";
 import { GitBranch, Link2 } from "lucide-react";
+import VisitCounter from "./VisitCounter";
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
     <footer className="footer">
+      <div className="visit-badge-wrap">
+        <VisitCounter />
+      </div>
+
       <div className="footer-container">
         <div className="footer-section">
           <h4 className="footer-title">Navigation</h4>
@@ -63,6 +68,7 @@ export default function Footer() {
           </ul>
         </div>
       </div>
+
       <div className="footer-bottom">
         <div className="divider_2" />
         <p>© {year} Benoit Tremblay. All rights reserveds.</p>

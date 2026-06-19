@@ -122,7 +122,7 @@ body {
 .footer {
   background-color: var(--surface);
   border-top: 1px solid var(--border);
-  padding: 48px 32px 0;
+  padding: 48px 0 0;
   color: var(--text-primary);
   transition:
     background-color 0.3s ease,
@@ -140,6 +140,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 160px;
 }
 
 .footer-title {
@@ -793,5 +794,70 @@ body {
 @media (max-height: 500px) and (orientation: landscape) {
   .mobile-link {
     padding: 8px 20px;
+  }
+}
+
+.footer-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-meta p {
+  margin: 0;
+}
+
+.visit-counter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.footer-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  width: fit-content;
+}
+.visit-badge-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.visit-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 18px;
+  width: fit-content;
+  background-color: var(--surface-2);
+  border: 1px solid var(--border-2);
+  border-radius: 999px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.2s ease;
+}
+
+@media (hover: hover) {
+  .visit-badge:hover {
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+    background-color: var(--surface-3);
+    transform: translateY(-2px);
   }
 }

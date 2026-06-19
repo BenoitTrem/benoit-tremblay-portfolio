@@ -1,4 +1,7 @@
 {
+  "visitCounter": {
+    "label": "visites sur ce site"
+  },
   "nav": {
     "home": "Accueil",
     "about": "À propos",
