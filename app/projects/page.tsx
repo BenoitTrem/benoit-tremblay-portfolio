@@ -14,6 +14,7 @@ import { useLocale } from "../lib/LocaleContext";
 import { getT, Translations } from "../lib/translations";
 import * as simpleIcons from "simple-icons";
 import { SkillIcons } from "../about/page";
+import { videoUrl } from "../lib/videoUrl";
 
 const BRAND_COLOR: Record<string, string> = {
   // Languages
@@ -218,7 +219,7 @@ const PROJECTS: Project[] = [
     id: "The Last Wait",
     tKey: "theLastWait",
     images: [
-      "https://jvq3pnkbt8r7bf90.public.blob.vercel-storage.com/TheLastWait-Gameplay-Trailer.mp4",
+      videoUrl("TheLastWait-Gameplay-Trailer.mp4"),
       "/images/TheLastWait/the-last-wait-spash-screen.png",
       "/images/TheLastWait/the-last-wait-gameplay.png",
       "/images/TheLastWait/the-last-wait-gameplay-security-office.png",
@@ -236,7 +237,7 @@ const PROJECTS: Project[] = [
     id: "Zombie Game",
     tKey: "zombieGame",
     images: [
-      "https://jvq3pnkbt8r7bf90.public.blob.vercel-storage.com/zombie-game-trailer.mp4",
+      videoUrl("zombie-game-trailer.mp4"),
       "/images/ZombieGame/zombie-game-lab.png",
       "/images/ZombieGame/zombie-game-shooting.png",
       "/images/ZombieGame/zombie-game-maps.png",
