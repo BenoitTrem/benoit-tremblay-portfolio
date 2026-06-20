@@ -7,14 +7,12 @@ import {
   ChevronRight,
   X,
 } from "lucide-react";
-import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useLocale } from "../lib/LocaleContext";
 import { getT, Translations } from "../lib/translations";
 import * as simpleIcons from "simple-icons";
 import { SkillIcons } from "../about/page";
-import { videoUrl } from "../lib/videoUrl";
 
 const BRAND_COLOR: Record<string, string> = {
   // Languages
@@ -219,7 +217,7 @@ const PROJECTS: Project[] = [
     id: "The Last Wait",
     tKey: "theLastWait",
     images: [
-      videoUrl("TheLastWait-Gameplay-Trailer.mp4"),
+      "https://youtu.be/xLgsGyKM2Ds",
       "/images/TheLastWait/the-last-wait-spash-screen.png",
       "/images/TheLastWait/the-last-wait-gameplay.png",
       "/images/TheLastWait/the-last-wait-gameplay-security-office.png",
@@ -237,7 +235,7 @@ const PROJECTS: Project[] = [
     id: "Zombie Game",
     tKey: "zombieGame",
     images: [
-      videoUrl("zombie-game-trailer.mp4"),
+      "https://youtu.be/oFLs_LDTJBE",
       "/images/ZombieGame/zombie-game-lab.png",
       "/images/ZombieGame/zombie-game-shooting.png",
       "/images/ZombieGame/zombie-game-maps.png",
@@ -340,6 +338,24 @@ function isVideoSrc(src: string) {
   return /\.(mp4|webm|mov)$/i.test(src);
 }
 
+function isYouTubeSrc(src: string) {
+  return src.includes("youtube.com") || src.includes("youtu.be");
+}
+
+function getYouTubeEmbedUrl(src: string) {
+  const match = src.match(/(?:v=|youtu\.be\/)([^&?/]+)/);
+  if (!match) return src;
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  return `https://www.youtube.com/embed/${match[1]}?autoplay=1&mute=1&enablejsapi=1&rel=0&origin=${origin}&controls=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1`;
+}
+
+function getYouTubeEmbedUrlModal(src: string) {
+  const match = src.match(/(?:v=|youtu\.be\/)([^&?/]+)/);
+  if (!match) return src;
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  return `https://www.youtube.com/embed/${match[1]}?autoplay=1&enablejsapi=1&rel=0&origin=${origin}`;
+}
+
 function Modal({
   images,
   startIndex,
@@ -439,7 +455,19 @@ function Modal({
 
         <div className={styles.modalImgWrapper}>
           {images.map((src, i) =>
-            isVideoSrc(src) ? (
+            isYouTubeSrc(src) ? (
+              <div
+                key={src}
+                className={`${styles.modalYouTube} ${i === current ? styles.modalImgActive : ""}`}
+              >
+                <iframe
+                  src={i === current ? getYouTubeEmbedUrlModal(src) : undefined}
+                  allow="autoplay; fullscreen"
+                  allowFullScreen
+                  className={styles.carouselYouTubeIframe}
+                />
+              </div>
+            ) : isVideoSrc(src) ? (
               <div
                 key={src}
                 className={`${styles.modalImg} ${i === current ? styles.modalImgActive : ""}`}
@@ -564,6 +592,7 @@ function Carousel({
   useEffect(() => {
     if (images.length <= 1) return;
     if (isVideoSrc(images[current])) return;
+    if (isYouTubeSrc(images[current])) return;
 
     const timer = setTimeout(advance, 3000);
     return () => clearTimeout(timer);
@@ -606,10 +635,57 @@ function Carousel({
     }
   }, [isModalOpen, current, images]);
 
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  useEffect(() => {
+    if (!isYouTubeSrc(images[current])) return;
+
+    const handleMessage = (e: MessageEvent) => {
+      // Only handle messages from our specific iframe
+      if (e.source !== iframeRef.current?.contentWindow) return;
+      try {
+        const data = JSON.parse(e.data);
+        if (data.event === "infoDelivery" && data.info?.playerState === 0) {
+          setCurrent((i) => (i + 1) % images.length);
+        }
+      } catch {}
+    };
+
+    window.addEventListener("message", handleMessage);
+
+    const timer = setTimeout(() => {
+      iframeRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ event: "listening" }),
+        "*",
+      );
+    }, 1000);
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+      clearTimeout(timer);
+    };
+  }, [current, images]);
+
   return (
     <div className={styles.carousel}>
       {images.map((src, i) =>
-        isVideoSrc(src) ? (
+        isYouTubeSrc(src) ? (
+          <div
+            key={src}
+            className={`${styles.carouselYouTubeWrapper} ${styles.carouselImg} ${i === current ? styles.carouselImgActive : ""}`}
+          >
+            <iframe
+              ref={i === current ? iframeRef : undefined}
+              src={i === current ? getYouTubeEmbedUrl(src) : undefined}
+              allow="autoplay; fullscreen"
+              allowFullScreen
+              className={styles.carouselYouTubeIframe}
+            />
+            <div
+              className={styles.carouselYouTubeOverlay}
+              onClick={i === current ? () => onImageClick(i) : undefined}
+            />
+          </div>
+        ) : isVideoSrc(src) ? (
           <div
             key={src}
             style={{ position: "relative", width: "100%", height: "100%" }}
