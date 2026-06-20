@@ -218,6 +218,7 @@ const PROJECTS: Project[] = [
     id: "The Last Wait",
     tKey: "theLastWait",
     images: [
+      "https://jvq3pnkbt8r7bf90.public.blob.vercel-storage.com/TheLastWait-Gameplay-Trailer.mp4",
       "/images/TheLastWait/the-last-wait-spash-screen.png",
       "/images/TheLastWait/the-last-wait-gameplay.png",
       "/images/TheLastWait/the-last-wait-gameplay-security-office.png",
