@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import ClientLayout from "./components/ClientLayout";
+import CursorTrail from "./components/CursorTrail";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -129,6 +130,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
+        <CursorTrail />
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

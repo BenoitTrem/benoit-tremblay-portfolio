@@ -42,4 +42,5 @@ next-env.d.ts
 
 # local videos (use blob storage in production)
 /public/videos/
+
 .vercel

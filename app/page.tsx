@@ -405,6 +405,7 @@ export default function Home() {
                 src="/images/ProfilIconTest.jpg"
                 alt="Your Name"
                 fill
+                sizes="(max-width: 768px) 100vw, 300px"
                 className={styles.heroImg}
                 priority
               />

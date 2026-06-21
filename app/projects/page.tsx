@@ -217,7 +217,7 @@ const PROJECTS: Project[] = [
     id: "The Last Wait",
     tKey: "theLastWait",
     images: [
-      "https://youtu.be/xLgsGyKM2Ds",
+      "https://youtu.be/UggBM0zVeWQ",
       "/images/TheLastWait/the-last-wait-spash-screen.png",
       "/images/TheLastWait/the-last-wait-gameplay.png",
       "/images/TheLastWait/the-last-wait-gameplay-security-office.png",
@@ -625,22 +625,11 @@ function Carousel({
     };
   }, [current]);
 
-  useEffect(() => {
-    if (!isVideoSrc(images[current]) || !videoRef.current) return;
-
-    if (isModalOpen) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play().catch(() => {});
-    }
-  }, [isModalOpen, current, images]);
-
   const iframeRef = useRef<HTMLIFrameElement>(null);
   useEffect(() => {
     if (!isYouTubeSrc(images[current])) return;
 
     const handleMessage = (e: MessageEvent) => {
-      // Only handle messages from our specific iframe
       if (e.source !== iframeRef.current?.contentWindow) return;
       try {
         const data = JSON.parse(e.data);
@@ -662,6 +651,40 @@ function Carousel({
     return () => {
       window.removeEventListener("message", handleMessage);
       clearTimeout(timer);
+    };
+  }, [current, images]);
+
+  const ytPausedRef = useRef(false);
+
+  useEffect(() => {
+    const handleGlobalPause = () => {
+      if (isYouTubeSrc(images[current])) {
+        ytPausedRef.current = true;
+        iframeRef.current?.contentWindow?.postMessage(
+          JSON.stringify({ event: "command", func: "pauseVideo", args: [] }),
+          "*",
+        );
+      }
+      if (videoRef.current) videoRef.current.pause();
+    };
+
+    const handleGlobalResume = () => {
+      if (isYouTubeSrc(images[current]) && ytPausedRef.current) {
+        ytPausedRef.current = false;
+        iframeRef.current?.contentWindow?.postMessage(
+          JSON.stringify({ event: "command", func: "playVideo", args: [] }),
+          "*",
+        );
+      }
+      if (videoRef.current) videoRef.current.play().catch(() => {});
+    };
+
+    window.addEventListener("carousel-pause-all", handleGlobalPause);
+    window.addEventListener("carousel-resume-all", handleGlobalResume);
+
+    return () => {
+      window.removeEventListener("carousel-pause-all", handleGlobalPause);
+      window.removeEventListener("carousel-resume-all", handleGlobalResume);
     };
   }, [current, images]);
 
@@ -766,6 +789,15 @@ function Carousel({
 
 function ProjectCard({ project, t }: { project: Project; t: Translations }) {
   const [modalIndex, setModalIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (modalIndex !== null) {
+      window.dispatchEvent(new Event("carousel-pause-all"));
+    } else {
+      window.dispatchEvent(new Event("carousel-resume-all"));
+    }
+  }, [modalIndex]);
+
   const item = t.projects.items[project.tKey as keyof typeof t.projects.items];
   const title = item.title;
   const description = item.description;
