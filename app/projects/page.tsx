@@ -353,7 +353,7 @@ function getYouTubeEmbedUrlModal(src: string) {
   const match = src.match(/(?:v=|youtu\.be\/)([^&?/]+)/);
   if (!match) return src;
   const origin = typeof window !== "undefined" ? window.location.origin : "";
-  return `https://www.youtube.com/embed/${match[1]}?autoplay=1&enablejsapi=1&rel=0&origin=${origin}`;
+  return `https://www.youtube.com/embed/${match[1]}?autoplay=1&mute=1&enablejsapi=1&rel=0&origin=${origin}`;
 }
 
 function Modal({
@@ -462,7 +462,7 @@ function Modal({
               >
                 <iframe
                   src={i === current ? getYouTubeEmbedUrlModal(src) : undefined}
-                  allow="autoplay; fullscreen"
+                  allow="autoplay; fullscreen; encrypted-media"
                   allowFullScreen
                   className={styles.carouselYouTubeIframe}
                 />
